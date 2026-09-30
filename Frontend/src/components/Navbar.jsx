@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
-import logo from '../assets/logo.png';
+import logo from '../assets/Logo.png';
 import TopBar from './TopBar';
 
 const Navbar = () => {
