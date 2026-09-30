@@ -10,8 +10,7 @@ const Navbar = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Programs', href: '/programs' },
-    { name: 'Admissions', href: '/admissions' },
-    { name: 'Courses', href: '/courses' },
+    { name: 'Why BISE', href: '/why-bise' },
     { name: 'Contact', href: '/contact' },
   ];
 

@@ -32,7 +32,7 @@ const TopBar = () => {
 
         <div className="hidden md:flex items-center gap-2">
           <a
-            href="#"
+            href="https://www.facebook.com/braininspire786"
             aria-label="Facebook"
             className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-colors duration-200"
           >
@@ -40,7 +40,7 @@ const TopBar = () => {
           </a>
 
           <a
-            href="#"
+            href="https://www.instagram.com/braininspire786?stkn=dmU4MGRhcTJpaWlz"
             aria-label="Instagram"
             className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-colors duration-200"
           >
@@ -58,7 +58,7 @@ const TopBar = () => {
           </a>
 
           <a
-            href="#"
+            href="https://youtube.com/@braininspire786?si=KLqViSIniUTBaRv7"
             aria-label="YouTube"
             className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-colors duration-200"
           >
