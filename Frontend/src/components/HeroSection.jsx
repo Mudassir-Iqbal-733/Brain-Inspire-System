@@ -46,12 +46,8 @@ const HeroSection = () => {
     <div className="relative">
       <style>{`
         @keyframes slowZoom {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(1.25);
-          }
+          0% { transform: scale(1); }
+          100% { transform: scale(1.25); }
         }
         .bg-animate {
           animation: slowZoom 10s linear infinite;
@@ -69,8 +65,11 @@ const HeroSection = () => {
           <div key={slide.id}>
             <div className="relative min-h-[calc(100vh-4.5rem)] md:h-[calc(100vh-7rem)] overflow-hidden flex items-center">
               <div
-                className="absolute inset-0 bg-cover bg-center bg-animate"
-                style={{ backgroundImage: `url(${slide.image})` }}
+                className="absolute inset-0 bg-cover bg-center bg-animate md:bg-center"
+                style={{
+                  backgroundImage: `url(${slide.image})`,
+                  backgroundPosition: 'center',
+                }}
               ></div>
 
               <div className="absolute inset-0 bg-gradient-to-r from-[#0F1E4A]/95 via-[#0F1E4A]/80 to-[#0F1E4A]/50 md:to-[#0F1E4A]/35"></div>
