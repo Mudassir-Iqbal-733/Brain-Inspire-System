@@ -1,7 +1,6 @@
 import { Carousel } from 'antd';
-import { FaArrowRight, FaArrowLeft, FaUserTie, FaLaptopCode, FaCheckCircle, FaHeadset, FaCertificate, FaAward, FaBookOpen } from 'react-icons/fa';
+import { FaArrowRight, FaChevronLeft, FaChevronRight, FaUserTie, FaLaptopCode, FaCheckCircle, FaHeadset, FaCertificate, FaAward, FaBookOpen } from 'react-icons/fa';
 import { useRef } from 'react';
-import herobg from '../assets/herobg.png';
 import Hero1 from '../assets/Hero_1.jpg';
 import hero2 from '../assets/Hero_2.jpg';
 
@@ -45,24 +44,40 @@ const HeroSection = () => {
 
   return (
     <div className="relative">
+      <style>{`
+        @keyframes slowZoom {
+          0% {
+            transform: scale(1);
+          }
+          100% {
+            transform: scale(1.25);
+          }
+        }
+        .bg-animate {
+          animation: slowZoom 10s linear infinite;
+        }
+      `}</style>
+
       <Carousel
         ref={carouselRef}
         autoplay
-        autoplaySpeed={5000}
+        autoplaySpeed={3000}
         dots={true}
         arrows={false}
       >
         {slides.map((slide) => (
           <div key={slide.id}>
-            <div
-              className="relative bg-cover bg-center md:h-[calc(100vh-7rem)] overflow-hidden"
-              style={{ backgroundImage: `url(${herobg})` }}
-            >
-              <div className="absolute inset-0 bg-[#0F1E4A]/85"></div>
+            <div className="relative min-h-[calc(100vh-4.5rem)] md:h-[calc(100vh-7rem)] overflow-hidden flex items-center">
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-animate"
+                style={{ backgroundImage: `url(${slide.image})` }}
+              ></div>
 
-              <div className="relative h-full grid grid-cols-1 md:grid-cols-2">
-                <div className="order-2 md:order-1 flex items-center px-5 sm:px-10 lg:px-16 pt-8 pb-8 md:py-10">
-                  <div className="w-full max-w-xl">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0F1E4A]/95 via-[#0F1E4A]/80 to-[#0F1E4A]/50 md:to-[#0F1E4A]/35"></div>
+
+              <div className="relative w-full py-10 md:py-10">
+                <div className="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16">
+                  <div className="max-w-xl">
                     <p className="text-[#38BDF8] text-[10px] sm:text-sm font-semibold tracking-wider mb-2 uppercase">
                       {slide.tag}
                     </p>
@@ -82,7 +97,7 @@ const HeroSection = () => {
                     </p>
 
                     <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
-                      <button className="bg-[#2563EB] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-xs sm:text-base flex items-center gap-2 hover:bg-[#38BDF8] transition-colors duration-300">
+                      <button className="bg-[#38BDF8] text-[#0F1E4A] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold text-xs sm:text-base flex items-center gap-2 hover:bg-white transition-colors duration-300">
                         Explore Programs
                         <FaArrowRight className="text-[10px] sm:text-xs" />
                       </button>
@@ -104,30 +119,6 @@ const HeroSection = () => {
                     </div>
                   </div>
                 </div>
-
-                <div className="order-1 md:order-2 h-52 sm:h-80 md:h-full relative">
-                  <img
-                    src={slide.image}
-                    alt={slide.titleLine2}
-                    className="w-full h-full object-cover"
-                  />
-
-                  <button
-                    onClick={() => carouselRef.current?.prev()}
-                    aria-label="Previous slide"
-                    className="md:hidden absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/40 hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300"
-                  >
-                    <FaArrowLeft className="text-xs" />
-                  </button>
-
-                  <button
-                    onClick={() => carouselRef.current?.next()}
-                    aria-label="Next slide"
-                    className="md:hidden absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/40 hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300"
-                  >
-                    <FaArrowRight className="text-xs" />
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -137,17 +128,17 @@ const HeroSection = () => {
       <button
         onClick={() => carouselRef.current?.prev()}
         aria-label="Previous slide"
-        className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/30 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] transition-all duration-300"
+        className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#0F1E4A]/40 backdrop-blur-md text-white border border-white/20 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] hover:scale-110 transition-all duration-300"
       >
-        <FaArrowLeft className="text-base" />
+        <FaChevronLeft className="text-sm md:text-lg" />
       </button>
 
       <button
         onClick={() => carouselRef.current?.next()}
         aria-label="Next slide"
-        className="hidden md:flex absolute right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/30 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] transition-all duration-300"
+        className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#0F1E4A]/40 backdrop-blur-md text-white border border-white/20 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] hover:scale-110 transition-all duration-300"
       >
-        <FaArrowRight className="text-base" />
+        <FaChevronRight className="text-sm md:text-lg" />
       </button>
     </div>
   );
