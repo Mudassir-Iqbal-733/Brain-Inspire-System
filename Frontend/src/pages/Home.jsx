@@ -8,10 +8,12 @@ import DirectorMessage from '../components/DirectorMessage'
 import CoreValues from '../components/CoreValues'
 import ProgramsSection from '../components/ProgramsSection'
 import MissionVision from '../components/MissionVission'
+import PageLoader from '../components/PageLoader'
 
 const Home = () => {
   return (
     <>
+    <PageLoader />
     <SlideSection />
     <HeroSection />
     <DirectorMessage />
