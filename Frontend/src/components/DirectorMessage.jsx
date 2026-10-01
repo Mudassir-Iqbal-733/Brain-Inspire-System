@@ -1,5 +1,5 @@
 import { FaQuoteLeft } from 'react-icons/fa';
-import directorImage from '../assets/3.JPG.jpeg';
+import directorImage from '../assets/3.jpg.jpeg';
 
 const DirectorMessage = () => {
   return (
