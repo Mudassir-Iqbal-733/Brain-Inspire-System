@@ -52,6 +52,11 @@ const HeroSection = () => {
         .bg-animate {
           animation: slowZoom 10s linear infinite;
         }
+        @media (max-width: 768px) {
+          .bg-animate {
+            animation: none;
+          }
+        }
       `}</style>
 
       <Carousel
@@ -63,19 +68,19 @@ const HeroSection = () => {
       >
         {slides.map((slide) => (
           <div key={slide.id}>
-            <div className="relative min-h-[calc(100vh-4.5rem)] md:h-[calc(100vh-7rem)] overflow-hidden flex items-center">
+            <div className="relative min-h-[calc(100vh-4.5rem)] md:h-[calc(100vh-7rem)] overflow-hidden">
               <div
-                className="absolute inset-0 bg-cover bg-center bg-animate md:bg-center"
+                className="absolute inset-0 bg-cover bg-no-repeat bg-animate"
                 style={{
                   backgroundImage: `url(${slide.image})`,
-                  backgroundPosition: 'center',
+                  backgroundPosition: 'center center',
                 }}
               ></div>
 
               <div className="absolute inset-0 bg-gradient-to-r from-[#0F1E4A]/95 via-[#0F1E4A]/80 to-[#0F1E4A]/50 md:to-[#0F1E4A]/35"></div>
 
-              <div className="relative w-full py-10 md:py-10">
-                <div className="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16">
+              <div className="relative w-full py-10 md:py-10 flex items-center min-h-[calc(100vh-4.5rem)] md:min-h-0 md:h-[calc(100vh-7rem)]">
+                <div className="max-w-7xl mx-auto px-5 sm:px-10 lg:px-16 w-full">
                   <div className="max-w-xl">
                     <p className="text-[#38BDF8] text-[10px] sm:text-sm font-semibold tracking-wider mb-2 uppercase">
                       {slide.tag}
