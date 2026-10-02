@@ -1,6 +1,6 @@
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 import herobg from '../assets/herobg.png';
-import logo from '../assets/Logo.png';
+import logo from '../assets/Logo-white.png';
 
 const Footer = () => {
   const programs = [
@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8">
           {/* Brand */}
           <div className="text-center sm:text-left">
-            <div className="inline-flex items-center justify-center bg-white rounded-2xl px-4 py-3 mb-5 shadow-xl border border-white/20">
+            <div className="inline-flex items-center justify-center mb-5 shadow-xl ">
               <img src={logo} alt="Brain Inspire" className="h-12 sm:h-14 w-auto object-contain" />
             </div>
 
@@ -73,7 +73,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Programs + Pages + Contact — same line */}
+          
           <div className="grid grid-cols-[1fr_1fr_1.6fr] gap-3 sm:contents">
             <div className="text-center sm:text-left">
               <h3 className="text-[11px] sm:text-base font-bold mb-3 sm:mb-5 relative pb-2 after:absolute after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:bottom-0 after:w-8 sm:after:w-12 after:h-0.5 after:bg-[#38BDF8] uppercase tracking-wider">

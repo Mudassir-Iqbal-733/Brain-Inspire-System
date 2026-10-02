@@ -54,7 +54,7 @@ const TestimonialSection = () => {
     setCurrent((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
 
   return (
-    <section className="relative bg-gradient-to-br from-[#0F1E4A] via-[#1E3A8A] to-[#2563EB] py-12 md:py-20 overflow-hidden">
+    <section className="relative bg-[#2D2B6F] py-12 md:py-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 md:mb-14">
           <p className="text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider mb-3 uppercase">
@@ -99,14 +99,14 @@ const TestimonialSection = () => {
                 <button
                   onClick={goPrev}
                   aria-label="Previous testimonial"
-                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#0F1E4A]/50 backdrop-blur-md text-white border border-white/20 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] hover:scale-110 transition-all duration-300"
+                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#2D2B6F] text-white border border-white/20 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] hover:scale-110 transition-all duration-300"
                 >
                   <FaChevronLeft className="text-sm md:text-base" />
                 </button>
                 <button
                   onClick={goNext}
                   aria-label="Next testimonial"
-                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#0F1E4A]/50 backdrop-blur-md text-white border border-white/20 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] hover:scale-110 transition-all duration-300"
+                  className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-[#2D2B6F] text-white border border-white/20 hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] hover:scale-110 transition-all duration-300"
                 >
                   <FaChevronRight className="text-sm md:text-base" />
                 </button>

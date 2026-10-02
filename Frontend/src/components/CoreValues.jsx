@@ -14,7 +14,7 @@ const CoreValues = () => {
     {
       id: 1,
       icon: <FaHandshake />,
-      title: 'Honesty and up Righteousness',
+      title: 'Honesty and Righteousness',
       desc: 'We uphold truth, integrity, and moral values in everything we do.',
     },
     {
@@ -62,51 +62,59 @@ const CoreValues = () => {
   ];
 
   return (
-    <section className="bg-gray-50 py-16 md:py-24">
+    <section className="bg-white py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#38BDF8]/10 text-[#2563EB] text-xs font-semibold tracking-wider uppercase mb-4">
+
+        <div className="max-w-3xl mx-auto text-center mb-14 md:mb-20">
+          <span className="inline-flex items-center gap-2 text-[#2d2b6f] text-xs font-bold tracking-[0.2em] uppercase mb-5">
+            <span className="w-8 h-px bg-[#2d2b6f]" />
             Our Principles
+            <span className="w-8 h-px bg-[#2d2b6f]" />
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F1E4A] leading-tight mb-5">
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#171642] tracking-tight mb-5">
             Core Values
           </h2>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+
+          <p className="text-gray-500 text-base md:text-lg leading-8 max-w-2xl mx-auto">
             The principles that guide our mission, shape our culture, and define
             the way we teach, mentor, and grow together at Brain Inspire.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6">
           {values.map((value, index) => (
-            <div
+            <article
               key={value.id}
-              className="group relative bg-white border border-gray-100 rounded-2xl p-6 md:p-7 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:border-[#38BDF8]/30"
+              className="group relative bg-white border border-gray-200 rounded-2xl p-7 overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-[#2d2b6f]/30 hover:shadow-[0_20px_45px_rgba(45,43,111,0.10)]"
             >
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#38BDF8]/10 to-transparent rounded-bl-full rounded-tr-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-[#2d2b6f] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
 
-              <div className="relative">
-                <div className="flex items-start justify-between mb-5">
-                  <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-br from-[#0F1E4A] to-[#1E3A8A] text-white text-2xl shadow-lg transition-all duration-500 group-hover:from-[#38BDF8] group-hover:to-[#2563EB] group-hover:scale-110 group-hover:rotate-6">
-                    {value.icon}
-                  </div>
-
-                  <span className="text-5xl font-bold text-gray-100 group-hover:text-[#38BDF8]/20 transition-colors duration-500 leading-none">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+              <div className="flex items-center justify-between mb-7">
+                <div className="w-14 h-14 rounded-xl bg-[#2d2b6f] flex items-center justify-center text-white text-xl shadow-[0_8px_20px_rgba(45,43,111,0.20)] transition-all duration-500 group-hover:scale-105">
+                  {value.icon}
                 </div>
 
-                <h3 className="text-lg font-bold text-[#0F1E4A] mb-3 leading-snug group-hover:text-[#2563EB] transition-colors duration-300">
-                  {value.title}
-                </h3>
-
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {value.desc}
-                </p>
+                <span className="text-sm font-bold tracking-widest text-gray-300 group-hover:text-[#2d2b6f]/30 transition-colors duration-300">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
               </div>
-            </div>
+
+              <div className="w-10 h-[2px] bg-[#2d2b6f]/20 mb-5 transition-all duration-500 group-hover:w-16 group-hover:bg-[#2d2b6f]" />
+
+              <h3 className="text-lg font-bold text-[#171642] leading-7 mb-3">
+                {value.title}
+              </h3>
+
+              <p className="text-sm text-gray-500 leading-7">
+                {value.desc}
+              </p>
+
+              <div className="absolute -bottom-10 -right-10 w-28 h-28 rounded-full bg-[#2d2b6f]/[0.03] group-hover:bg-[#2d2b6f]/[0.06] transition-all duration-500" />
+            </article>
           ))}
         </div>
+
       </div>
     </section>
   );

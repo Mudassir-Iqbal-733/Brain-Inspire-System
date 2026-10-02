@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import Hero1 from '../assets/1.JPG.jpeg';
 import Hero2 from '../assets/2.JPG.jpeg';
 import Hero3 from '../assets/3.jpg.jpeg';
-import Hero4 from '../assets/4.JPG.jpeg';
 import Hero5 from '../assets/5.JPG.jpeg';
 import Hero6 from '../assets/6.JPG.jpeg';
 import Hero7 from '../assets/7.JPG.jpeg';
@@ -29,7 +28,6 @@ const SlideSection = () => {
     Hero1,
     Hero2,
     Hero3,
-    Hero4,
     Hero5,
     Hero6,
     Hero7,

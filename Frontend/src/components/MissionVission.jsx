@@ -1,6 +1,6 @@
 import { FaEye, FaBullseye, FaCheckCircle } from 'react-icons/fa';
 
-const MissionVision = () => {
+const MissionVision = ({ rounded = false }) => {
   const visions = [
     'All is an incessant attempt to aid the individuals to discover their God-granted potentials to achieve ultimate success embellishing with high standard of competence, effectiveness, potentiality, equity, sustainable development of their innate hidden qualities.',
     'Taking Pakistan forward by embodying students with highest standard technical education which will be relevant to the national needs.',
@@ -14,14 +14,8 @@ const MissionVision = () => {
   ];
 
   return (
-    <section className="relative bg-[#0F1E4A] py-20 md:py-28 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,#1E3A8A_0%,transparent_45%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_85%,#2563EB_0%,transparent_45%)]"></div>
-
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className={`bg-[#2D2B6F] py-20 md:py-28 overflow-hidden ${rounded ? 'rounded-3xl' : ''}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-14 md:mb-20">
           <div className="flex items-center justify-center gap-3 mb-5">
             <span className="w-12 h-px bg-[#38BDF8]"></span>
