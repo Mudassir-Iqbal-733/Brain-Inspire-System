@@ -6,6 +6,8 @@ import Overview from "./pages/About/Overview"
 import DirectorMessagePage from "./pages/About/DirectorMessagePage"
 import ManagingDirectorMessage from "./pages/About/ManagingDirectorMessage"
 import PrincelyState from "./pages/About/PrincelyState"
+import ContactUs from "./pages/ContactUs"
+import CareerGuidance from "./pages/CareerGuidance"
 
 
 
@@ -19,6 +21,11 @@ const App = () => {
      <Route path="/about/director-message" element={<DirectorMessagePage />} />
      <Route path="/about/managing-director-message" element={<ManagingDirectorMessage />} />
      <Route path="/about/princely-state" element={<PrincelyState />} />
+
+
+     <Route path="/contact-us" element={<ContactUs />} />
+     <Route path="/career-guidance" element={<CareerGuidance />} />
+
     </Routes>
 
     <Footer />

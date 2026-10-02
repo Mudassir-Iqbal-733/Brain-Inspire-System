@@ -129,7 +129,7 @@ const TestimonialSection = () => {
             </div>
           </div>
 
-          <div className="order-1 lg:order-2 grid grid-cols-6 grid-rows-6 gap-3 md:gap-4 h-80 sm:h-96 md:h-[28rem]">
+          <div className="order-1 lg:order-2 grid grid-cols-6 grid-rows-6 gap-3 md:gap-4 h-80 sm:h-96 md:h-28rem">
             <div className="col-span-3 row-span-3 rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src={collageImages[0]}

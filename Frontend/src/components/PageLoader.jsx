@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import whiteLogo from '../assets/Logo-white.png';
 
 const PageLoader = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
+    const timer = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -16,21 +15,19 @@ const PageLoader = ({ children }) => {
         <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
 
         <div className="relative flex flex-col items-center px-4">
-          <div className="relative mb-8">
-            <div className="absolute -inset-6 bg-[#38BDF8]/20 rounded-full blur-2xl animate-pulse"></div>
-
-            <div className="relative p-4">
-              <img src={whiteLogo} alt="Brain Inspire" className="h-20 w-auto" />
-            </div>
-
-            <div className="absolute -inset-2 rounded-2xl border-2 border-[#38BDF8]/40 animate-ping"></div>
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="w-12 h-px bg-[#38BDF8]"></span>
+            <span className="text-[#38BDF8] text-xs font-bold tracking-[0.3em] uppercase">
+              BISE
+            </span>
+            <span className="w-12 h-px bg-[#38BDF8]"></span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 tracking-wide text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 tracking-wide text-center">
             Brain Inspire
           </h1>
 
-          <p className="text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-8 text-center">
+          <p className="text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-10 text-center">
             System of Education
           </p>
 
