@@ -1,7 +1,7 @@
 import PageHeader from '../../components/common/PageHeader';
 import { FaCrown, FaBookOpen, FaLandmark, FaFlag, FaGraduationCap } from 'react-icons/fa';
 import about from '../../data/about.json';
-import princelyBg from '../../assets/BwpPic.jpg';
+import princelyBg from '../../assets/noor-mahal.jpg';
 
 const PrincelyState = () => {
   const { intro, heritage, education, pakistan, connection, quickFacts } = about.princelyState;
