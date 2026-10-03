@@ -39,7 +39,7 @@ const Navbar = () => {
         { name: 'Rules & Regulations', href: '/admissions/rules-regulations' },
       ],
     },
-    { name: 'Blog', href: '/' },
+    // { name: 'Blog', href: '/' },
     { name: 'Contact', href: '/contact-us' },
   ];
 
