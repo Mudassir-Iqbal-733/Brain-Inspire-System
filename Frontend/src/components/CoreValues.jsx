@@ -8,63 +8,41 @@ import {
   FaUserGraduate,
   FaAward,
 } from 'react-icons/fa';
+import about from '../data/about.json';
 
 const CoreValues = () => {
-  const values = [
-    {
-      id: 1,
-      icon: <FaHandshake />,
-      title: 'Honesty and Righteousness',
-      desc: 'We uphold truth, integrity, and moral values in everything we do.',
-    },
-    {
-      id: 2,
-      icon: <FaCheckCircle />,
-      title: 'Authenticity',
-      desc: 'We stay true to our purpose, our people, and our promise of quality.',
-    },
-    {
-      id: 3,
-      icon: <FaUsers />,
-      title: 'Mutual Collaboration Between Staff',
-      desc: 'Our staff works together as one team to bring the best for our students.',
-    },
-    {
-      id: 4,
-      icon: <FaBrain />,
-      title: 'Consciousness',
-      desc: 'We stay aware and responsible in our teaching, learning, and growth.',
-    },
-    {
-      id: 5,
-      icon: <FaTrophy />,
-      title: 'Distinction',
-      desc: 'We aim to stand out through excellence in every program we offer.',
-    },
-    {
-      id: 6,
-      icon: <FaLightbulb />,
-      title: 'Innovation and Creativity',
-      desc: 'We embrace new ideas and creative methods to deliver modern education.',
-    },
-    {
-      id: 7,
-      icon: <FaUserGraduate />,
-      title: 'Nurture with High Quality Faculty',
-      desc: 'Our expert trainers mentor every student with care and dedication.',
-    },
-    {
-      id: 8,
-      icon: <FaAward />,
-      title: 'Maintain Excellency',
-      desc: 'We continuously raise the bar to deliver the highest standard of learning.',
-    },
+  const icons = [
+    <FaHandshake />,
+    <FaCheckCircle />,
+    <FaUsers />,
+    <FaBrain />,
+    <FaTrophy />,
+    <FaLightbulb />,
+    <FaUserGraduate />,
+    <FaAward />,
   ];
+
+  const descriptions = [
+    'We uphold truth, integrity, and moral values in everything we do.',
+    'We stay true to our purpose, our people, and our promise of quality.',
+    'Our staff works together as one team to bring the best for our students.',
+    'We stay aware and responsible in our teaching, learning, and growth.',
+    'We aim to stand out through excellence in every program we offer.',
+    'We embrace new ideas and creative methods to deliver modern education.',
+    'Our expert trainers mentor every student with care and dedication.',
+    'We continuously raise the bar to deliver the highest standard of learning.',
+  ];
+
+  const values = about.coreValues.map((title, index) => ({
+    id: index + 1,
+    icon: icons[index],
+    title,
+    desc: descriptions[index],
+  }));
 
   return (
     <section className="bg-white py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div className="max-w-3xl mx-auto text-center mb-14 md:mb-20">
           <span className="inline-flex items-center gap-2 text-[#2d2b6f] text-xs font-bold tracking-[0.2em] uppercase mb-5">
             <span className="w-8 h-px bg-[#2d2b6f]" />
@@ -100,7 +78,7 @@ const CoreValues = () => {
                 </span>
               </div>
 
-              <div className="w-10 h-[2px] bg-[#2d2b6f]/20 mb-5 transition-all duration-500 group-hover:w-16 group-hover:bg-[#2d2b6f]" />
+              <div className="w-10 h-2px bg-[#2d2b6f]/20 mb-5 transition-all duration-500 group-hover:w-16 group-hover:bg-[#2d2b6f]" />
 
               <h3 className="text-lg font-bold text-[#171642] leading-7 mb-3">
                 {value.title}
@@ -110,11 +88,10 @@ const CoreValues = () => {
                 {value.desc}
               </p>
 
-              <div className="absolute -bottom-10 -right-10 w-28 h-28 rounded-full bg-[#2d2b6f]/[0.03] group-hover:bg-[#2d2b6f]/[0.06] transition-all duration-500" />
+              <div className="absolute -bottom-10 -right-10 w-28 h-28 rounded-full bg-[#2d2b6f]/3 group-hover:bg-[#2d2b6f]/6 transition-all duration-500" />
             </article>
           ))}
         </div>
-
       </div>
     </section>
   );

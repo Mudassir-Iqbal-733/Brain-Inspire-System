@@ -1,0 +1,648 @@
+[
+  {
+    "id": 1,
+    "course_code": "DS-ET",
+    "title": "Daraz Seller E-Commerce Training",
+    "type": "Training",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80",
+    "course_contents": [
+      "Introduction to Daraz",
+      "Understanding Daraz & E-Commerce",
+      "Seller Account Creation",
+      "Seller Portal Management",
+      "Daraz Drop Shipping",
+      "Product Designing (Adobe Photoshop)",
+      "Hunting & Uploading Product",
+      "Understanding Daraz Finances"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 2,
+    "course_code": "CA-EL",
+    "title": "Certification in Advance English",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&q=80",
+    "modules": [
+      {
+        "module": 1,
+        "course_contents": [
+          "Concept Of Language",
+          "Enhancement Of Vocabulary",
+          "Clause Building",
+          "Parts Of Speech",
+          "Use Of Article",
+          "Acknowledgement Tenses",
+          "Letter & Application Writing",
+          "Activity Of Paragraph Making",
+          "Voices",
+          "Punctuation Mark",
+          "Practice",
+          "Final Exam"
+        ]
+      },
+      {
+        "module": 2,
+        "course_contents": [
+          "Advance Grammatical Structures",
+          "Activity Of Narration",
+          "Correction Of Grammatical Errors",
+          "Essay Writing",
+          "Final Exam"
+        ]
+      }
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 3,
+    "course_code": "C-FL-UP",
+    "title": "Certification in Freelancing - Become a Freelancer (Upwork)",
+    "type": "Certification",
+    "duration_months": 3,
+    "platform": "Upwork",
+    "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80",
+    "course_contents": [
+      "Introduction to Upwork",
+      "How to Make Attractive Gig",
+      "How to Make Portfolio on Behance",
+      "Setup Profile on LinkedIn",
+      "Setting Up of Upwork",
+      "Research Your Niche",
+      "How to Bid on Upwork Projects",
+      "How to Hook Your First Client"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 4,
+    "course_code": "CB-EL",
+    "title": "Certification in Basic English Language",
+    "type": "Certification",
+    "duration_months": 2,
+    "image": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&q=80",
+    "course_contents": [
+      "Concept Of Language",
+      "Enhancement Of Vocabulary",
+      "Clause Building",
+      "Parts Of Speech",
+      "Use Of Article",
+      "Acknowledgement Tenses",
+      "Letter & Application Writing",
+      "Activity Of Paragraph Making",
+      "Voices",
+      "Punctuation Mark",
+      "Practice",
+      "Final Exam"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 10000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 10000 }
+    }
+  },
+  {
+    "id": 5,
+    "course_code": "D-CA",
+    "title": "Diploma in Computerized Accounting",
+    "type": "Diploma",
+    "duration_months": 4,
+    "image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
+    "course_contents": [
+      "Basic Accounting Introduction",
+      "Advance Microsoft Excel",
+      "Peachtree",
+      "Tally",
+      "QuickBooks",
+      "Database Programming (MS Access)",
+      "Final Project"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 20000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 20000 }
+    }
+  },
+  {
+    "id": 6,
+    "course_code": "C-FL-FV",
+    "title": "Certification in Freelancing - Become a Freelancer (Fiverr)",
+    "type": "Certification",
+    "duration_months": 3,
+    "platform": "Fiverr",
+    "image": "https://images.unsplash.com/photo-1516387938699-a93567ec168e?w=600&q=80",
+    "course_contents": [
+      "Introduction to Fiverr",
+      "How to Make Attractive Gig",
+      "How to Make Portfolio on Behance",
+      "Setup Profile on LinkedIn",
+      "Setting Up of Fiverr",
+      "Research Your Niche",
+      "How to Bid on Fiverr Projects",
+      "How to Hook Your First Client"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 7,
+    "course_code": "C-CA",
+    "title": "Certification in Computerized Accounting",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=600&q=80",
+    "course_contents": [
+      "Basic Accounting Introduction",
+      "Advance Microsoft Excel",
+      "Peachtree / Tally / QuickBooks",
+      "Database Programming",
+      "Final Project"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 8,
+    "course_code": "D-AE",
+    "title": "Diploma in Advance English",
+    "type": "Diploma",
+    "duration_months": 4,
+    "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80",
+    "modules": [
+      {
+        "module": 1,
+        "course_contents": [
+          "Concept Of Language",
+          "Enhancement Of Vocabulary",
+          "Clause Building",
+          "Parts Of Speech",
+          "Use Of Article",
+          "Acknowledgement Tenses",
+          "Letter & Application Writing",
+          "Activity Of Paragraph Making",
+          "Voices",
+          "Punctuation Mark",
+          "Practice",
+          "Final Exam"
+        ]
+      },
+      {
+        "module": 2,
+        "course_contents": [
+          "Advance Grammatical Structures",
+          "Activity Of Narration",
+          "Correction Of Grammatical Errors",
+          "Essay Writing",
+          "Final Exam"
+        ]
+      },
+      {
+        "module": 3,
+        "course_contents": [
+          "Official Letters / Report Writing",
+          "Phonetic & Accent",
+          "Writing Skills",
+          "Reading Skills",
+          "Listening Skills",
+          "Speaking Skills",
+          "Presentation"
+        ]
+      }
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 20000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 20000 }
+    }
+  },
+  {
+    "id": 9,
+    "course_code": "C-AI",
+    "title": "Certification in AI Automation",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80",
+    "course_contents": [
+      "AI Fundamentals",
+      "Prompt Engineering",
+      "Automation Basics",
+      "No-Code Automation Tools",
+      "AI-Powered Workflows",
+      "Business Automation",
+      "AI Agents",
+      "Real Projects"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 10,
+    "course_code": "T-EXCEL",
+    "title": "MS Excel & AI Tools for Data Analysts",
+    "type": "Training",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
+    "course_contents": [
+      "MS Excel",
+      "Gemini AI",
+      "Claude",
+      "ChatGPT",
+      "Advanced Excel Formulas",
+      "Pivot Tables & Power Query",
+      "Reports & Data Insights"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 11,
+    "course_code": "C-WD",
+    "title": "Certification in Web Designing",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80",
+    "course_contents": [
+      "Overview of Web Designing",
+      "Notepad++ & Sublime",
+      "Adobe Photoshop CC",
+      "HTML-5",
+      "CSS-3",
+      "W3.CSS",
+      "Bootstrap",
+      "Final Project"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 12,
+    "course_code": "DA-ST",
+    "title": "Diploma in Advance SEO Training",
+    "type": "Diploma",
+    "duration_months": 4,
+    "image": "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=600&q=80",
+    "course_contents": [
+      "Basic Concept of SEO",
+      "Crawling & Indexing",
+      "On-Page / Off-Page SEO",
+      "Keyword Research / Content Evaluation",
+      "E-commerce SEO",
+      "Local SEO",
+      "Online Reputation Management",
+      "User Experience",
+      "Performance",
+      "Internationalization",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 20000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 20000 }
+    }
+  },
+  {
+    "id": 13,
+    "course_code": "C-WP",
+    "title": "Certification in WordPress",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80",
+    "course_contents": [
+      "Overview of WordPress",
+      "Domain & Hosting Training",
+      "Adobe Photoshop CC",
+      "Overview of Local Server",
+      "WordPress Training",
+      "Training With Premium Plugins",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 14,
+    "course_code": "C-WDEV",
+    "title": "Certification in Web Development",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=600&q=80",
+    "course_contents": [
+      "Overview of Web Designing",
+      "Notepad++ & Sublime",
+      "Web Server Training",
+      "Database (MySQL)",
+      "PHP",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 15,
+    "course_code": "COM",
+    "title": "Certification in Office Management",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80",
+    "course_contents": [
+      "Fundamental of Computer",
+      "Keyboard Typing Training",
+      "Microsoft Word",
+      "Microsoft Excel",
+      "Microsoft PowerPoint",
+      "InPage",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 16,
+    "course_code": "D-WT",
+    "title": "Diploma in Web Technology",
+    "type": "Diploma",
+    "duration_months": 6,
+    "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80",
+    "course_contents": [
+      "Overview of Web Designing",
+      "Notepad++ & Sublime",
+      "HTML5 (Hypertext Markup Language)",
+      "CSS3 (Cascading Style Sheets)",
+      "JavaScript",
+      "Bootstrap",
+      "W3.CSS",
+      "PHP",
+      "Database (MySQL)",
+      "OOPS",
+      "CodeIgniter",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 30000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 30000 }
+    }
+  },
+  {
+    "id": 17,
+    "course_code": "C-CP",
+    "title": "Certification in C Programming for Beginners",
+    "type": "Certification",
+    "duration_months": 4,
+    "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600&q=80",
+    "course_contents": [
+      "Basic Concept of C",
+      "Initialization of C Programming",
+      "Input & Output Operations",
+      "Operators and Expressions",
+      "Selection Statements",
+      "Loops",
+      "Arrays",
+      "Assignments"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 20000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 20000 }
+    }
+  },
+  {
+    "id": 18,
+    "course_code": "DOM",
+    "title": "Diploma in Office Management",
+    "type": "Diploma",
+    "duration_months": 6,
+    "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80",
+    "course_contents": [
+      "Keyboard Typing Training",
+      "Microsoft Word",
+      "Microsoft Excel",
+      "Microsoft PowerPoint",
+      "Microsoft Access",
+      "Microsoft Publisher",
+      "Microsoft OneNote",
+      "Microsoft Outlook",
+      "Microsoft Teams",
+      "Final Project & Assignments"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 30000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 30000 }
+    }
+  },
+  {
+    "id": 19,
+    "course_code": "C-CAD",
+    "title": "Certification in Computer Architecture Designing",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80",
+    "course_contents": [
+      "Interface Overview & Workspace Setup",
+      "Basic Drawing 2D (Line, Circle, Rectangle, Arc, etc.)",
+      "2D & 3D Layout Management",
+      "Advanced 3D Modeling",
+      "3D Navigation",
+      "Viewing Techniques",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 20,
+    "course_code": "DU-IXT",
+    "title": "Diploma in Advance UI/UX Training",
+    "type": "Diploma",
+    "duration_months": 4,
+    "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80",
+    "course_contents": [
+      "Introduction to UI/UX Design",
+      "Understanding Users",
+      "Principles of Design",
+      "Wireframing and Prototyping",
+      "UI Design Tools and Techniques",
+      "UX Research and Testing",
+      "Advanced UI/UX Design Concepts",
+      "Design Handoff and Collaboration",
+      "Portfolio Development",
+      "Capstone Project",
+      "Industry Insights and Trends",
+      "Figma, Sketch, Adobe XD"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 20000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 20000 }
+    }
+  },
+  {
+    "id": 21,
+    "course_code": "C-PP",
+    "title": "Certification in Python Programming for Beginners",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=600&q=80",
+    "course_contents": [
+      "Basic Concept of Python",
+      "Variables",
+      "Data Types",
+      "Conditions",
+      "Typecasting",
+      "Exceptions",
+      "Functions",
+      "List, Tuple, Sets",
+      "Dictionaries",
+      "Assignments"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 22,
+    "course_code": "DS-MM",
+    "title": "Certification in Social Media Marketing",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=600&q=80",
+    "course_contents": [
+      "Introduction to Digital Marketing",
+      "Social Media Platforms Overview",
+      "Audience Research",
+      "Content Strategy & Planning",
+      "Graphic Designing",
+      "Adobe Photoshop CC",
+      "Copywriting & Captions",
+      "Management (All Social Media)",
+      "Paid Advertising (Meta Ads)",
+      "Google Ads Basics",
+      "Google Analytics",
+      "Final Project"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 23,
+    "course_code": "D-GD",
+    "title": "Diploma in Graphic Designing",
+    "type": "Diploma",
+    "duration_months": 4,
+    "image": "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80",
+    "course_contents": [
+      "Fundamental of Graphic Designing",
+      "Use of Internet in Graphics",
+      "Adobe Photoshop CC",
+      "Adobe Illustrator",
+      "Adobe InDesign",
+      "Adobe After Effects",
+      "Adobe Media Encoder",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 20000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 20000 }
+    }
+  },
+  {
+    "id": 24,
+    "course_code": "C-GD",
+    "title": "Certification in Graphic Designing",
+    "type": "Certification",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=600&q=80",
+    "course_contents": [
+      "Fundamental of Graphic Designing",
+      "Use of Internet in Graphics",
+      "Adobe Photoshop CC",
+      "Adobe Illustrator",
+      "Clipchamp",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  },
+  {
+    "id": 25,
+    "course_code": "D-VE",
+    "title": "Diploma in Video Editing",
+    "type": "Diploma",
+    "duration_months": 6,
+    "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
+    "course_contents": [
+      "Fundamental of Graphic Designing",
+      "Adobe Photoshop CC",
+      "Adobe After Effects",
+      "Adobe Premiere",
+      "Filmora",
+      "Adobe Media Encoder",
+      "Final Project",
+      "Internship"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 30000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 30000 }
+    }
+  },
+  {
+    "id": 26,
+    "course_code": "DM-ST",
+    "title": "Diploma in Mastering Shopify Training",
+    "type": "Diploma",
+    "duration_months": 3,
+    "image": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&q=80",
+    "course_contents": [
+      "Introduction to Shopify",
+      "Setting Up Your Shopify Store",
+      "Store Design and Customization",
+      "Product Management",
+      "Shopify Apps and Integrations",
+      "Payments and Shipping",
+      "Marketing and SEO",
+      "Analytics and Reporting",
+      "Managing Customers & Sales",
+      "Advanced Store Features",
+      "Security and Compliance",
+      "Troubleshooting and Support"
+    ],
+    "fees": {
+      "2025": { "monthly_fee": 5000, "total_fee": 15000 },
+      "2026": { "monthly_fee": 5000, "total_fee": 15000 }
+    }
+  }
+]

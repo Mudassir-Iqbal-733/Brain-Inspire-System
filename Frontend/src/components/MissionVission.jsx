@@ -1,17 +1,8 @@
 import { FaEye, FaBullseye, FaCheckCircle } from 'react-icons/fa';
+import about from '../data/about.json';
 
 const MissionVision = ({ rounded = false }) => {
-  const visions = [
-    'All is an incessant attempt to aid the individuals to discover their God-granted potentials to achieve ultimate success embellishing with high standard of competence, effectiveness, potentiality, equity, sustainable development of their innate hidden qualities.',
-    'Taking Pakistan forward by embodying students with highest standard technical education which will be relevant to the national needs.',
-  ];
-
-  const missions = [
-    'We aspire to lead the students by empowering in them useful knowledge, sustainable technologies, and practices, potentiality and authenticity so that they may have capacity to lead their society and their community on the way of progress.',
-    'Helping the society through creating harmony between people by bringing students of different sects close to each other.',
-    'Ensuring students their glowing and attractive future.',
-    'To remove the obstacles in the way of progress by instilling different skills in the students.',
-  ];
+  const { visions, missions } = about.missionVision;
 
   return (
     <section className={`bg-[#2D2B6F] py-20 md:py-28 overflow-hidden ${rounded ? 'rounded-3xl' : ''}`}>
@@ -40,14 +31,14 @@ const MissionVision = ({ rounded = false }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-          <div className="group relative bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-3xl p-7 sm:p-9 md:p-10 transition-all duration-500 hover:bg-white/[0.06] hover:border-[#38BDF8]/40 hover:-translate-y-1 overflow-hidden">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#38BDF8]/20 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="group relative bg-white/4 backdrop-blur-sm border border-white/10 rounded-3xl p-7 sm:p-9 md:p-10 transition-all duration-500 hover:bg-white/6 hover:border-[#38BDF8]/40 hover:-translate-y-1 overflow-hidden">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-[#38BDF8]/20 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
 
             <div className="relative">
               <div className="flex items-center gap-4 mb-7">
                 <div className="relative">
                   <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-40"></div>
-                  <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
+                  <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
                     <FaEye />
                   </div>
                 </div>
@@ -77,14 +68,14 @@ const MissionVision = ({ rounded = false }) => {
             </div>
           </div>
 
-          <div className="group relative bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-3xl p-7 sm:p-9 md:p-10 transition-all duration-500 hover:bg-white/[0.06] hover:border-[#38BDF8]/40 hover:-translate-y-1 overflow-hidden">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#38BDF8]/20 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="group relative bg-white/4 backdrop-blur-sm border border-white/10 rounded-3xl p-7 sm:p-9 md:p-10 transition-all duration-500 hover:bg-white/6 hover:border-[#38BDF8]/40 hover:-translate-y-1 overflow-hidden">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-[#38BDF8]/20 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
 
             <div className="relative">
               <div className="flex items-center gap-4 mb-7">
                 <div className="relative">
                   <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-40"></div>
-                  <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
+                  <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
                     <FaBullseye />
                   </div>
                 </div>

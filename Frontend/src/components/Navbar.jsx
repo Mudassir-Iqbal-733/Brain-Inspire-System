@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { HiX, HiChevronDown } from 'react-icons/hi';
 import { FaArrowRight } from 'react-icons/fa';
@@ -8,6 +8,8 @@ import whiteLogo from '../assets/Logo-white.png';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [admissionsOpen, setAdmissionsOpen] = useState(false);
+  const [feeOpen, setFeeOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
@@ -22,31 +24,62 @@ const Navbar = () => {
       ],
     },
     { name: 'Programs', href: '/programs' },
-    { name: 'Why BISE', href: '/why-bise' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Career Guidance', href: '/career-guidance' },
+    {
+      name: 'Admissions',
+      children: [
+        { name: 'Why BISE', href: '/admissions/why-bise' },
+        { name: 'Apply Online', href: '/admissions/apply-online' },
+        {
+          name: 'Fee Structure',
+          children: [
+            { name: 'Year 2026', href: '/admissions/fee-structure?year=2026' },
+            { name: 'Year 2025', href: '/admissions/fee-structure?year=2025' },
+          ],
+        },
+        { name: 'Rules & Regulations', href: '/admissions/rules-regulations' },
+      ],
+    },
+    { name: 'Blog', href: '/' },
     { name: 'Contact', href: '/contact-us' },
-  
   ];
 
   const isActive = (href) => {
     if (!href) return false;
     if (href === '/') return location.pathname === '/';
-    return location.pathname.startsWith(href);
+    const [path, query] = href.split('?');
+    if (query) {
+      return location.pathname === path && location.search.includes(query);
+    }
+    return location.pathname.startsWith(path);
   };
 
-  const isAboutActive = () => location.pathname.startsWith('/about');
+  const isSectionActive = (path) => location.pathname.startsWith(path);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setAboutOpen(false);
+      setAdmissionsOpen(false);
+      setFeeOpen(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <nav className="sticky top-0 w-full bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           <a href="/" className="flex items-center">
-            <img
-              src={logo}
-              alt="Brain Inspire"
-              className="h-12 md:h-14 w-auto"
-            />
+            <img src={logo} alt="Brain Inspire" className="h-12 md:h-14 w-auto" />
           </a>
 
           <button
@@ -66,8 +99,8 @@ const Navbar = () => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="h-full bg-gradient-to-b from-[#0F1E4A] to-[#1E3A8A] shadow-2xl flex flex-col">
-          <div className="flex items-center justify-between p-5 border-b border-white/10">
+        <div className="h-full bg-linear-to-b from-[#0F1E4A] to-[#1E3A8A] shadow-2xl flex flex-col">
+          <div className="flex items-center justify-between p-5 border-b border-white/10 shrink-0">
             <img src={whiteLogo} alt="Brain Inspire" className="h-11 w-auto" />
 
             <button
@@ -79,51 +112,145 @@ const Navbar = () => {
             </button>
           </div>
 
-          <ul className="p-5 flex flex-col gap-1.5 flex-1 overflow-y-auto">
-            {navLinks.map((link) =>
-              link.children ? (
-                <li key={link.name}>
-                  <button
-                    onClick={() => setAboutOpen(!aboutOpen)}
-                    className={`w-full flex items-center justify-between gap-3 px-5 py-3.5 font-medium rounded-xl transition-all duration-300 ${
-                      isAboutActive()
-                        ? 'bg-[#38BDF8] text-[#0F1E4A] shadow-lg shadow-[#38BDF8]/25'
-                        : 'text-white hover:bg-white/10'
-                    }`}
-                  >
-                    <span>{link.name}</span>
-                    <HiChevronDown
-                      className={`text-lg transition-transform duration-300 ${
-                        aboutOpen ? 'rotate-180' : ''
+          <ul className="p-5 flex flex-col gap-1.5 flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-width:none">
+            {navLinks.map((link) => {
+              if (link.name === 'About') {
+                return (
+                  <li key={link.name}>
+                    <button
+                      onClick={() => setAboutOpen(!aboutOpen)}
+                      className={`w-full flex items-center justify-between gap-3 px-5 py-3.5 font-medium rounded-xl transition-all duration-300 ${
+                        isSectionActive('/about')
+                          ? 'bg-[#38BDF8] text-[#0F1E4A] shadow-lg shadow-[#38BDF8]/25'
+                          : 'text-white hover:bg-white/10'
                       }`}
-                    />
-                  </button>
+                    >
+                      <span>{link.name}</span>
+                      <HiChevronDown
+                        className={`text-lg transition-transform duration-300 ${
+                          aboutOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
 
-                  <ul
-                    className={`overflow-hidden transition-all duration-300 ${
-                      aboutOpen ? 'max-h-96 mt-2' : 'max-h-0'
-                    }`}
-                  >
-                    <div className="bg-white/5 rounded-xl p-2 space-y-1">
-                      {link.children.map((child) => (
-                        <li key={child.name}>
-                          <a
-                            href={child.href}
-                            onClick={() => setIsOpen(false)}
-                            className={`block px-4 py-3 text-sm rounded-lg transition-all duration-300 ${
-                              isActive(child.href)
-                                ? 'bg-[#38BDF8] text-[#0F1E4A] font-semibold shadow-md shadow-[#38BDF8]/20'
-                                : 'text-gray-200 hover:bg-[#38BDF8]/20 hover:text-[#38BDF8]'
-                            }`}
-                          >
-                            {child.name}
-                          </a>
-                        </li>
-                      ))}
-                    </div>
-                  </ul>
-                </li>
-              ) : (
+                    <ul
+                      className={`overflow-hidden transition-all duration-300 ${
+                        aboutOpen ? 'max-h-96 mt-2' : 'max-h-0'
+                      }`}
+                    >
+                      <div className="bg-white/5 rounded-xl p-2 space-y-1">
+                        {link.children.map((child) => (
+                          <li key={child.name}>
+                            <a
+                              href={child.href}
+                              onClick={() => setIsOpen(false)}
+                              className={`block px-4 py-3 text-sm rounded-lg transition-all duration-300 ${
+                                isActive(child.href)
+                                  ? 'bg-[#38BDF8] text-[#0F1E4A] font-semibold shadow-md shadow-[#38BDF8]/20'
+                                  : 'text-gray-200 hover:bg-[#38BDF8]/20 hover:text-[#38BDF8]'
+                              }`}
+                            >
+                              {child.name}
+                            </a>
+                          </li>
+                        ))}
+                      </div>
+                    </ul>
+                  </li>
+                );
+              }
+
+              if (link.name === 'Admissions') {
+                return (
+                  <li key={link.name}>
+                    <button
+                      onClick={() => setAdmissionsOpen(!admissionsOpen)}
+                      className={`w-full flex items-center justify-between gap-3 px-5 py-3.5 font-medium rounded-xl transition-all duration-300 ${
+                        isSectionActive('/admissions')
+                          ? 'bg-[#38BDF8] text-[#0F1E4A] shadow-lg shadow-[#38BDF8]/25'
+                          : 'text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      <HiChevronDown
+                        className={`text-lg transition-transform duration-300 ${
+                          admissionsOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+
+                    <ul
+                      className={`overflow-hidden transition-all duration-300 ${
+                        admissionsOpen ? 'max-h-500px mt-2' : 'max-h-0'
+                      }`}
+                    >
+                      <div className="bg-white/5 rounded-xl p-2 space-y-1">
+                        {link.children.map((child) =>
+                          child.children ? (
+                            <li key={child.name}>
+                              <button
+                                onClick={() => setFeeOpen(!feeOpen)}
+                                className={`w-full flex items-center justify-between gap-2 px-4 py-3 text-sm rounded-lg transition-all duration-300 ${
+                                  isSectionActive('/admissions/fee-structure')
+                                    ? 'bg-[#38BDF8] text-[#0F1E4A] font-semibold shadow-md shadow-[#38BDF8]/20'
+                                    : 'text-gray-200 hover:bg-[#38BDF8]/20 hover:text-[#38BDF8]'
+                                }`}
+                              >
+                                <span>{child.name}</span>
+                                <HiChevronDown
+                                  className={`text-base transition-transform duration-300 ${
+                                    feeOpen ? 'rotate-180' : ''
+                                  }`}
+                                />
+                              </button>
+
+                              <ul
+                                className={`overflow-hidden transition-all duration-300 ${
+                                  feeOpen ? 'max-h-40 mt-1' : 'max-h-0'
+                                }`}
+                              >
+                                <div className="bg-white/5 rounded-lg p-1.5 space-y-1 ml-3">
+                                  {child.children.map((subChild) => (
+                                    <li key={subChild.name}>
+                                      <a
+                                        href={subChild.href}
+                                        onClick={() => setIsOpen(false)}
+                                        className={`block px-3 py-2 text-xs rounded-md transition-all duration-300 ${
+                                          isActive(subChild.href)
+                                            ? 'bg-[#38BDF8] text-[#0F1E4A] font-semibold'
+                                            : 'text-gray-300 hover:bg-[#38BDF8]/20 hover:text-[#38BDF8]'
+                                        }`}
+                                      >
+                                        {subChild.name}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </div>
+                              </ul>
+                            </li>
+                          ) : (
+                            <li key={child.name}>
+                              <a
+                                href={child.href}
+                                onClick={() => setIsOpen(false)}
+                                className={`block px-4 py-3 text-sm rounded-lg transition-all duration-300 ${
+                                  isActive(child.href)
+                                    ? 'bg-[#38BDF8] text-[#0F1E4A] font-semibold shadow-md shadow-[#38BDF8]/20'
+                                    : 'text-gray-200 hover:bg-[#38BDF8]/20 hover:text-[#38BDF8]'
+                                }`}
+                              >
+                                {child.name}
+                              </a>
+                            </li>
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </li>
+                );
+              }
+
+              return (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -137,16 +264,16 @@ const Navbar = () => {
                     {link.name}
                   </a>
                 </li>
-              )
-            )}
+              );
+            })}
 
             <li className="pt-4">
               <a
-                href="/apply"
+                href="/admissions/apply-online"
                 onClick={() => setIsOpen(false)}
                 className="flex items-center justify-center gap-2 bg-white/10 border border-white/15 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-[#38BDF8] hover:text-[#0F1E4A] hover:border-[#38BDF8] transition-all duration-300"
               >
-                Apply Now
+                Apply Online
                 <FaArrowRight className="text-xs" />
               </a>
             </li>

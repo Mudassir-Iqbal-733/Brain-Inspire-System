@@ -1,8 +1,11 @@
 import PageHeader from '../../components/common/PageHeader';
 import { FaQuoteLeft } from 'react-icons/fa';
+import messagesData from '../../data/messages.json';
 import managingDirector from '../../assets/6.JPG.jpeg';
 
 const ManagingDirector = () => {
+  const data = messagesData.managingDirector;
+
   return (
     <>
       <PageHeader
@@ -28,13 +31,13 @@ const ManagingDirector = () => {
                     <div className="relative w-56 sm:w-64 md:w-72 lg:w-full max-w-xs aspect-square rounded-3xl overflow-hidden border-4 border-[#38BDF8] shadow-2xl">
                       <img
                         src={managingDirector}
-                        alt="Engineer Muhammad Ateeq Naimat"
+                        alt={data.name}
                         className="w-full h-full object-cover object-top"
                       />
                     </div>
 
                     <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#38BDF8] text-[#0F1E4A] px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg whitespace-nowrap">
-                      Managing Director
+                      {data.badge}
                     </div>
                   </div>
                 </div>
@@ -46,40 +49,22 @@ const ManagingDirector = () => {
                     Managing Director Message
                   </p>
 
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-2">
-                    Engineer Muhammad
-                  </h2>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#38BDF8] leading-tight mb-6">
-                    Ateeq Naimat
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+                    {data.name}
                   </h2>
 
                   <div className="space-y-4 text-gray-200 text-sm sm:text-base leading-relaxed">
-                    <p>
-                      An education center is not only meant to achieve information
-                      and knowledge, rather it is a platform for the mouldation and
-                      collaboration of thoughts and ideas.
-                    </p>
-
-                    <p>
-                      My congratulations to all of the students who allowed themselves
-                      to be shaped in a more skilled and technical way — that thing
-                      will make them high and elegant persons of society.
-                    </p>
-
-                    <p>
-                      We are proud of our rich knowledge and our ongoing commitment
-                      to educational excellence in our programmes. Our institute is
-                      renowned for its academic excellence as well as for the engaging
-                      environment it provides its students with.
-                    </p>
+                    {data.paragraphs.map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/15">
                     <p className="text-white font-bold text-base sm:text-lg">
-                      Engineer Muhammad Ateeq Naimat
+                      {data.name}
                     </p>
                     <p className="text-[#38BDF8] text-xs sm:text-sm font-medium">
-                      Managing Director, Brain Inspire System of Education
+                      {data.title}
                     </p>
                   </div>
                 </div>

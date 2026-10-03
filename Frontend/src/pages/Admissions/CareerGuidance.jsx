@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PageHeader from '../components/common/PageHeader';
+import PageHeader from '../../components/common/PageHeader';
 import { FaGraduationCap, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
 
 const CareerGuidance = () => {
@@ -92,8 +92,10 @@ const CareerGuidance = () => {
   return (
     <>
       <PageHeader
-        title="Career Guidance"
-        breadcrumbs={[{ label: 'Career Guidance' }]}
+        title="Apply Now"
+        breadcrumbs={[
+          { label: 'Admissions', href: '/admissions/why-bise' },
+          { label: 'Apply Online' }]}
       />
 
       <section className="bg-white py-16 md:py-24 overflow-hidden">

@@ -1,0 +1,125 @@
+{
+  "notice": "By enrolling in any program at BISE, students and their guardians automatically agree to abide by these rules. Violation of any rule may result in disciplinary action, including suspension or termination of admission without refund.",
+  "sections": [
+    {
+      "id": 1,
+      "title": "Admission Rules",
+      "rules": [
+        "Admission is granted on merit and first-come, first-served basis.",
+        "Original documents (CNIC/B-Form, matric certificate) must be presented at the time of admission.",
+        "Admission fee is non-refundable once the session starts.",
+        "Age criteria: Minimum 14 years for all technical programs.",
+        "Full CNIC/B-Form copy and 2 passport-size photographs are required."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Attendance Policy",
+      "rules": [
+        "Minimum 75% attendance is required to appear in final examinations.",
+        "Students must reach the institute 5 minutes before class begins.",
+        "Late arrivals beyond 15 minutes will not be allowed to enter the class.",
+        "Continuous absence without informing the administration may lead to cancellation of admission.",
+        "Medical leave must be supported by a doctor's certificate."
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Fee Rules",
+      "rules": [
+        "Monthly fee must be paid within the first 7 days of each month.",
+        "A late fee of Rs. 200 will be charged after the due date.",
+        "Fee can be paid via cash, bank transfer, or EasyPaisa/JazzCash.",
+        "No fee refund after the 15th day of the session.",
+        "Fee receipts must be kept safely for future reference."
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Discipline & Conduct",
+      "rules": [
+        "Strictly no smoking, drugs, or any illegal substance within the premises.",
+        "Students must respect teachers, staff, and fellow students at all times.",
+        "Mobile phones must be kept on silent mode during classes.",
+        "Any form of bullying, harassment, or discrimination is strictly prohibited.",
+        "Damaging institute property will result in a fine and possible expulsion."
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Code of Ethics",
+      "rules": [
+        "Students must maintain honesty and integrity in all academic work.",
+        "Plagiarism or cheating in exams is strictly forbidden.",
+        "Confidential information about the institute must not be shared outside.",
+        "Students should represent BISE with pride and professionalism.",
+        "Any unethical behavior will be dealt with through the disciplinary committee."
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Academic Rules",
+      "rules": [
+        "Assignments must be submitted on or before the deadline.",
+        "Attendance in practical labs is mandatory for all technical courses.",
+        "Students must maintain a personal notebook and complete all exercises.",
+        "Projects are evaluated on creativity, originality, and execution.",
+        "Any academic dispute will be resolved by the academic committee."
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Lab & Computer Rules",
+      "rules": [
+        "Do not install unauthorized software on institute computers.",
+        "External USB drives are not allowed without prior permission.",
+        "Food and drinks are not permitted in computer labs.",
+        "Save your work on the designated drive — personal files are not the institute's responsibility.",
+        "Report any malfunctioning equipment immediately to the lab supervisor."
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Student Responsibilities",
+      "rules": [
+        "Wear your ID card at all times within the institute.",
+        "Maintain cleanliness and hygiene in the classroom and campus.",
+        "Participate actively in class discussions and group activities.",
+        "Inform the administration about any change in contact details.",
+        "Follow all instructions given by teachers and administration."
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Certification Rules",
+      "rules": [
+        "Certificates are awarded upon successful completion of the program.",
+        "Final exam must be passed with at least 50% marks.",
+        "Outstanding dues must be cleared before certificate issuance.",
+        "Duplicate certificates can be issued with a fee of Rs. 500.",
+        "Certificates are non-transferable."
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Progress & Evaluation",
+      "rules": [
+        "Students are evaluated through quizzes, assignments, projects, and final exams.",
+        "Progress reports are shared with students and parents each month.",
+        "Students failing a course may be given one chance to re-appear.",
+        "Regular feedback is provided to help students improve."
+      ]
+    },
+    {
+      "id": 11,
+      "title": "General Conduct",
+      "rules": [
+        "Maintain a positive and respectful attitude toward everyone.",
+        "Use of inappropriate language is not allowed on campus.",
+        "Any complaint should be reported to the administration in writing.",
+        "Physical fights or verbal abuse will result in immediate expulsion.",
+        "By enrolling, students agree to abide by all BISE rules and regulations."
+      ]
+    }
+  ]
+}

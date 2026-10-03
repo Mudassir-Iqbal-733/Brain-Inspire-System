@@ -1,33 +1,10 @@
 import PageHeader from '../../components/common/PageHeader';
 import { FaCrown, FaBookOpen, FaLandmark, FaFlag, FaGraduationCap } from 'react-icons/fa';
-import princelyBg from '../../assets/bwppic.jpg';
+import about from '../../data/about.json';
+import princelyBg from '../../assets/BwpPic.jpg';
 
 const PrincelyState = () => {
-  const intro = [
-    'Bahawalpur was one of the most prominent princely states of the Indian subcontinent, ruled by the Daudpotra Abbasi dynasty with a rich history dating back to the early 18th century. It stood as one of the largest Muslim princely states, second only to Hyderabad, and was celebrated for its visionary leadership and progressive governance.',
-    'During the reign of Nawab Sir Sadiq Muhammad Khan Abbasi V (1904–1966), the state achieved remarkable development in education, healthcare, and infrastructure. Bahawalpur was widely recognized as a model of a welfare state, setting an example for the entire region.',
-  ];
-
-  const heritage = [
-    'The culture of Bahawalpur is a unique blend of ancient Hakra civilization, Hindu traditions, and Islamic influence, with Saraiki as its primary language.',
-    'The state was once known as the "Land of Gardens," possessing the finest canal system in the subcontinent — the Sutlej Valley Project — which transformed vast desert lands into fertile farmland.',
-  ];
-
-  const education = [
-    'Bahawalpur has a long and proud tradition of education. As early as the 10th century, Uch Sharif was already a renowned center of Islamic learning in the subcontinent.',
-    'During the reign of Nawab Sadiq, the state invested heavily in education and established institutions such as Jamia Abbasia (predecessor of Islamia University Bahawalpur) and Sadiq Public School, laying a strong foundation for the region\'s educational development.',
-    'By the eve of Pakistan\'s independence, the state had established multiple girls\' schools and colleges, with a rapidly growing number of female students.',
-  ];
-
-  const pakistan = [
-    'Bahawalpur holds the unique honor of being the first princely state to accede to Pakistan, having signed the Instrument of Accession on October 3, 1947.',
-    'Nawab Sadiq played a significant role in the founding and consolidation of Pakistan, and gifted a precious Rolls-Royce car to Quaid-e-Azam Jinnah as a token of his unwavering support.',
-  ];
-
-  const connection = [
-    'At Brain Inspire System of Education, we carry forward this rich educational legacy of Bahawalpur. Just as the Nawabs of Bahawalpur once used education and welfare to transform the destiny of a region, we empower young minds through practical skills and technical training.',
-    'Our mission continues this spirit of progress, ensuring that the next generation of Bahawalpur — and Pakistan — is equipped with the knowledge, skills, and vision to build a brighter future.',
-  ];
+  const { intro, heritage, education, pakistan, connection, quickFacts } = about.princelyState;
 
   return (
     <>
@@ -102,22 +79,17 @@ const PrincelyState = () => {
                 </h3>
 
                 <ul className="space-y-3 text-gray-200 text-sm">
-                  <li className="flex justify-between gap-3 pb-2 border-b border-white/10">
-                    <span className="text-gray-400">Founded</span>
-                    <span className="font-semibold">Early 18th Century</span>
-                  </li>
-                  <li className="flex justify-between gap-3 pb-2 border-b border-white/10">
-                    <span className="text-gray-400">Dynasty</span>
-                    <span className="font-semibold">Daudpotra Abbasi</span>
-                  </li>
-                  <li className="flex justify-between gap-3 pb-2 border-b border-white/10">
-                    <span className="text-gray-400">Joined Pakistan</span>
-                    <span className="font-semibold">Oct 3, 1947</span>
-                  </li>
-                  <li className="flex justify-between gap-3">
-                    <span className="text-gray-400">Language</span>
-                    <span className="font-semibold">Saraiki</span>
-                  </li>
+                  {quickFacts.map((fact, i) => (
+                    <li
+                      key={i}
+                      className={`flex justify-between gap-3 ${
+                        i !== quickFacts.length - 1 ? 'pb-2 border-b border-white/10' : ''
+                      }`}
+                    >
+                      <span className="text-gray-400">{fact.label}</span>
+                      <span className="font-semibold">{fact.value}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
