@@ -1,5 +1,6 @@
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
+import SEO from '../../components/SEO';
 import useLoader from '../../hooks/useLoader';
 import {
   FaGraduationCap,
@@ -65,6 +66,11 @@ const WhyBise = () => {
 
   return (
     <>
+    <SEO
+  title="Why BISE"
+  description="Why choose Brain Inspire System of Education — quality education, expert faculty, and career-focused programs."
+  keywords="why BISE, best institute Bahawalpur, quality education"
+/>
       <PageHeader
         title="Why BISE"
         breadcrumbs={[{ label: 'Why BISE' }]}

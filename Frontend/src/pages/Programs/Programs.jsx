@@ -5,6 +5,7 @@ import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
 import useLoader from '../../hooks/useLoader';
 import programsData from '../../data/programs.json';
+import SEO from '../../components/SEO';
 
 const Programs = () => {
   const loading = useLoader();
@@ -31,6 +32,12 @@ const Programs = () => {
 
   return (
     <>
+     <SEO
+        title="Our Programs"
+        description="Explore 20+ industry-focused programs at Brain Inspire System of Education — AI, Web Development, Graphic Design, and more."
+        keywords="programs, IT courses Bahawalpur, BISE programs, diploma courses"
+      />
+
       <PageHeader
         title="Our Programs"
         breadcrumbs={[{ label: 'Programs' }]}

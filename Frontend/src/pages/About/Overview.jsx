@@ -26,6 +26,11 @@ const Overview = () => {
 
   return (
     <>
+    <SEO
+        title="About Us"
+        description="Learn about Brain Inspire System of Education — our mission, vision, and commitment to quality technical education in Bahawalpur."
+        keywords="about Brain Inspire, BISE Bahawalpur, technical education, IT courses"
+      />
       <PageHeader
         title="Overview"
         breadcrumbs={[

@@ -4,6 +4,7 @@ import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
 import useLoader from '../../hooks/useLoader';
 import { FaWallet, FaChevronDown, FaCheckCircle, FaClock, FaArrowLeft, FaSearch } from 'react-icons/fa';
+import SEO from '../../components/SEO';
 
 const FeeStructure = () => {
   const loading = useLoader();
@@ -62,6 +63,11 @@ const FeeStructure = () => {
 
   return (
     <>
+    <SEO
+  title="Fee Structure"
+  description="View complete fee structure for all programs at Brain Inspire System of Education."
+  keywords="fee structure, BISE fees, course fees Bahawalpur"
+/>
       <PageHeader
         title="Fee Structure"
         breadcrumbs={[
@@ -113,7 +119,7 @@ const FeeStructure = () => {
               <select
                 value={selectedProgram}
                 onChange={(e) => setSelectedProgram(e.target.value)}
-                className="appearance-none bg-white text-[#0F1E4A] font-bold text-sm sm:text-base pl-6 pr-14 py-3.5 sm:py-4 rounded-full cursor-pointer border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 shadow-lg hover:border-[#38BDF8] transition-colors duration-300 min-w-[260px] sm:min-w-[300px]"
+                className="appearance-none bg-white text-[#0F1E4A] font-bold text-sm sm:text-base pl-6 pr-14 py-3.5 sm:py-4 rounded-full cursor-pointer border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 shadow-lg hover:border-[#38BDF8] transition-colors duration-300 min-w-260px sm:min-w-300px"
               >
                 <option value="">-- Select a Program --</option>
                 {Object.entries(programsData).map(([slug, program]) => (

@@ -4,6 +4,7 @@ import useLoader from '../../hooks/useLoader';
 import { FaQuoteLeft } from 'react-icons/fa';
 import messagesData from '../../data/messages.json';
 import managingDirector from '../../assets/6.JPG.jpeg';
+import SEO from '../../components/SEO';
 
 const ManagingDirector = () => {
   const loading = useLoader();
@@ -14,6 +15,11 @@ const ManagingDirector = () => {
 
   return (
     <>
+    <SEO
+  title="Managing Director Message"
+  description="Message from the Managing Director of Brain Inspire System of Education."
+  keywords="managing director, MD message, BISE"
+/>
       <PageHeader
         title="Managing Director Message"
         breadcrumbs={[

@@ -12,6 +12,7 @@ import {
 import PageHeader from '../components/common/PageHeader';
 import Loader from '../components/Loader';
 import useLoader from '../hooks/useLoader';
+import SEO from '../components/SEO';
 
 const Contact = () => {
   const loading = useLoader();
@@ -40,6 +41,11 @@ const Contact = () => {
 
   return (
     <>
+      <SEO
+        title="Contact Us"
+        description="Brain Inspire System of Education — Professional courses in Bahawalpur"
+        keywords="courses, Bahawalpur, IT training"
+      />
       <PageHeader
         title="Contact Us"
         breadcrumbs={[{ label: 'Contact' }]}

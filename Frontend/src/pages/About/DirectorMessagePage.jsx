@@ -10,6 +10,11 @@ const DirectorMessagePage = () => {
 
   return (
     <>
+    <SEO
+  title="Director Message"
+  description="Message from the Director of Brain Inspire System of Education."
+  keywords="director message, BISE"
+/>
       <PageHeader
         title="Director Message"
         breadcrumbs={[

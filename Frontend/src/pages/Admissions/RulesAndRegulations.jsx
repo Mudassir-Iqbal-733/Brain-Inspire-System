@@ -17,6 +17,7 @@ import {
   FaHandshake,
 } from 'react-icons/fa';
 import rulesData from '../../data/rules.json';
+import SEO from '../../components/SEO';
 
 const icons = [
   <FaUserCheck />,
@@ -41,6 +42,11 @@ const RulesAndRegulations = () => {
 
   return (
     <>
+    <SEO
+  title="Rules & Regulations"
+  description="Rules and regulations for students at Brain Inspire System of Education."
+  keywords="rules, regulations, BISE policies"
+/>
       <PageHeader
         title="Rules & Regulations"
         breadcrumbs={[

@@ -3,6 +3,7 @@ import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
 import useLoader from '../../hooks/useLoader';
 import { FaGraduationCap, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
+import SEO from '../../components/SEO';
 
 const CareerGuidance = () => {
   const loading = useLoader();
@@ -97,6 +98,11 @@ const CareerGuidance = () => {
 
   return (
     <>
+    <SEO
+  title="Rules & Regulations"
+  description="Rules and regulations for students at Brain Inspire System of Education."
+  keywords="rules, regulations, BISE policies"
+/>
       <PageHeader
         title="Apply Now"
         breadcrumbs={[

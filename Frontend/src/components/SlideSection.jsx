@@ -57,7 +57,7 @@ const SlideSection = () => {
                 transition={{ duration: 6, ease: 'easeOut' }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0F1E4A]/60 via-[#0F1E4A]/25 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-r from-[#0F1E4A]/60 via-[#0F1E4A]/25 to-transparent" />
             </div>
           </div>
         ))}

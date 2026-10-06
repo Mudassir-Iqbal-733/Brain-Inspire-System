@@ -4,6 +4,7 @@ import useLoader from '../../hooks/useLoader';
 import { FaCrown, FaBookOpen, FaLandmark, FaFlag, FaGraduationCap } from 'react-icons/fa';
 import about from '../../data/about.json';
 import princelyBg from '../../assets/noor-mahal.jpg';
+import SEO from '../../components/SEO';
 
 const PrincelyState = () => {
   const loading = useLoader();
@@ -14,6 +15,10 @@ const PrincelyState = () => {
 
   return (
     <>
+    <SEO
+  title="The Princely State"
+  description="Explore the historical heritage of Bahawalpur, the princely state."
+  keywords="Bahawalpur history, princely state, heritage"/>
       <PageHeader
         title="The Princely State"
         breadcrumbs={[

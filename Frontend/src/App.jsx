@@ -15,12 +15,14 @@ import RulesAndRegulations from "./pages/Admissions/RulesAndRegulations"
 import Programs from "./pages/Programs/Programs"
 import ProgramDetails from "./pages/Programs/ProgramDetails"
 import ScrollToTop from "./components/ScrollToTop"
+import { HelmetProvider } from "react-helmet-async"
 
 
 
 const App = () => {
   return (
     <>
+    <HelmetProvider >
     <ScrollToTop />
     <Navbar />
     <Routes>
@@ -47,6 +49,7 @@ const App = () => {
     </Routes>
 
     <Footer />
+    </HelmetProvider>
     </>
   )
 }

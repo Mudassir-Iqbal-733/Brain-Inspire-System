@@ -14,6 +14,7 @@ import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
 import useLoader from '../../hooks/useLoader';
 import programsData from '../../data/programs.json';
+import SEO from '../../components/SEO';
 
 const ProgramDetails = () => {
   const loading = useLoader();
@@ -37,6 +38,11 @@ const ProgramDetails = () => {
   if (!program) {
     return (
       <>
+      <SEO
+          title="Program Not Found"
+          description="The program you're looking for doesn't exist at Brain Inspire."
+          keywords="not found, program"
+        />
         <PageHeader
           title="Program Not Found"
           breadcrumbs={[
@@ -46,7 +52,7 @@ const ProgramDetails = () => {
         />
 
         <section className="bg-white py-16 md:py-24 overflow-hidden">
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16 px-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl">
+          <div className="max-w-2xl mx-auto  sm:px-6 lg:px-8 text-center py-16 px-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] text-3xl mb-4">
               <FaGraduationCap />
             </div>
@@ -85,6 +91,11 @@ const ProgramDetails = () => {
 
   return (
     <>
+    <SEO
+        title={program.title}
+        description={`Enroll in ${program.title} at Brain Inspire System of Education. ${program.duration_months || ''} ${program.type || ''} course.`}
+        keywords={`${program.title}, ${program.type}, ${program.course_code}, BISE courses`}
+      />
       <PageHeader
         title={program.title}
         breadcrumbs={[
