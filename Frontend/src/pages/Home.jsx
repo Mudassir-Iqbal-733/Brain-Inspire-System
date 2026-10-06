@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Home"
+        title="BISE - Brain Inspire System of Education"
         description="Brain Inspire System of Education — Professional courses in Bahawalpur"
         keywords="courses, Bahawalpur, IT training"
       />
