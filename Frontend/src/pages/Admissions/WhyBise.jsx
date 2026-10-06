@@ -1,4 +1,6 @@
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import {
   FaGraduationCap,
   FaBookOpen,
@@ -15,6 +17,8 @@ import {
 } from 'react-icons/fa';
 
 const WhyBise = () => {
+  const loading = useLoader();
+
   const intro =
     'Are you looking for a professional course that can prove to be a healthy source of earning in this brave world? A program that may lead Pakistan on the track of progress, a course that meets your dreams and future aspirations, and imparts you with the highest skilled and standard study about different technical skills.';
 
@@ -57,6 +61,8 @@ const WhyBise = () => {
     { icon: <FaStar />, label: 'Maintain Excellency' },
   ];
 
+  if (loading) return <Loader />;
+
   return (
     <>
       <PageHeader
@@ -89,7 +95,7 @@ const WhyBise = () => {
               <div
                 key={i}
                 className={`group relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 transition-all duration-500 hover:border-[#38BDF8]/40 hover:shadow-2xl hover:shadow-[#38BDF8]/10 hover:-translate-y-1 overflow-hidden ${
-                  i === 4 ? 'lg:col-span-1 md:col-span-2 lg:col-span-1' : ''
+                  i === 4 ? ' md:col-span-2 lg:col-span-1' : ''
                 }`}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-[#38BDF8]/10 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>

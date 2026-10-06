@@ -1,10 +1,16 @@
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import { FaQuoteLeft } from 'react-icons/fa';
 import messagesData from '../../data/messages.json';
 import managingDirector from '../../assets/6.JPG.jpeg';
 
 const ManagingDirector = () => {
+  const loading = useLoader();
+
   const data = messagesData.managingDirector;
+
+  if (loading) return <Loader />;
 
   return (
     <>

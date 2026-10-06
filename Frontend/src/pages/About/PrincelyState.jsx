@@ -1,10 +1,16 @@
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import { FaCrown, FaBookOpen, FaLandmark, FaFlag, FaGraduationCap } from 'react-icons/fa';
 import about from '../../data/about.json';
 import princelyBg from '../../assets/noor-mahal.jpg';
 
 const PrincelyState = () => {
+  const loading = useLoader();
+
   const { intro, heritage, education, pakistan, connection, quickFacts } = about.princelyState;
+
+  if (loading) return <Loader />;
 
   return (
     <>

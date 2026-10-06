@@ -1,4 +1,6 @@
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import {
   FaUserCheck,
   FaClock,
@@ -31,7 +33,11 @@ const icons = [
 ];
 
 const RulesAndRegulations = () => {
+  const loading = useLoader();
+
   const { notice, sections } = rulesData;
+
+  if (loading) return <Loader />;
 
   return (
     <>

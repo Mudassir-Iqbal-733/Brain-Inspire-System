@@ -2,9 +2,13 @@ import { useState, useMemo } from 'react';
 import { FaArrowRight, FaClock, FaSearch, FaFilter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import programsData from '../../data/programs.json';
 
 const Programs = () => {
+  const loading = useLoader();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
 
@@ -22,6 +26,8 @@ const Programs = () => {
       return matchesSearch && matchesType;
     });
   }, [searchQuery, selectedType]);
+
+  if (loading) return <Loader />;
 
   return (
     <>

@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import { FaGraduationCap, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
 
 const CareerGuidance = () => {
+  const loading = useLoader();
+
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -88,6 +92,8 @@ const CareerGuidance = () => {
   const inputClass =
     'w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-[#0F1E4A] placeholder-gray-400 focus:outline-none focus:border-[#38BDF8] focus:bg-white focus:ring-2 focus:ring-[#38BDF8]/20 transition-all duration-200';
   const labelClass = 'block text-sm font-bold text-[#0F1E4A] mb-2';
+
+  if (loading) return <Loader />;
 
   return (
     <>

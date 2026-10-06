@@ -11,9 +11,13 @@ import {
   FaExternalLinkAlt,
 } from 'react-icons/fa';
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import programsData from '../../data/programs.json';
 
 const ProgramDetails = () => {
+  const loading = useLoader();
+
   const { slug } = useParams();
   const navigate = useNavigate();
   const [selectedYear, setSelectedYear] = useState('2026');
@@ -27,6 +31,8 @@ const ProgramDetails = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [slug]);
+
+  if (loading) return <Loader />;
 
   if (!program) {
     return (

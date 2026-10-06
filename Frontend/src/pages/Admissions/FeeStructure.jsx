@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import PageHeader from '../../components/common/PageHeader';
+import Loader from '../../components/Loader';
+import useLoader from '../../hooks/useLoader';
 import { FaWallet, FaChevronDown, FaCheckCircle, FaClock, FaArrowLeft, FaSearch } from 'react-icons/fa';
 
 const FeeStructure = () => {
+  const loading = useLoader();
+
   const [searchParams] = useSearchParams();
   const [selectedYear, setSelectedYear] = useState('2026');
   const [selectedProgram, setSelectedProgram] = useState('');
@@ -53,6 +57,8 @@ const FeeStructure = () => {
   const totalFee = currentProgram
     ? (parseInt(currentProgram.monthly.replace(',', '')) * currentProgram.months).toLocaleString()
     : '0';
+
+  if (loading) return <Loader />;
 
   return (
     <>

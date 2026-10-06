@@ -1,9 +1,12 @@
 import MissionVission from '../../components/MissionVission';
 import PageHeader from '../../components/common/PageHeader';
-
+import Loader from '../../components/Loader';
 import { FaQuoteLeft, FaRocket } from 'react-icons/fa';
+import useLoader from '../../hooks/useLoader';
 
 const Overview = () => {
+  const loading = useLoader();
+
   const intro = [
     'BISE have been created and visioned by highly skilled interdisciplinary team each is expert in his or her own field. Together we craft curricula with integrated multimedia elements and didactic visuals nurturing with foundational concepts about different computing and language skills.',
     'Our project rests on passionate commitment to impart life-long skills to students. We take pride in equipping individuals with knowledge to survive in professional milieu as well as instilling in them sense of duty to the society.',
@@ -18,6 +21,8 @@ const Overview = () => {
     'Rank improving',
     'Nurture our project with latest modern technologies',
   ];
+
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -60,7 +65,7 @@ const Overview = () => {
           </div>
 
           <div className="mb-12 md:mb-16">
-           <MissionVission rounded />
+            <MissionVission rounded />
           </div>
 
           <div className="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 md:p-12 relative overflow-hidden shadow-sm">

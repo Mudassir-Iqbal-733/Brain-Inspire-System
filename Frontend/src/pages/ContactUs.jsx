@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -11,8 +10,12 @@ import {
   FaPaperPlane,
 } from 'react-icons/fa';
 import PageHeader from '../components/common/PageHeader';
+import Loader from '../components/Loader';
+import useLoader from '../hooks/useLoader';
 
 const Contact = () => {
+  const loading = useLoader();
+
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -32,6 +35,8 @@ const Contact = () => {
     setTimeout(() => setSubmitted(false), 4000);
     setForm({ name: '', email: '', phone: '', issue: '' });
   };
+
+  if (loading) return <Loader />;
 
   return (
     <>
