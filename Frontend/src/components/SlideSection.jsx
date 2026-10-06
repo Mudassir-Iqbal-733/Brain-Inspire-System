@@ -17,12 +17,11 @@ import Hero12 from '../assets/13.JPG.jpeg';
 const SlideSection = () => {
   const carouselRef = useRef(null);
   const [current, setCurrent] = useState(0);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   useEffect(() => {
     const timer = setInterval(() => {
       carouselRef.current?.next();
-    }, 3500);
+    }, 4000);
 
     return () => clearInterval(timer);
   }, []);
@@ -39,6 +38,7 @@ const SlideSection = () => {
         autoplay={false}
         dots={true}
         arrows={false}
+        speed={1200}
         afterChange={(index) => setCurrent(index)}
       >
         {images.map((img, index) => (
@@ -53,7 +53,7 @@ const SlideSection = () => {
                   backgroundPosition: 'center 20%',
                 }}
                 initial={{ scale: 1 }}
-                animate={isMobile ? { scale: 1 } : { scale: 1.15 }}
+                animate={{ scale: current === index ? 1.08 : 1 }}
                 transition={{ duration: 6, ease: 'easeOut' }}
               />
 
