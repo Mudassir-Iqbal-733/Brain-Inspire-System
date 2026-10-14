@@ -13,7 +13,15 @@ const Programs = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
 
-  const types = ['All', 'Certification', 'Diploma', 'Training'];
+  const types = ['All', 'Certification', 'Diploma'];
+
+  const getProgramType = (courseCode) => {
+    if (!courseCode) return 'Diploma';
+    const firstChar = courseCode.charAt(0).toUpperCase();
+    if (firstChar === 'C') return 'Certification';
+    if (firstChar === 'D') return 'Diploma';
+    return 'Diploma';
+  };
 
   const filteredPrograms = useMemo(() => {
     return programsData.filter((program) => {
@@ -21,7 +29,9 @@ const Programs = () => {
         program.course_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (program.course_code || '').toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesType = selectedType === 'All';
+      const programType = getProgramType(program.course_code);
+      const matchesType =
+        selectedType === 'All' || programType === selectedType;
 
       return matchesSearch && matchesType;
     });
@@ -97,9 +107,12 @@ const Programs = () => {
                 Showing <span className="font-bold text-[#0F1E4A]">{filteredPrograms.length}</span> program{filteredPrograms.length !== 1 ? 's' : ''}
               </p>
 
-              {searchQuery && (
+              {(searchQuery || selectedType !== 'All') && (
                 <button
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedType('All');
+                  }}
                   className="text-sm text-[#2563EB] font-semibold hover:text-[#38BDF8] transition-colors duration-200"
                 >
                   Clear Filters
@@ -117,10 +130,13 @@ const Programs = () => {
                 No Programs Found
               </h3>
               <p className="text-gray-600 text-sm md:text-base mb-6">
-                Try adjusting your search to find what you're looking for.
+                Try adjusting your search or filter to find what you're looking for.
               </p>
               <button
-                onClick={() => setSearchQuery('')}
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedType('All');
+                }}
                 className="inline-flex items-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-6 py-3 rounded-full font-bold text-sm hover:bg-[#2D2B6F] hover:text-white transition-all duration-300"
               >
                 Clear Filters

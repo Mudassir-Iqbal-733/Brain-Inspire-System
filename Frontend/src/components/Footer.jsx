@@ -20,6 +20,8 @@ const Footer = () => {
     { name: 'Contact', href: '/contact-us' },
   ];
 
+  const mapLink = 'https://www.google.com/maps/search/?api=1&query=Brain+Inspire+System+of+Education+Bahawalpur';
+
   return (
     <footer
       className="relative bg-cover bg-center text-white"
@@ -128,13 +130,13 @@ const Footer = () => {
                   <FaPhoneAlt className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
                   <div className="flex flex-col gap-0.5 sm:gap-1 text-left">
                     <a
-                      href="tel:03004506850"
+                      href="tel:+923004506850"
                       className="text-gray-300 text-[10px] sm:text-sm hover:text-[#38BDF8] transition-colors duration-300 whitespace-nowrap"
                     >
                       0300-4506850
                     </a>
                     <a
-                      href="tel:0622301240"
+                      href="tel:+92622301240"
                       className="text-gray-300 text-[10px] sm:text-sm hover:text-[#38BDF8] transition-colors duration-300 whitespace-nowrap"
                     >
                       062-2301240
@@ -154,9 +156,14 @@ const Footer = () => {
 
                 <li className="flex items-center gap-1.5 sm:gap-3">
                   <FaMapMarkerAlt className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
-                  <span className="text-gray-300 text-[10px] sm:text-sm leading-relaxed text-left">
+                  <a
+                    href={mapLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-gray-300 text-[10px] sm:text-sm leading-relaxed text-left hover:text-[#38BDF8] transition-colors duration-300"
+                  >
                     Bahawalpur, Punjab, Pakistan
-                  </span>
+                  </a>
                 </li>
               </ul>
             </div>

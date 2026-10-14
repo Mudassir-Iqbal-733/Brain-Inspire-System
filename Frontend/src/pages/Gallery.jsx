@@ -5,16 +5,44 @@ import Loader from '../components/Loader';
 import useLoader from '../hooks/useLoader';
 import SEO from '../components/SEO';
 
+import Classrooms1 from '../assets/Gallery/classroom-1.jpeg';
+import Classrooms2 from '../assets/Gallery/classroom-2.jpeg';
+import Classrooms3 from '../assets/Gallery/classroom-3.jpeg';
+import PrincipalOffice1 from '../assets/Gallery/principal-office.jpeg';
+
 const Gallery = () => {
   const loading = useLoader();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [lightboxImage, setLightboxImage] = useState(null);
 
-  const categories = ['All', 'Campus', 'Events', 'Classrooms', 'Students', 'Certificates'];
+  const categories = ['All', 'Classrooms', 'Principal Office', 'Campus', 'Events', 'Students', 'Certificates'];
 
-  // 🔽 FUTURE ME YAHAN IMAGES ADD KARO
-  // Abhi khali hai, jab images aayengi tab yahan daalna
-  const galleryItems = [];
+  const galleryItems = [
+    {
+      id: 1,
+      category: 'Classrooms',
+      title: 'Computer Lab',
+      image: Classrooms1,
+    },
+    {
+      id: 2,
+      category: 'Classrooms',
+      title: 'Main Classroom',
+      image: Classrooms2,
+    },
+    {
+      id: 3,
+      category: 'Classrooms',
+      title: 'Main Classroom',
+      image: Classrooms3,
+    },
+    {
+      id: 4,
+      category: 'Principal Office',
+      title: 'Meeting Room',
+      image: PrincipalOffice1,
+    },
+  ];
 
   const filteredItems =
     selectedCategory === 'All'
@@ -79,10 +107,10 @@ const Gallery = () => {
                 <FaCamera />
               </div>
               <h3 className="text-xl md:text-2xl font-bold text-[#0F1E4A] mb-2">
-                Gallery Coming Soon
+                No Photos Found
               </h3>
               <p className="text-gray-600 text-sm md:text-base">
-                Our photo gallery is being prepared. Please check back soon.
+                Try selecting a different category.
               </p>
             </div>
           ) : (
