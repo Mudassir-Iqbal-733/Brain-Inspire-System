@@ -24,6 +24,8 @@ const Navbar = () => {
       ],
     },
     { name: 'Programs', href: '/programs' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Blogs', href: '/blogs' },
     {
       name: 'Admissions',
       href: '/admissions/why-bise',

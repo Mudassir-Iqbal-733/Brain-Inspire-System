@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 
-const PageLoader = ({ children }) => {
+const PageLoader = ({ children, images = [] }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent('homeLoadingStatus', { detail: { loading } })
+    );
+  }, [loading]);
 
   if (loading) {
     return (

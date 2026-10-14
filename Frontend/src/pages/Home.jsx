@@ -19,6 +19,7 @@ import Hero9 from '../assets/9.JPG.jpeg';
 import Hero10 from '../assets/10.JPG.jpeg';
 import Hero11 from '../assets/12.jpeg';
 import Hero12 from '../assets/13.JPG.jpeg';
+import ProgramsVideo from '../components/ProgramsVideo';
 
 const Home = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -29,6 +30,8 @@ const Home = () => {
   ];
 
   useEffect(() => {
+    sessionStorage.setItem('homeLoading', 'true');
+
     let loadedCount = 0;
 
     images.forEach((src) => {
@@ -36,19 +39,31 @@ const Home = () => {
       img.src = src;
       img.onload = () => {
         loadedCount++;
-        if (loadedCount === images.length) setImagesLoaded(true);
+        if (loadedCount === images.length) {
+          setImagesLoaded(true);
+          sessionStorage.removeItem('homeLoading');
+        }
       };
       img.onerror = () => {
         loadedCount++;
-        if (loadedCount === images.length) setImagesLoaded(true);
+        if (loadedCount === images.length) {
+          setImagesLoaded(true);
+          sessionStorage.removeItem('homeLoading');
+        }
       };
     });
+
+    // Cleanup
+    return () => {
+      sessionStorage.removeItem('homeLoading');
+    };
   }, []);
 
-  if (!imagesLoaded) return <PageLoader />;
+  
 
   return (
     <>
+    <PageLoader delay={3000} >
       <SEO
         title="BISE - Brain Inspire System of Education"
         description="Brain Inspire System of Education — Professional courses in Bahawalpur"
@@ -60,7 +75,9 @@ const Home = () => {
       <CoreValues />
       <MissionVision />
       <ProgramsSection />
+      <ProgramsVideo />
       <TestimonialSection />
+      </PageLoader>
     </>
   );
 };

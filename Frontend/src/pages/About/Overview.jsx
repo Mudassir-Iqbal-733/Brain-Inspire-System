@@ -1,11 +1,17 @@
-import MissionVission from '../../components/MissionVission';
-import PageHeader from '../../components/common/PageHeader';
+import { useEffect, useState } from 'react';
 import Loader from '../../components/Loader';
+import PageHeader from '../../components/common/PageHeader';
+import SEO from '../../components/SEO';
+import MissionVission from '../../components/MissionVission';
 import { FaQuoteLeft, FaRocket } from 'react-icons/fa';
-import useLoader from '../../hooks/useLoader';
 
 const Overview = () => {
-  const loading = useLoader();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const intro = [
     'BISE have been created and visioned by highly skilled interdisciplinary team each is expert in his or her own field. Together we craft curricula with integrated multimedia elements and didactic visuals nurturing with foundational concepts about different computing and language skills.',
@@ -26,11 +32,12 @@ const Overview = () => {
 
   return (
     <>
-    <SEO
-        title="About Us"
-        description="Learn about Brain Inspire System of Education — our mission, vision, and commitment to quality technical education in Bahawalpur."
-        keywords="about Brain Inspire, BISE Bahawalpur, technical education, IT courses"
+      <SEO
+        title="Overview"
+        description="Overview of Brain Inspire System of Education — our story, mission, and journey."
+        keywords="overview, about BISE, Brain Inspire"
       />
+
       <PageHeader
         title="Overview"
         breadcrumbs={[

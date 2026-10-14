@@ -18,11 +18,10 @@ const Programs = () => {
   const filteredPrograms = useMemo(() => {
     return programsData.filter((program) => {
       const matchesSearch =
-        program.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (program.course_code || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (program.platform || '').toLowerCase().includes(searchQuery.toLowerCase());
+        program.course_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (program.course_code || '').toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesType = selectedType === 'All' || program.type === selectedType;
+      const matchesType = selectedType === 'All';
 
       return matchesSearch && matchesType;
     });
@@ -32,7 +31,7 @@ const Programs = () => {
 
   return (
     <>
-     <SEO
+      <SEO
         title="Our Programs"
         description="Explore 20+ industry-focused programs at Brain Inspire System of Education — AI, Web Development, Graphic Design, and more."
         keywords="programs, IT courses Bahawalpur, BISE programs, diploma courses"
@@ -70,7 +69,7 @@ const Programs = () => {
                 <FaSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-[#38BDF8] text-sm pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Search programs by name, code or platform..."
+                  placeholder="Search programs by name or code..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-3.5 rounded-full border border-gray-200 bg-white text-sm text-[#0F1E4A] placeholder-gray-400 focus:outline-none focus:border-[#38BDF8] focus:ring-2 focus:ring-[#38BDF8]/20 transition-all duration-200 shadow-sm"
@@ -98,12 +97,9 @@ const Programs = () => {
                 Showing <span className="font-bold text-[#0F1E4A]">{filteredPrograms.length}</span> program{filteredPrograms.length !== 1 ? 's' : ''}
               </p>
 
-              {(searchQuery || selectedType !== 'All') && (
+              {searchQuery && (
                 <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedType('All');
-                  }}
+                  onClick={() => setSearchQuery('')}
                   className="text-sm text-[#2563EB] font-semibold hover:text-[#38BDF8] transition-colors duration-200"
                 >
                   Clear Filters
@@ -121,13 +117,10 @@ const Programs = () => {
                 No Programs Found
               </h3>
               <p className="text-gray-600 text-sm md:text-base mb-6">
-                Try adjusting your search or filter to find what you're looking for.
+                Try adjusting your search to find what you're looking for.
               </p>
               <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedType('All');
-                }}
+                onClick={() => setSearchQuery('')}
                 className="inline-flex items-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-6 py-3 rounded-full font-bold text-sm hover:bg-[#2D2B6F] hover:text-white transition-all duration-300"
               >
                 Clear Filters
@@ -135,16 +128,16 @@ const Programs = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
-              {filteredPrograms.map((program) => (
+              {filteredPrograms.map((program, index) => (
                 <Link
-                  key={program.id}
-                  to={`/programs/${program.course_code || program.id}`}
+                  key={index}
+                  to={`/programs/${program.course_code || index}`}
                   className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#38BDF8]/10 flex flex-col"
                 >
                   <div className="relative h-52 overflow-hidden">
                     <img
                       src={program.image}
-                      alt={program.title}
+                      alt={program.course_name}
                       loading="lazy"
                       className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                     />
@@ -159,40 +152,26 @@ const Programs = () => {
                       )}
                     </div>
 
-                    <div className="absolute top-4 right-4">
-                      <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-white bg-white/20 backdrop-blur-md border border-white/25 px-3 py-1.5 rounded-full">
-                        {program.type}
-                      </span>
-                    </div>
-
                     <div className="absolute bottom-4 left-4 right-4">
                       <h3 className="text-lg font-bold text-white leading-snug drop-shadow-lg">
-                        {program.title}
+                        {program.course_name}
                       </h3>
                     </div>
                   </div>
 
                   <div className="p-5 flex flex-col flex-1">
                     <div className="flex items-center gap-2 mb-3 flex-wrap">
-                      {program.duration_months && (
+                      {program.course_duration && (
                         <span className="flex items-center gap-1.5 text-[#2563EB] bg-[#38BDF8]/10 px-2.5 py-1 rounded-full text-xs font-semibold">
                           <FaClock className="text-[10px]" />
-                          {program.duration_months} Months
-                        </span>
-                      )}
-
-                      {program.platform && (
-                        <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#2563EB] bg-gray-100 px-2.5 py-1 rounded-full">
-                          {program.platform}
+                          {program.course_duration}
                         </span>
                       )}
                     </div>
 
                     <p className="text-gray-600 text-sm leading-relaxed mb-5 flex-1 line-clamp-3">
-                      {program.course_contents
-                        ? `${program.course_contents.slice(0, 3).join(', ')}, and more.`
-                        : program.modules
-                        ? `${program.modules.length} comprehensive modules covering all aspects.`
+                      {program.course_content
+                        ? `${program.course_content.slice(0, 3).join(', ')}, and more.`
                         : 'Comprehensive industry-focused training program.'}
                     </p>
 

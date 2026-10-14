@@ -7,7 +7,7 @@ import DirectorMessagePage from "./pages/About/DirectorMessagePage"
 import ManagingDirectorMessage from "./pages/About/ManagingDirectorMessage"
 import PrincelyState from "./pages/About/PrincelyState"
 import ContactUs from "./pages/ContactUs"
-import CareerGuidance from "./pages/Admissions/CareerGuidance"
+import CareerGuidance from "./pages/Admissions/AdmissionProcedure"
 import NotFound from "./components/NotFound"
 import WhyBise from "./pages/Admissions/WhyBise"
 import FeeStructure from "./pages/Admissions/FeeStructure"
@@ -16,6 +16,11 @@ import Programs from "./pages/Programs/Programs"
 import ProgramDetails from "./pages/Programs/ProgramDetails"
 import ScrollToTop from "./components/ScrollToTop"
 import { HelmetProvider } from "react-helmet-async"
+import WhatsAppButton from "./components/WhatsAppButton"
+import Gallery from "./pages/Gallery"
+import Blog from "./pages/Blogs/Blogs"
+import AdmissionProcedure from "./pages/Admissions/AdmissionProcedure"
+import AdmissionForm from "./pages/Admissions/AdmissionForm"
 
 
 
@@ -37,11 +42,15 @@ const App = () => {
 <Route path="/programs/:slug" element={<ProgramDetails />} />
 
      <Route path="/admissions/why-bise" element={<WhyBise />} />
-     <Route path="/admissions/apply-online" element={<CareerGuidance />} />
+     <Route path="/admissions/apply-online" element={<AdmissionProcedure />} />
+     <Route path="/admissions/admission-form" element={<AdmissionForm />} />
      <Route path="/admissions/fee-structure" element={<FeeStructure />} />
      <Route path="/admissions/rules-regulations" element={<RulesAndRegulations />} />
-
+     
+     <Route path="/gallery" element={<Gallery/>} />
+     <Route path="/blogs" element={<Blog/>} />
      <Route path="/contact-us" element={<ContactUs />} />
+
      
 
      <Route path="*" element={<NotFound />} />
@@ -49,7 +58,9 @@ const App = () => {
     </Routes>
 
     <Footer />
+
     </HelmetProvider>
+    <WhatsAppButton />
     </>
   )
 }

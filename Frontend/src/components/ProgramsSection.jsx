@@ -35,16 +35,16 @@ const ProgramsSection = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7">
-          {programs.map((program) => (
+          {programs.map((program, index) => (
             <Link
-              key={program.id}
-              to={`/programs/${program.course_code || program.id}`}
+              key={index}
+              to={`/programs/${program.course_code || index}`}
               className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#38BDF8]/10 flex flex-col"
             >
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={program.image}
-                  alt={program.title}
+                  alt={program.course_name}
                   loading="lazy"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                 />
@@ -61,30 +61,30 @@ const ProgramsSection = () => {
 
                 <div className="absolute bottom-4 left-4 right-4">
                   <h3 className="text-lg font-bold text-white leading-snug drop-shadow-lg">
-                    {program.title}
+                    {program.course_name}
                   </h3>
                 </div>
               </div>
 
               <div className="p-5 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-3 flex-wrap">
-                  {program.duration_months && (
+                  {program.course_duration && (
                     <span className="flex items-center gap-1.5 text-[#2563EB] bg-[#38BDF8]/10 px-2.5 py-1 rounded-full text-xs font-semibold">
                       <FaClock className="text-[10px]" />
-                      {program.duration_months} Months
+                      {program.course_duration}
                     </span>
                   )}
 
-                  <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#2563EB] bg-gray-100 px-2.5 py-1 rounded-full">
-                    {program.type}
-                  </span>
+                  {program.course_code && (
+                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#2563EB] bg-gray-100 px-2.5 py-1 rounded-full">
+                      {program.course_code}
+                    </span>
+                  )}
                 </div>
 
                 <p className="text-gray-600 text-sm leading-relaxed mb-5 flex-1 line-clamp-3">
-                  {program.course_contents
-                    ? `${program.course_contents.slice(0, 3).join(', ')}, and more.`
-                    : program.modules
-                    ? `${program.modules.length} comprehensive modules covering all aspects.`
+                  {program.course_content
+                    ? `${program.course_content.slice(0, 3).join(', ')}, and more.`
                     : 'Comprehensive industry-focused training program.'}
                 </p>
 

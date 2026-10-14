@@ -5,69 +5,34 @@ import Loader from '../../components/Loader';
 import useLoader from '../../hooks/useLoader';
 import { FaWallet, FaChevronDown, FaCheckCircle, FaClock, FaArrowLeft, FaSearch } from 'react-icons/fa';
 import SEO from '../../components/SEO';
+import programsData from '../../data/programs.json';
 
 const FeeStructure = () => {
   const loading = useLoader();
 
   const [searchParams] = useSearchParams();
-  const [selectedYear, setSelectedYear] = useState('2026');
-  const [selectedProgram, setSelectedProgram] = useState('');
-
-  const years = ['2026', '2025'];
-
-  const programsData = {
-    'ai-automation': { name: 'AI Automation', code: 'D-AIA', duration: '6 Months', months: 6, monthly: '5,000' },
-    'freelancing': { name: 'Certification of Freelancing', code: 'C-FL', duration: '3 Months', months: 3, monthly: '5,000' },
-    'advance-english': { name: 'Diploma of Advance English', code: 'D-AE', duration: '6 Months', months: 6, monthly: '5,000' },
-    'certified-accounting': { name: 'Certificate of Computerized Accounting', code: 'C-CA', duration: '4 Months', months: 4, monthly: '5,000' },
-    'diploma-accounting': { name: 'Diploma in Computerized Accounting', code: 'D-CA', duration: '6 Months', months: 6, monthly: '5,000' },
-    'basic-english': { name: 'Certification of Basic English Language', code: 'CB-EL', duration: '3 Months', months: 3, monthly: '5,000' },
-    'shopify': { name: 'Diploma in Mastering Shopify Training', code: 'DM-ST', duration: '5 Months', months: 5, monthly: '5,000' },
-    'daraz': { name: 'Daraz Seller Ecommerce Training', code: 'DS-ET', duration: '3 Months', months: 3, monthly: '5,000' },
-    'certified-english': { name: 'Certification in Advance English', code: 'CA-EL', duration: '4 Months', months: 4, monthly: '5,000' },
-    'computer-architecture': { name: 'Diploma in Computer Architecture Designing', code: 'D-CAD', duration: '6 Months', months: 6, monthly: '5,000' },
-    'video-editing': { name: 'Diploma in Video Editing', code: 'D-VE', duration: '4 Months', months: 4, monthly: '5,000' },
-    'graphic-designing': { name: 'Diploma in Graphic Designing', code: 'D-GD', duration: '5 Months', months: 5, monthly: '5,000' },
-    'seo': { name: 'Advance SEO Training', code: 'A-SEO', duration: '3 Months', months: 3, monthly: '5,000' },
-    'wordpress': { name: 'WordPress Development', code: 'D-WP', duration: '4 Months', months: 4, monthly: '5,000' },
-    'web-technology': { name: 'Web Technology', code: 'C-WT', duration: '5 Months', months: 5, monthly: '5,000' },
-    'office-com': { name: 'Office Management (COM)', code: 'COM', duration: '3 Months', months: 3, monthly: '5,000' },
-    'office-dom': { name: 'Office Management (DOM)', code: 'DOM', duration: '6 Months', months: 6, monthly: '5,000' },
-    'web-designing': { name: 'Web Designing', code: 'C-WD', duration: '4 Months', months: 4, monthly: '5,000' },
-    'web-development': { name: 'Web Development', code: 'D-WD', duration: '6 Months', months: 6, monthly: '5,000' },
-    'c-programming': { name: 'C Programming', code: 'C-CP', duration: '3 Months', months: 3, monthly: '5,000' },
-    'python': { name: 'Python Programming', code: 'D-PP', duration: '4 Months', months: 4, monthly: '5,000' },
-    'ui-ux': { name: 'Advance UI/UX Training', code: 'A-UX', duration: '5 Months', months: 5, monthly: '5,000' },
-  };
+  const [selectedProgramCode, setSelectedProgramCode] = useState('');
 
   useEffect(() => {
-    const yearParam = searchParams.get('year');
     const programParam = searchParams.get('program');
-
-    if (yearParam && years.includes(yearParam)) {
-      setSelectedYear(yearParam);
-    }
-
     if (programParam) {
-      setSelectedProgram(programParam);
+      setSelectedProgramCode(programParam);
     }
   }, [searchParams]);
 
-  const currentProgram = selectedProgram ? programsData[selectedProgram] : null;
-
-  const totalFee = currentProgram
-    ? (parseInt(currentProgram.monthly.replace(',', '')) * currentProgram.months).toLocaleString()
-    : '0';
+  const currentProgram = programsData.find(
+    (p) => p.course_code === selectedProgramCode
+  );
 
   if (loading) return <Loader />;
 
   return (
     <>
-    <SEO
-  title="Fee Structure"
-  description="View complete fee structure for all programs at Brain Inspire System of Education."
-  keywords="fee structure, BISE fees, course fees Bahawalpur"
-/>
+      <SEO
+        title="Fee Structure"
+        description="View complete fee structure for all programs at Brain Inspire System of Education."
+        keywords="fee structure, BISE fees, course fees Bahawalpur"
+      />
       <PageHeader
         title="Fee Structure"
         breadcrumbs={[
@@ -96,35 +61,17 @@ const FeeStructure = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-8 md:mb-12">
-            <div className="relative">
+          <div className="flex justify-center mb-8 md:mb-12">
+            <div className="relative w-full max-w-md">
               <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                className="appearance-none bg-[#2D2B6F] text-white font-bold text-sm sm:text-base pl-6 pr-14 py-3.5 sm:py-4 rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 shadow-lg shadow-[#2D2B6F]/20 hover:bg-[#1E3A8A] transition-colors duration-300"
-              >
-                {years.map((year) => (
-                  <option key={year} value={year} className="bg-white text-[#0F1E4A]">
-                    Year {year}
-                  </option>
-                ))}
-              </select>
-
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#38BDF8]">
-                <FaChevronDown />
-              </div>
-            </div>
-
-            <div className="relative">
-              <select
-                value={selectedProgram}
-                onChange={(e) => setSelectedProgram(e.target.value)}
-                className="appearance-none bg-white text-[#0F1E4A] font-bold text-sm sm:text-base pl-6 pr-14 py-3.5 sm:py-4 rounded-full cursor-pointer border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 shadow-lg hover:border-[#38BDF8] transition-colors duration-300 min-w-260px sm:min-w-300px"
+                value={selectedProgramCode}
+                onChange={(e) => setSelectedProgramCode(e.target.value)}
+                className="appearance-none w-full bg-white text-[#0F1E4A] font-bold text-sm sm:text-base pl-6 pr-14 py-3.5 sm:py-4 rounded-full cursor-pointer border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 shadow-lg hover:border-[#38BDF8] transition-colors duration-300"
               >
                 <option value="">-- Select a Program --</option>
-                {Object.entries(programsData).map(([slug, program]) => (
-                  <option key={slug} value={slug}>
-                    {program.name}
+                {programsData.map((program, index) => (
+                  <option key={index} value={program.course_code}>
+                    {program.course_name}
                   </option>
                 ))}
               </select>
@@ -166,79 +113,50 @@ const FeeStructure = () => {
                 <div className="relative">
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
                     <div>
-                      <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-md mb-4">
-                        {currentProgram.code}
-                      </span>
+                      {currentProgram.course_code && (
+                        <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-md mb-4">
+                          {currentProgram.course_code}
+                        </span>
+                      )}
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-2">
-                        {currentProgram.name}
+                        {currentProgram.course_name}
                       </h3>
                       <p className="text-gray-300 text-sm md:text-base">
                         Complete fee structure and duration details
                       </p>
                     </div>
 
-                    <div className="shrink-0">
-                      <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-6 py-4 text-center">
-                        <p className="text-[#38BDF8] text-xs font-bold tracking-wider uppercase mb-1">
-                          Monthly Fee
-                        </p>
-                        <p className="text-white text-3xl sm:text-4xl font-black">
-                          Rs. {currentProgram.monthly}
-                        </p>
+                    {currentProgram.fees_structure?.total_fee != null && (
+                      <div className="shrink-0">
+                        <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-6 py-4 text-center">
+                          <p className="text-[#38BDF8] text-xs font-bold tracking-wider uppercase mb-1">
+                            Total Fee
+                          </p>
+                          <p className="text-white text-3xl sm:text-4xl font-black">
+                            Rs. {currentProgram.fees_structure.total_fee.toLocaleString()}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
-                      <div className="flex items-center gap-3 mb-3">
+                  {currentProgram.course_duration && (
+                    <div className="mb-8">
+                      <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
                         <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] text-lg">
                           <FaClock />
                         </div>
-                        <p className="text-gray-300 text-xs font-semibold uppercase tracking-wider">
-                          Duration
-                        </p>
-                      </div>
-                      <p className="text-white text-2xl font-bold">
-                        {currentProgram.months}{' '}
-                        <span className="text-base font-medium text-gray-300">
-                          Months
-                        </span>
-                      </p>
-                    </div>
-
-                    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] text-lg">
-                          <FaWallet />
+                        <div>
+                          <p className="text-gray-300 text-xs font-semibold uppercase tracking-wider">
+                            Duration
+                          </p>
+                          <p className="text-white text-xl font-bold">
+                            {currentProgram.course_duration}
+                          </p>
                         </div>
-                        <p className="text-gray-300 text-xs font-semibold uppercase tracking-wider">
-                          Monthly
-                        </p>
                       </div>
-                      <p className="text-white text-2xl font-bold">
-                        Rs.{' '}
-                        <span className="text-base font-medium text-gray-300">
-                          {currentProgram.monthly}
-                        </span>
-                      </p>
                     </div>
-
-                    <div className="bg-[#38BDF8] rounded-2xl p-5 shadow-lg shadow-[#38BDF8]/25">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#0F1E4A]/15 text-[#0F1E4A] text-lg">
-                          <FaWallet />
-                        </div>
-                        <p className="text-[#0F1E4A] text-xs font-bold uppercase tracking-wider">
-                          Total Fee
-                        </p>
-                      </div>
-                      <p className="text-[#0F1E4A] text-2xl font-black">
-                        Rs.{' '}
-                        <span className="text-base font-bold">{totalFee}</span>
-                      </p>
-                    </div>
-                  </div>
+                  )}
 
                   <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 sm:p-6 mb-6">
                     <h4 className="text-white font-bold text-base mb-4">
@@ -246,22 +164,51 @@ const FeeStructure = () => {
                     </h4>
 
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
-                        <span className="text-gray-300 text-sm">Monthly Fee</span>
-                        <span className="text-white font-semibold text-sm">
-                          Rs. {currentProgram.monthly}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
-                        <span className="text-gray-300 text-sm">Duration</span>
-                        <span className="text-white font-semibold text-sm">
-                          {currentProgram.months} Months
-                        </span>
-                      </div>
+                      {currentProgram.fees_structure?.registration_fee != null && (
+                        <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm">Registration Fee</span>
+                          <span className="text-white font-semibold text-sm">
+                            Rs. {currentProgram.fees_structure.registration_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
+                      {currentProgram.fees_structure?.misc_fee != null && (
+                        <div className="flex items-start justify-between gap-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm leading-tight">
+                            Misc. Fee
+                            <span className="block text-gray-400 text-xs mt-0.5">
+                              (Electricity, UPS & Photocopy)
+                            </span>
+                          </span>
+                          <span className="text-white font-semibold text-sm whitespace-nowrap">
+                            Rs. {currentProgram.fees_structure.misc_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
+                      {currentProgram.fees_structure?.course_fee != null && (
+                        <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm">Course Fee</span>
+                          <span className="text-white font-semibold text-sm">
+                            Rs. {currentProgram.fees_structure.course_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
+                      {currentProgram.fees_structure?.certificate_fee != null && (
+                        <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm">Certificate Fee</span>
+                          <span className="text-white font-semibold text-sm">
+                            Rs. {currentProgram.fees_structure.certificate_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
                       <div className="flex items-center justify-between gap-3">
-                        <span className="text-gray-300 text-sm">Total Fee</span>
+                        <span className="text-gray-300 text-sm font-bold">Total Fee</span>
                         <span className="text-[#38BDF8] font-bold text-base">
-                          Rs. {totalFee}
+                          Rs. {currentProgram.fees_structure?.total_fee?.toLocaleString() || '—'}
                         </span>
                       </div>
                     </div>
@@ -287,11 +234,11 @@ const FeeStructure = () => {
                       Apply Online
                     </Link>
                     <Link
-                      to="/programs"
+                      to={`/programs/${currentProgram.course_code}`}
                       className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/15 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 hover:border-[#38BDF8]/50 transition-all duration-300"
                     >
                       <FaArrowLeft className="text-xs" />
-                      Back to Programs
+                      View Program Details
                     </Link>
                   </div>
                 </div>
@@ -309,8 +256,8 @@ const FeeStructure = () => {
                   Affordable Fees
                 </h4>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  All programs at just Rs. 5,000 per month — quality education
-                  within your budget.
+                  Quality education within your budget — flexible fee structures
+                  for every program.
                 </p>
               </div>
 
@@ -322,8 +269,8 @@ const FeeStructure = () => {
                   Flexible Duration
                 </h4>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Choose from 3 to 6-month programs based on your goals and
-                  availability.
+                  Choose from different program durations based on your goals
+                  and availability.
                 </p>
               </div>
 
@@ -335,7 +282,7 @@ const FeeStructure = () => {
                   No Hidden Charges
                 </h4>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  Transparent fee structure — no registration, no extra costs.
+                  Transparent fee structure — no hidden charges or extra costs.
                 </p>
               </div>
             </div>

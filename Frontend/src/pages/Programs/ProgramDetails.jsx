@@ -7,7 +7,6 @@ import {
   FaWallet,
   FaCheckCircle,
   FaGraduationCap,
-  FaChevronDown,
   FaExternalLinkAlt,
 } from 'react-icons/fa';
 import PageHeader from '../../components/common/PageHeader';
@@ -21,13 +20,8 @@ const ProgramDetails = () => {
 
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [selectedYear, setSelectedYear] = useState('2026');
 
-  const years = ['2026', '2025'];
-
-  const program = programsData.find(
-    (p) => p.course_code === slug || String(p.id) === slug
-  );
+  const program = programsData.find((p) => p.course_code === slug);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -38,7 +32,7 @@ const ProgramDetails = () => {
   if (!program) {
     return (
       <>
-      <SEO
+        <SEO
           title="Program Not Found"
           description="The program you're looking for doesn't exist at Brain Inspire."
           keywords="not found, program"
@@ -52,7 +46,7 @@ const ProgramDetails = () => {
         />
 
         <section className="bg-white py-16 md:py-24 overflow-hidden">
-          <div className="max-w-2xl mx-auto  sm:px-6 lg:px-8 text-center py-16 px-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl">
+          <div className="max-w-2xl mx-auto sm:px-6 lg:px-8 text-center py-16 px-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] text-3xl mb-4">
               <FaGraduationCap />
             </div>
@@ -75,32 +69,32 @@ const ProgramDetails = () => {
     );
   }
 
-  const monthlyFee = program.fees?.[selectedYear]?.monthly_fee || 0;
-  const totalFee = program.fees?.[selectedYear]?.total_fee || 0;
-  const courseContents = program.modules
-    ? program.modules.flatMap((m) => m.course_contents)
-    : program.course_contents || [];
+  const courseContents = program.course_content || [];
 
   const relatedPrograms = programsData
-    .filter((p) => p.id !== program.id && p.type === program.type)
+    .filter(
+      (p) =>
+        p.course_code !== program.course_code &&
+        p.course_name !== program.course_name
+    )
     .slice(0, 3);
 
   const handleApply = () => {
-    navigate(`/admissions/apply-online?program=${program.course_code || program.id}`);
+    navigate(`/admissions/apply-online?program=${program.course_code || ''}`);
   };
 
   return (
     <>
-    <SEO
-        title={program.title}
-        description={`Enroll in ${program.title} at Brain Inspire System of Education. ${program.duration_months || ''} ${program.type || ''} course.`}
-        keywords={`${program.title}, ${program.type}, ${program.course_code}, BISE courses`}
+      <SEO
+        title={program.course_name}
+        description={`Enroll in ${program.course_name} at Brain Inspire System of Education. ${program.course_duration || ''} course.`}
+        keywords={`${program.course_name}, ${program.course_code}, BISE courses`}
       />
       <PageHeader
-        title={program.title}
+        title={program.course_name}
         breadcrumbs={[
           { label: 'Programs', href: '/programs' },
-          { label: program.title },
+          { label: program.course_name },
         ]}
       />
 
@@ -119,47 +113,39 @@ const ProgramDetails = () => {
               <div className="relative rounded-3xl overflow-hidden h-64 sm:h-80 md:h-96 mb-8">
                 <img
                   src={program.image}
-                  alt={program.title}
+                  alt={program.course_name}
                   className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#0F1E4A] via-[#0F1E4A]/30 to-transparent"></div>
 
-                <div className="absolute top-5 left-5 flex flex-wrap gap-2">
-                  {program.course_code && (
+                {program.course_code && (
+                  <div className="absolute top-5 left-5 flex flex-wrap gap-2">
                     <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full shadow-lg">
                       {program.course_code}
                     </span>
-                  )}
-                  <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-white bg-white/20 backdrop-blur-md border border-white/25 px-3 py-1.5 rounded-full">
-                    {program.type}
-                  </span>
-                </div>
+                  </div>
+                )}
               </div>
 
               <div className="mb-8">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F1E4A] leading-tight mb-4">
-                  {program.title}
+                  {program.course_name}
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  {program.duration_months && (
+                  {program.course_duration && (
                     <span className="flex items-center gap-2 bg-[#38BDF8]/10 text-[#2563EB] px-4 py-2 rounded-full text-sm font-semibold">
                       <FaClock className="text-xs" />
-                      {program.duration_months} Months
+                      {program.course_duration}
                     </span>
                   )}
 
-                  {program.platform && (
+                  {program.course_code && (
                     <span className="flex items-center gap-2 bg-gray-100 text-[#0F1E4A] px-4 py-2 rounded-full text-sm font-semibold">
-                      <FaExternalLinkAlt className="text-xs" />
-                      {program.platform}
+                      <FaGraduationCap className="text-xs" />
+                      {program.course_code}
                     </span>
                   )}
-
-                  <span className="flex items-center gap-2 bg-gray-100 text-[#0F1E4A] px-4 py-2 rounded-full text-sm font-semibold">
-                    <FaGraduationCap className="text-xs" />
-                    {program.type}
-                  </span>
                 </div>
               </div>
 
@@ -169,38 +155,16 @@ const ProgramDetails = () => {
                   Course Contents
                 </h2>
 
-                {program.modules ? (
-                  <div className="space-y-6">
-                    {program.modules.map((module) => (
-                      <div key={module.module}>
-                        <p className="text-[#2563EB] text-xs font-bold uppercase tracking-wider mb-3">
-                          Module {module.module}
-                        </p>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {module.course_contents.map((content, i) => (
-                            <li key={i} className="flex gap-3 items-start">
-                              <FaCheckCircle className="text-[#38BDF8] text-sm mt-0.5 shrink-0" />
-                              <span className="text-gray-700 text-sm leading-relaxed">
-                                {content}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {courseContents.map((content, i) => (
-                      <li key={i} className="flex gap-3 items-start">
-                        <FaCheckCircle className="text-[#38BDF8] text-sm mt-0.5 shrink-0" />
-                        <span className="text-gray-700 text-sm leading-relaxed">
-                          {content}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {courseContents.map((content, i) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <FaCheckCircle className="text-[#38BDF8] text-sm mt-0.5 shrink-0" />
+                      <span className="text-gray-700 text-sm leading-relaxed">
+                        {content}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8">
@@ -246,46 +210,52 @@ const ProgramDetails = () => {
                       Course Fee Details
                     </h3>
 
-                    <div className="mb-5">
-                      <label className="block text-gray-300 text-xs font-semibold uppercase tracking-wider mb-2">
-                        Select Year
-                      </label>
-                      <div className="relative">
-                        <select
-                          value={selectedYear}
-                          onChange={(e) => setSelectedYear(e.target.value)}
-                          className="appearance-none w-full bg-white/10 text-white font-bold text-sm pl-4 pr-10 py-3 rounded-xl cursor-pointer border border-white/15 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 hover:bg-white/15 transition-colors duration-300"
-                        >
-                          {years.map((year) => (
-                            <option key={year} value={year} className="bg-white text-[#0F1E4A]">
-                              Year {year}
-                            </option>
-                          ))}
-                        </select>
-
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#38BDF8]">
-                          <FaChevronDown className="text-xs" />
-                        </div>
-                      </div>
-                    </div>
-
                     <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 mb-4">
-                      <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
-                        <span className="text-gray-300 text-sm">Monthly Fee</span>
-                        <span className="text-white font-bold text-sm">
-                          Rs. {monthlyFee.toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
-                        <span className="text-gray-300 text-sm">Duration</span>
-                        <span className="text-white font-bold text-sm">
-                          {program.duration_months || 'N/A'} Months
-                        </span>
-                      </div>
+                      {program.fees_structure?.registration_fee != null && (
+                        <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm">Registration Fee</span>
+                          <span className="text-white font-bold text-sm">
+                            Rs. {program.fees_structure.registration_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
+                      {program.fees_structure?.misc_fee != null && (
+                        <div className="flex items-start justify-between gap-3 mb-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm leading-tight">
+                            Misc. Fee
+                            <span className="block text-gray-400 text-xs mt-0.5">
+                              (Electricity, UPS & Photocopy)
+                            </span>
+                          </span>
+                          <span className="text-white font-bold text-sm whitespace-nowrap">
+                            Rs. {program.fees_structure.misc_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
+                      {program.fees_structure?.course_fee != null && (
+                        <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm">Course Fee</span>
+                          <span className="text-white font-bold text-sm">
+                            Rs. {program.fees_structure.course_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
+                      {program.fees_structure?.certificate_fee != null && (
+                        <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
+                          <span className="text-gray-300 text-sm">Certificate Fee</span>
+                          <span className="text-white font-bold text-sm">
+                            Rs. {program.fees_structure.certificate_fee.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+
                       <div className="flex items-center justify-between gap-3">
-                        <span className="text-gray-300 text-sm">Total Fee</span>
+                        <span className="text-gray-300 text-sm font-bold">Total Fee</span>
                         <span className="text-[#38BDF8] font-bold text-base">
-                          Rs. {totalFee.toLocaleString()}
+                          Rs. {program.fees_structure?.total_fee?.toLocaleString() || '—'}
                         </span>
                       </div>
                     </div>
@@ -299,7 +269,7 @@ const ProgramDetails = () => {
                     </button>
 
                     <Link
-                      to={`/admissions/fee-structure?program=${program.course_code || program.id}`}
+                      to={`/admissions/fee-structure?program=${program.course_code || ''}`}
                       className="w-full inline-flex items-center justify-center gap-2 bg-white/10 border border-white/15 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 hover:border-[#38BDF8]/50 transition-all duration-300"
                     >
                       <FaWallet className="text-xs" />
@@ -319,32 +289,22 @@ const ProgramDetails = () => {
                         <FaGraduationCap />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Type</p>
-                        <p className="text-[#0F1E4A] font-bold text-sm">{program.type}</p>
-                      </div>
-                    </li>
-
-                    <li className="flex items-start gap-3">
-                      <div className="shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#2563EB] text-sm">
-                        <FaClock />
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-500 font-medium">Duration</p>
+                        <p className="text-xs text-gray-500 font-medium">Code</p>
                         <p className="text-[#0F1E4A] font-bold text-sm">
-                          {program.duration_months || 'N/A'} Months
+                          {program.course_code}
                         </p>
                       </div>
                     </li>
 
-                    {program.platform && (
+                    {program.course_duration && (
                       <li className="flex items-start gap-3">
                         <div className="shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#2563EB] text-sm">
-                          <FaExternalLinkAlt />
+                          <FaClock />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 font-medium">Platform</p>
+                          <p className="text-xs text-gray-500 font-medium">Duration</p>
                           <p className="text-[#0F1E4A] font-bold text-sm">
-                            {program.platform}
+                            {program.course_duration}
                           </p>
                         </div>
                       </li>
@@ -382,38 +342,40 @@ const ProgramDetails = () => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
-                {relatedPrograms.map((related) => (
+                {relatedPrograms.map((related, index) => (
                   <Link
-                    key={related.id}
-                    to={`/programs/${related.course_code || related.id}`}
+                    key={index}
+                    to={`/programs/${related.course_code || ''}`}
                     className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#38BDF8]/10 flex flex-col"
                   >
                     <div className="relative h-44 overflow-hidden">
                       <img
                         src={related.image}
-                        alt={related.title}
+                        alt={related.course_name}
                         loading="lazy"
                         className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-linear-to-t from-[#0F1E4A] via-[#0F1E4A]/30 to-transparent opacity-90"></div>
 
-                      <div className="absolute top-4 left-4">
-                        <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full">
-                          {related.type}
-                        </span>
-                      </div>
+                      {related.course_code && (
+                        <div className="absolute top-4 left-4">
+                          <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full">
+                            {related.course_code}
+                          </span>
+                        </div>
+                      )}
 
                       <div className="absolute bottom-3 left-4 right-4">
                         <h3 className="text-base font-bold text-white leading-snug drop-shadow-lg line-clamp-2">
-                          {related.title}
+                          {related.course_name}
                         </h3>
                       </div>
                     </div>
 
                     <div className="p-4 flex items-center justify-between gap-2">
                       <span className="text-[#2563EB] text-xs font-bold">
-                        {related.duration_months
-                          ? `${related.duration_months} Months`
+                        {related.course_duration
+                          ? related.course_duration
                           : 'View Details'}
                       </span>
                       <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0F1E4A] text-white transition-all duration-300 group-hover:bg-[#38BDF8] group-hover:text-[#0F1E4A] group-hover:translate-x-1">

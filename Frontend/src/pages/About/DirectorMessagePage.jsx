@@ -1,6 +1,7 @@
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
 import useLoader from '../../hooks/useLoader';
+import SEO from '../../components/SEO';
 import DirectorMessage from '../../components/DirectorMessage';
 
 const DirectorMessagePage = () => {
@@ -10,11 +11,12 @@ const DirectorMessagePage = () => {
 
   return (
     <>
-    <SEO
-  title="Director Message"
-  description="Message from the Director of Brain Inspire System of Education."
-  keywords="director message, BISE"
-/>
+      <SEO
+        title="Director Message"
+        description="Message from the Director of Brain Inspire System of Education."
+        keywords="director message, BISE"
+      />
+
       <PageHeader
         title="Director Message"
         breadcrumbs={[
