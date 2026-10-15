@@ -102,7 +102,7 @@ const Programs = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-4 mt-5 flex-wrap">
+            <div className="flex items-center justify-center gap-4 mt-5 flex-wrap">
               <p className="text-sm text-gray-500">
                 Showing <span className="font-bold text-[#0F1E4A]">{filteredPrograms.length}</span> program{filteredPrograms.length !== 1 ? 's' : ''}
               </p>

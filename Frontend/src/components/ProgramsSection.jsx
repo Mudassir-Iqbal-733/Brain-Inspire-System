@@ -11,24 +11,24 @@ const ProgramsSection = () => {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2563EB]/5 rounded-full blur-3xl"></div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-12 h-px bg-[#38BDF8]"></span>
-              <span className="text-[#2563EB] text-xs font-bold tracking-[0.2em] uppercase">
-                Our Programs
-              </span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#0F1E4A] leading-[1.1]">
-              Programs We{' '}
-              <span className="text-[#38BDF8] relative">
-                Offer
-                <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#38BDF8]/40 rounded-full"></span>
-              </span>
-            </h2>
+        <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="w-12 h-px bg-[#38BDF8]"></span>
+            <span className="text-[#2563EB] text-xs font-bold tracking-[0.2em] uppercase">
+              Our Programs
+            </span>
+            <span className="w-12 h-px bg-[#38BDF8]"></span>
           </div>
 
-          <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-md md:text-right">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#0F1E4A] leading-[1.1] mb-4">
+            Programs We{' '}
+            <span className="text-[#38BDF8] relative">
+              Offer
+              <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#38BDF8]/40 rounded-full"></span>
+            </span>
+          </h2>
+
+          <p className="text-gray-600 text-sm md:text-base leading-relaxed">
             Industry-focused programs designed to build real skills and open
             real career doors for every student.
           </p>
