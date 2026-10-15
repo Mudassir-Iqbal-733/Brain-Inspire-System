@@ -21,6 +21,7 @@ import Gallery from "./pages/Gallery"
 import Blog from "./pages/Blogs/Blogs"
 import AdmissionProcedure from "./pages/Admissions/AdmissionProcedure"
 import AdmissionForm from "./pages/Admissions/AdmissionForm"
+import TopBar from "./components/Topbar"
 
 
 
@@ -29,6 +30,7 @@ const App = () => {
     <>
     <HelmetProvider >
     <ScrollToTop />
+    <TopBar />
     <Navbar />
     <Routes>
      <Route path="/" element={<Home/>} />

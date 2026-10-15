@@ -61,10 +61,6 @@ const ManagingDirector = () => {
                     Managing Director Message
                   </p>
 
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
-                    {data.name}
-                  </h2>
-
                   <div className="space-y-4 text-gray-200 text-sm sm:text-base leading-relaxed">
                     {data.paragraphs.map((paragraph, i) => (
                       <p key={i}>{paragraph}</p>

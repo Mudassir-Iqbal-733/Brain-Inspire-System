@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
-import TestimonialSection from '../components/Testinomial';
+import Testimonial from '../components/Testinomial';
 import SlideSection from '../components/SlideSection';
 import DirectorMessage from '../components/DirectorMessage';
 import CoreValues from '../components/CoreValues';
@@ -76,7 +76,7 @@ const Home = () => {
       <MissionVision />
       <ProgramsSection />
       <ProgramsVideo />
-      <TestimonialSection />
+      <Testimonial />
       </PageLoader>
     </>
   );

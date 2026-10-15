@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaSignInAlt } from 'react-icons/fa';
+import api from '../../lib/axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,6 +16,13 @@ const Login = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token');
+    if (token) {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError('');
@@ -27,31 +35,23 @@ const Login = () => {
     setSuccess('');
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/admin/login`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({
-            email: form.email,
-            password: form.password,
-          }),
-        }
-      );
+      const response = await api.post('/admin/login', {
+        email: form.email,
+        password: form.password,
+      });
 
-      const data = await response.json();
+      const responseData = response.data;
+      const token = responseData?.data?.token;
+      const user = responseData?.data?.user;
 
-      if (!response.ok) {
-        setError(data.message || 'Invalid email or password');
+      if (!token) {
+        setError('Token not received from server');
         setLoading(false);
         return;
       }
 
-      localStorage.setItem('admin_token', data.token);
-      localStorage.setItem('admin_user', JSON.stringify(data.user));
+      localStorage.setItem('admin_token', token);
+      localStorage.setItem('admin_user', JSON.stringify(user || {}));
 
       setSuccess('Login successful! Redirecting...');
 
@@ -59,7 +59,11 @@ const Login = () => {
         navigate('/admin/dashboard');
       }, 1000);
     } catch (err) {
-      setError('Server error. Please try again later.');
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        'Invalid email or password';
+      setError(message);
     } finally {
       setLoading(false);
     }
