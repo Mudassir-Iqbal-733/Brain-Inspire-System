@@ -1,20 +1,75 @@
 import { useEffect, useState } from 'react';
+import useSliderStore from '../store/useSliderStore';
+import useHomeLoaderStore from '../store/useHomeLoaderStore';
 
-const PageLoader = ({ children, images = [] }) => {
-  const [loading, setLoading] = useState(true);
+const PageLoader = ({ children }) => {
+  const { sliders, loading, fetchSliders } = useSliderStore();
+  const setHomeLoading = useHomeLoaderStore((s) => s.setHomeLoading);
+
+  const [imagesReady, setImagesReady] = useState(false);
+  const [minTimeDone, setMinTimeDone] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
+    fetchSliders();
+  }, [fetchSliders]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMinTimeDone(true), 1200);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent('homeLoadingStatus', { detail: { loading } })
-    );
-  }, [loading]);
+    if (loading) return;
+    if (!sliders || sliders.length === 0) {
+      setImagesReady(true);
+      return;
+    }
 
-  if (loading) {
+    let loaded = 0;
+    const total = sliders.length;
+    let cancelled = false;
+
+    sliders.forEach((slide) => {
+      const src =
+        slide.image ||
+        slide.image_url ||
+        slide.img ||
+        slide.src;
+
+      if (!src) {
+        loaded++;
+        if (loaded === total && !cancelled) setImagesReady(true);
+        return;
+      }
+
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loaded++;
+        if (loaded === total && !cancelled) setImagesReady(true);
+      };
+      img.onerror = () => {
+        loaded++;
+        if (loaded === total && !cancelled) setImagesReady(true);
+      };
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [sliders, loading]);
+
+  const ready = minTimeDone && !loading && imagesReady;
+
+  useEffect(() => {
+    setHomeLoading(!ready);
+
+    window.dispatchEvent(
+      new CustomEvent('homeLoadingStatus', { detail: { loading: !ready } })
+    );
+  }, [ready, setHomeLoading]);
+
+  if (!ready) {
     return (
       <div className="fixed inset-0 z-999 bg-[#2D2B6F] flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute top-10 left-10 w-72 h-72 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>

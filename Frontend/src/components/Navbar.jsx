@@ -2,14 +2,25 @@ import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { HiX, HiChevronDown } from 'react-icons/hi';
 import { FaGraduationCap } from 'react-icons/fa';
-import logo from '../assets/Logo.png';
-import whiteLogo from '../assets/Logo-white.png';
+import useHeaderStore from '../store/useHeaderStore';
+import useFooterStore from '../store/useFooterStore';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [admissionsOpen, setAdmissionsOpen] = useState(false);
   const location = useLocation();
+
+  const data = useHeaderStore((state) => state.data);
+  const fetchHeader = useHeaderStore((state) => state.fetchHeader);
+
+  const footerData = useFooterStore((state) => state.footerData);
+  const fetchFooterData = useFooterStore((state) => state.fetchFooterData);
+
+  useEffect(() => {
+    if (fetchHeader) fetchHeader();
+    if (fetchFooterData) fetchFooterData();
+  }, [fetchHeader, fetchFooterData]);
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -38,6 +49,14 @@ const Navbar = () => {
     },
     { name: 'Contact', href: '/contact-us' },
   ];
+
+  const whiteLogo =
+    footerData?.logo_image ||
+    footerData?.logo ||
+    footerData?.footer_logo ||
+    footerData?.white_logo;
+
+  const mainLogo = data?.logo_image;
 
   const isActive = (href) => {
     if (!href) return false;
@@ -70,7 +89,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Brain Inspire" className="h-12 md:h-14 w-auto" />
+            {mainLogo ? (
+              <img
+                src={mainLogo}
+                alt={data.logo_text || 'Logo'}
+                className="h-12 md:h-14 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-xl md:text-2xl font-bold text-[#0F1E4A]">
+                {data?.logo_text || 'Brain Inspire'}
+              </span>
+            )}
           </Link>
 
           <ul className="hidden lg:flex items-center gap-8">
@@ -96,7 +125,7 @@ const Navbar = () => {
                     </Link>
 
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                      <div className="bg-white border border-gray-100 rounded-2xl shadow-2xl shadow-[#0F1E4A]/10 p-2 min-w-250px relative">
+                      <div className="bg-white border border-gray-100 rounded-2xl shadow-2xl shadow-[#0F1E4A]/10 p-2 min-w-[250px] relative">
                         <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45"></div>
 
                         {link.children.map((child) => (
@@ -163,7 +192,17 @@ const Navbar = () => {
       >
         <div className="h-full bg-linear-to-b from-[#0F1E4A] to-[#1E3A8A] shadow-2xl flex flex-col">
           <div className="flex items-center justify-between p-5 border-b border-white/10 shrink-0">
-            <img src={whiteLogo} alt="Brain Inspire" className="h-11 w-auto" />
+            {whiteLogo ? (
+              <img
+                src={whiteLogo}
+                alt={footerData?.logo_text || data?.logo_text || 'Logo'}
+                className="h-11 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-white text-lg font-bold">
+                {footerData?.logo_text || data?.logo_text || 'Brain Inspire'}
+              </span>
+            )}
 
             <button
               onClick={() => setIsOpen(false)}

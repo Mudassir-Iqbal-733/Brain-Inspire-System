@@ -1,19 +1,23 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { FaArrowRight, FaClock, FaSearch, FaFilter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
-import programsData from '../../data/programs.json';
 import SEO from '../../components/SEO';
+import useProgramStore from '../../store/useProgramsStore';
 
 const Programs = () => {
-  const loading = useLoader();
-
+  const { programs, pageSeo, fetchPrograms, fetchPageSeo, loading } = useProgramStore();
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
 
   const types = ['All', 'Certification', 'Diploma'];
+
+  useEffect(() => {
+    fetchPageSeo();
+    fetchPrograms();
+  }, [fetchPageSeo, fetchPrograms]);
 
   const getProgramType = (courseCode) => {
     if (!courseCode) return 'Diploma';
@@ -23,28 +27,26 @@ const Programs = () => {
     return 'Diploma';
   };
 
-  const filteredPrograms = useMemo(() => {
-    return programsData.filter((program) => {
-      const matchesSearch =
-        program.course_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (program.course_code || '').toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredPrograms = programs.filter((program) => {
+    const matchesSearch =
+      program.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (program.code || '').toLowerCase().includes(searchQuery.toLowerCase());
 
-      const programType = getProgramType(program.course_code);
-      const matchesType =
-        selectedType === 'All' || programType === selectedType;
+    const programType = getProgramType(program.code);
+    const matchesType =
+      selectedType === 'All' || programType === selectedType;
 
-      return matchesSearch && matchesType;
-    });
-  }, [searchQuery, selectedType]);
+    return matchesSearch && matchesType;
+  });
 
   if (loading) return <Loader />;
 
   return (
     <>
       <SEO
-        title="Our Programs"
-        description="Explore 20+ industry-focused programs at Brain Inspire System of Education — AI, Web Development, Graphic Design, and more."
-        keywords="programs, IT courses Bahawalpur, BISE programs, diploma courses"
+        title={pageSeo?.seo_title || "Our Programs | Brain Inspire"}
+        description={pageSeo?.seo_description || "Explore 20+ industry-focused programs at Brain Inspire System of Education."}
+        keywords={pageSeo?.seo_keywords || "programs, IT courses Bahawalpur, BISE programs"}
       />
 
       <PageHeader
@@ -68,7 +70,7 @@ const Programs = () => {
             </h2>
 
             <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-              Choose from {programsData.length}+ industry-focused programs
+              Choose from {programs.length}+ industry-focused programs
               designed to build real skills and open real career doors.
             </p>
           </div>
@@ -144,16 +146,16 @@ const Programs = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
-              {filteredPrograms.map((program, index) => (
+              {filteredPrograms.map((program) => (
                 <Link
-                  key={index}
-                  to={`/programs/${program.course_code || index}`}
+                  key={program.id}
+                  to={`/programs/${program.id}`}
                   className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#38BDF8]/10 flex flex-col"
                 >
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-60 overflow-hidden">
                     <img
                       src={program.image}
-                      alt={program.course_name}
+                      alt={program.title}
                       loading="lazy"
                       className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                     />
@@ -161,33 +163,37 @@ const Programs = () => {
                     <div className="absolute inset-0 bg-linear-to-t from-[#0F1E4A] via-[#0F1E4A]/30 to-transparent opacity-90"></div>
 
                     <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                      {program.course_code && (
+                      {program.code && (
                         <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full shadow-lg">
-                          {program.course_code}
+                          {program.code}
                         </span>
                       )}
                     </div>
 
                     <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-lg font-bold text-white leading-snug drop-shadow-lg">
-                        {program.course_name}
+                      <h3 className="text-lg font-bold text-white leading-snug drop-shadow-lg line-clamp-2">
+                        {program.title}
                       </h3>
                     </div>
                   </div>
 
                   <div className="p-5 flex flex-col flex-1">
                     <div className="flex items-center gap-2 mb-3 flex-wrap">
-                      {program.course_duration && (
+                      {program.duration && (
                         <span className="flex items-center gap-1.5 text-[#2563EB] bg-[#38BDF8]/10 px-2.5 py-1 rounded-full text-xs font-semibold">
                           <FaClock className="text-[10px]" />
-                          {program.course_duration}
+                          {program.duration}
                         </span>
                       )}
                     </div>
 
                     <p className="text-gray-600 text-sm leading-relaxed mb-5 flex-1 line-clamp-3">
-                      {program.course_content
-                        ? `${program.course_content.slice(0, 3).join(', ')}, and more.`
+                      {program.course_content && program.course_content.length > 0
+                        ? program.course_content
+                            .filter(item => item && item.desc)
+                            .slice(0, 5)
+                            .map(item => item.desc)
+                            .join(' ')
                         : 'Comprehensive industry-focused training program.'}
                     </p>
 

@@ -1,183 +1,170 @@
-import { useState } from 'react';
-import { FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import {
+  FaPaperPlane,
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaSpinner,
+} from 'react-icons/fa';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
 import SEO from '../../components/SEO';
+import useAdmissionStore from '../../store/useAdmissionStore';
+import useProgramsStore from '../../store/useProgramsStore'; // 👈 new import
+
+const initialForm = {
+  fullName: '',
+  fatherName: '',
+  cnic: '',
+  dob: '',
+  gender: '',
+  email: '',
+  phone: '',
+  whatsapp: '',
+  address: '',
+  city: '',
+  province: '',
+  lastQualification: '',
+  lastInstitute: '',
+  passingYear: '',
+  marks: '',
+  course: '',
+  duration: '',
+  source: '',
+  notes: '',
+};
+
+const PROVINCES = [
+  'Punjab',
+  'Sindh',
+  'Khyber Pakhtunkhwa',
+  'Balochistan',
+  'Gilgit-Baltistan',
+  'Azad Kashmir',
+  'Islamabad',
+];
+
+const SOURCES = [
+  'Facebook',
+  'Instagram',
+  'YouTube',
+  'WhatsApp',
+  'Friend / Family',
+  'Google Search',
+  'Walk-in Visit',
+  'Other',
+];
 
 const AdmissionForm = () => {
-  const loading = useLoader();
+  // admission store
+  const {
+    loading: settingsLoading,
+    fetchAdmissionsData,
+    submitAdmission,
+    submitting,
+    submitSuccess,
+    submitError,
+    resetSubmitStatus,
+  } = useAdmissionStore();
 
-  const [form, setForm] = useState({
-    fullName: '',
-    fatherName: '',
-    cnic: '',
-    dob: '',
-    gender: '',
-    email: '',
-    phone: '',
-    whatsapp: '',
-    address: '',
-    city: '',
-    province: '',
-    lastQualification: '',
-    lastInstitute: '',
-    passingYear: '',
-    marks: '',
-    course: '',
-    duration: '',
-    source: '',
-    notes: '',
-  });
+  // programs store
+  const {
+    programs,
+    loading: programsLoading,
+    fetchPrograms,
+  } = useProgramsStore();
 
-  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
 
-  const courses = [
-    'Certification in AI Automation',
-    'Diploma in Web Development',
-    'Certification in Web Designing',
-    'Diploma in Graphic Designing',
-    'Certification in Graphic Designing',
-    'Diploma in Video Editing',
-    'Diploma in Computerized Accounting',
-    'Certification in Computerized Accounting',
-    'Certification in Freelancing',
-    'Diploma in Advance SEO',
-    'Certification in WordPress',
-    'Diploma in Web Technology',
-    'Certification in C Programming',
-    'Certification in Python Programming',
-    'Diploma in Office Management',
-    'Certification in Office Management',
-    'Diploma in English Language',
-    'Certification in Basic English',
-    'Diploma in Advance UI/UX',
-    'Diploma in Computer Architecture',
-    'Daraz Seller E-Commerce Training',
-    'Diploma in Mastering Shopify',
-    'Diploma in Social Media Marketing',
-  ];
-
-  const provinces = [
-    'Punjab',
-    'Sindh',
-    'Khyber Pakhtunkhwa',
-    'Balochistan',
-    'Gilgit-Baltistan',
-    'Azad Kashmir',
-    'Islamabad',
-  ];
-
-  const sources = [
-    'Facebook',
-    'Instagram',
-    'YouTube',
-    'WhatsApp',
-    'Friend / Family',
-    'Google Search',
-    'Walk-in Visit',
-    'Other',
-  ];
+  useEffect(() => {
+    fetchAdmissionsData();
+    if (programs.length === 0) {
+      fetchPrograms();
+    }
+  }, [fetchAdmissionsData, fetchPrograms, programs.length]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: '' });
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+
+    if (errors[name]) {
+      setErrors((err) => ({ ...err, [name]: '' }));
+    }
+    if (submitSuccess || submitError) {
+      resetSubmitStatus();
     }
   };
 
   const validate = () => {
-    const newErrors = {};
-    if (!form.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!form.fatherName.trim()) newErrors.fatherName = 'Father name is required';
-    if (!form.cnic.trim()) newErrors.cnic = 'CNIC is required';
-    if (!form.dob) newErrors.dob = 'Date of birth is required';
-    if (!form.gender) newErrors.gender = 'Gender is required';
-    if (!form.email.trim()) newErrors.email = 'Email is required';
-    if (!form.phone.trim()) newErrors.phone = 'Phone is required';
-    if (!form.address.trim()) newErrors.address = 'Address is required';
-    if (!form.city.trim()) newErrors.city = 'City is required';
-    if (!form.province) newErrors.province = 'Province is required';
-    if (!form.lastQualification) newErrors.lastQualification = 'Qualification is required';
-    if (!form.course) newErrors.course = 'Course selection is required';
-    return newErrors;
+    const e = {};
+
+    if (!form.fullName.trim()) e.fullName = 'Full name is required';
+    if (!form.fatherName.trim()) e.fatherName = 'Father name is required';
+    if (!form.cnic.trim()) e.cnic = 'CNIC is required';
+    if (!form.dob) e.dob = 'Date of birth is required';
+    if (!form.gender) e.gender = 'Gender is required';
+
+    if (!form.email.trim()) {
+      e.email = 'Email is required';
+    } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
+      e.email = 'Invalid email address';
+    }
+
+    if (!form.phone.trim()) e.phone = 'Phone is required';
+    if (!form.address.trim()) e.address = 'Address is required';
+    if (!form.city.trim()) e.city = 'City is required';
+    if (!form.province) e.province = 'Province is required';
+    if (!form.lastQualification) e.lastQualification = 'Qualification is required';
+    if (!form.course) e.course = 'Course selection is required';
+
+    return e;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      window.scrollTo({ top: 200, behavior: 'smooth' });
       return;
     }
 
-    const clientEmail = 'bisebahawalpur786@gmail.com';
-    const subject = `New Admission Request - ${form.fullName}`;
+    const payload = {
+      fullName: form.fullName.trim(),
+      fatherName: form.fatherName.trim(),
+      cnic: form.cnic.trim(),
+      dob: form.dob,
+      gender: form.gender,
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      whatsapp: form.whatsapp.trim() || null,
+      address: form.address.trim(),
+      city: form.city.trim(),
+      province: form.province,
+      lastQualification: form.lastQualification,
+      lastInstitute: form.lastInstitute.trim() || null,
+      passingYear: form.passingYear.trim() || null,
+      marks: form.marks.trim() || null,
+      course: form.course,
+      duration: form.duration || null,
+      source: form.source || null,
+      notes: form.notes.trim() || null,
+    };
 
-    const body = [
-      'New Admission Request - Brain Inspire System of Education',
-      '',
-      'PERSONAL INFORMATION',
-      `Name: ${form.fullName}`,
-      `Father's Name: ${form.fatherName}`,
-      `CNIC: ${form.cnic}`,
-      `Date of Birth: ${form.dob}`,
-      `Gender: ${form.gender}`,
-      `Email: ${form.email}`,
-      `Phone: ${form.phone}`,
-      `WhatsApp: ${form.whatsapp || 'N/A'}`,
-      '',
-      'ADDRESS',
-      `Address: ${form.address}`,
-      `City: ${form.city}`,
-      `Province: ${form.province}`,
-      '',
-      'ACADEMIC BACKGROUND',
-      `Last Qualification: ${form.lastQualification}`,
-      `Last Institute: ${form.lastInstitute || 'N/A'}`,
-      `Passing Year: ${form.passingYear || 'N/A'}`,
-      `Marks / Grade: ${form.marks || 'N/A'}`,
-      '',
-      'COURSE SELECTION',
-      `Course: ${form.course}`,
-      `Duration: ${form.duration || 'N/A'}`,
-      `Source: ${form.source || 'N/A'}`,
-      '',
-      'ADDITIONAL NOTES',
-      form.notes || 'N/A',
-      '',
-      `Submitted on: ${new Date().toLocaleString('en-PK')}`,
-    ].join('\n');
+    const result = await submitAdmission(payload);
 
-    const mailtoLink = `mailto:${clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
-
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 6000);
-
-    setForm({
-      fullName: '',
-      fatherName: '',
-      cnic: '',
-      dob: '',
-      gender: '',
-      email: '',
-      phone: '',
-      whatsapp: '',
-      address: '',
-      city: '',
-      province: '',
-      lastQualification: '',
-      lastInstitute: '',
-      passingYear: '',
-      marks: '',
-      course: '',
-      duration: '',
-      source: '',
-      notes: '',
-    });
+    if (result.ok) {
+      setForm(initialForm);
+      setErrors({});
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    } else if (result.fieldErrors) {
+      const mapped = {};
+      Object.keys(result.fieldErrors).forEach((key) => {
+        mapped[key] = result.fieldErrors[key][0];
+      });
+      setErrors(mapped);
+    }
   };
 
   const inputClass =
@@ -185,7 +172,7 @@ const AdmissionForm = () => {
   const labelClass = 'block text-sm font-bold text-[#0F1E4A] mb-2';
   const errorClass = 'text-red-500 text-xs mt-1';
 
-  if (loading) return <Loader />;
+  if (settingsLoading) return <Loader />;
 
   return (
     <>
@@ -214,18 +201,32 @@ const AdmissionForm = () => {
             </p>
           </div>
 
-          {submitted && (
+          {submitSuccess && (
             <div className="mb-8 flex items-start gap-3 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm">
               <FaCheckCircle className="text-green-600 shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold mb-1">Thank you! Your admission form is ready to send.</p>
-                <p>Your email app has opened with your details. Please click <strong>Send</strong> so your information reaches us.</p>
+                <p className="font-bold mb-1">Admission submitted successfully!</p>
+                <p>Our team will contact you shortly. Thank you for choosing BISE.</p>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm space-y-8">
+          {submitError && (
+            <div className="mb-8 flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+              <FaExclamationTriangle className="text-red-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold mb-1">Submission failed</p>
+                <p>{submitError}</p>
+              </div>
+            </div>
+          )}
 
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm space-y-8"
+          >
+            {/* ===== PERSONAL ===== */}
             <div>
               <h3 className="text-lg font-bold text-[#0F1E4A] mb-5 flex items-center gap-3">
                 <span className="w-1 h-6 bg-[#38BDF8] rounded-full"></span>
@@ -238,25 +239,21 @@ const AdmissionForm = () => {
                   <input type="text" name="fullName" value={form.fullName} onChange={handleChange} placeholder="Enter your full name" className={inputClass} />
                   {errors.fullName && <p className={errorClass}>{errors.fullName}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Father's Name *</label>
                   <input type="text" name="fatherName" value={form.fatherName} onChange={handleChange} placeholder="Enter father's name" className={inputClass} />
                   {errors.fatherName && <p className={errorClass}>{errors.fatherName}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>CNIC / B-Form *</label>
                   <input type="text" name="cnic" value={form.cnic} onChange={handleChange} placeholder="35202-XXXXXXX-X" className={inputClass} />
                   {errors.cnic && <p className={errorClass}>{errors.cnic}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Date of Birth *</label>
                   <input type="date" name="dob" value={form.dob} onChange={handleChange} className={inputClass} />
                   {errors.dob && <p className={errorClass}>{errors.dob}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Gender *</label>
                   <select name="gender" value={form.gender} onChange={handleChange} className={inputClass}>
@@ -267,19 +264,16 @@ const AdmissionForm = () => {
                   </select>
                   {errors.gender && <p className={errorClass}>{errors.gender}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Email *</label>
                   <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="you@example.com" className={inputClass} />
                   {errors.email && <p className={errorClass}>{errors.email}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Phone *</label>
                   <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="0300-0000000" className={inputClass} />
                   {errors.phone && <p className={errorClass}>{errors.phone}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>WhatsApp (Optional)</label>
                   <input type="tel" name="whatsapp" value={form.whatsapp} onChange={handleChange} placeholder="0300-0000000" className={inputClass} />
@@ -287,6 +281,7 @@ const AdmissionForm = () => {
               </div>
             </div>
 
+            {/* ===== ADDRESS ===== */}
             <div>
               <h3 className="text-lg font-bold text-[#0F1E4A] mb-5 flex items-center gap-3">
                 <span className="w-1 h-6 bg-[#38BDF8] rounded-full"></span>
@@ -299,26 +294,23 @@ const AdmissionForm = () => {
                   <input type="text" name="address" value={form.address} onChange={handleChange} placeholder="House / Street / Area" className={inputClass} />
                   {errors.address && <p className={errorClass}>{errors.address}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>City *</label>
                   <input type="text" name="city" value={form.city} onChange={handleChange} placeholder="Bahawalpur" className={inputClass} />
                   {errors.city && <p className={errorClass}>{errors.city}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Province *</label>
                   <select name="province" value={form.province} onChange={handleChange} className={inputClass}>
                     <option value="">Select Province</option>
-                    {provinces.map((p) => (
-                      <option key={p} value={p}>{p}</option>
-                    ))}
+                    {PROVINCES.map((p) => <option key={p} value={p}>{p}</option>)}
                   </select>
                   {errors.province && <p className={errorClass}>{errors.province}</p>}
                 </div>
               </div>
             </div>
 
+            {/* ===== ACADEMIC ===== */}
             <div>
               <h3 className="text-lg font-bold text-[#0F1E4A] mb-5 flex items-center gap-3">
                 <span className="w-1 h-6 bg-[#38BDF8] rounded-full"></span>
@@ -338,17 +330,14 @@ const AdmissionForm = () => {
                   </select>
                   {errors.lastQualification && <p className={errorClass}>{errors.lastQualification}</p>}
                 </div>
-
                 <div>
                   <label className={labelClass}>Last Institute</label>
                   <input type="text" name="lastInstitute" value={form.lastInstitute} onChange={handleChange} placeholder="School / College name" className={inputClass} />
                 </div>
-
                 <div>
                   <label className={labelClass}>Passing Year</label>
                   <input type="text" name="passingYear" value={form.passingYear} onChange={handleChange} placeholder="2024" className={inputClass} />
                 </div>
-
                 <div>
                   <label className={labelClass}>Marks / Grade</label>
                   <input type="text" name="marks" value={form.marks} onChange={handleChange} placeholder="850/1100 or A+" className={inputClass} />
@@ -356,6 +345,7 @@ const AdmissionForm = () => {
               </div>
             </div>
 
+            {/* ===== COURSE FROM API ===== */}
             <div>
               <h3 className="text-lg font-bold text-[#0F1E4A] mb-5 flex items-center gap-3">
                 <span className="w-1 h-6 bg-[#38BDF8] rounded-full"></span>
@@ -365,11 +355,30 @@ const AdmissionForm = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="sm:col-span-2">
                   <label className={labelClass}>Select Course *</label>
-                  <select name="course" value={form.course} onChange={handleChange} className={inputClass}>
-                    <option value="">Select Course</option>
-                    {courses.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
+                  <select
+                    name="course"
+                    value={form.course}
+                    onChange={handleChange}
+                    disabled={programsLoading || programs.length === 0}
+                    className={inputClass}
+                  >
+                    <option value="">
+                      {programsLoading
+                        ? 'Loading courses...'
+                        : programs.length === 0
+                        ? 'No courses available'
+                        : 'Select Course'}
+                    </option>
+
+                    {programs.map((p) => {
+                      const value = p.title || p.name || p.program_name || p.slug;
+                      const label = p.title || p.name || p.program_name || p.slug;
+                      return (
+                        <option key={p.id || value} value={value}>
+                          {label}
+                        </option>
+                      );
+                    })}
                   </select>
                   {errors.course && <p className={errorClass}>{errors.course}</p>}
                 </div>
@@ -388,14 +397,13 @@ const AdmissionForm = () => {
                   <label className={labelClass}>How Did You Know About Us?</label>
                   <select name="source" value={form.source} onChange={handleChange} className={inputClass}>
                     <option value="">Select Source</option>
-                    {sources.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
+                    {SOURCES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
               </div>
             </div>
 
+            {/* ===== NOTES ===== */}
             <div>
               <label className={labelClass}>Additional Notes (Optional)</label>
               <textarea name="notes" value={form.notes} onChange={handleChange} rows={4} placeholder="Any additional information..." className={`${inputClass} resize-none`}></textarea>
@@ -403,10 +411,20 @@ const AdmissionForm = () => {
 
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-7 py-4 rounded-full font-bold text-sm sm:text-base shadow-lg shadow-[#38BDF8]/30 hover:bg-[#2D2B6F] hover:text-white transition-all duration-300 hover:scale-[1.02]"
+              disabled={submitting}
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-7 py-4 rounded-full font-bold text-sm sm:text-base shadow-lg shadow-[#38BDF8]/30 hover:bg-[#2D2B6F] hover:text-white transition-all duration-300 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              <FaPaperPlane className="text-sm" />
-              Submit Admission Form
+              {submitting ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <FaPaperPlane className="text-sm" />
+                  Submit Admission Form
+                </>
+              )}
             </button>
           </form>
         </div>

@@ -1,22 +1,25 @@
-
-import Testinomial1 from "../assets/Testinomial1.jpg";
-import Testinomial2 from "../assets/Hero_1.jpg";
-import Testinomial3 from "../assets/Testinomial3.jpg";
-import Testinomial4 from "../assets/Testinomial4.jpg";
-import Testinomial5 from "../assets/Hero_2.jpg";
-import MarqueePackage from "react-fast-marquee";
+import { useEffect, useMemo } from 'react';
+import MarqueePackage from 'react-fast-marquee';
+import useGalleryStore from '../store/useGalleryStore';
 
 const Marquee = MarqueePackage.default;
 
-const images = [
-  Testinomial2,
-  Testinomial1,
-  Testinomial5,
-  Testinomial3,
-  Testinomial4,
-];
-
 const Testimonial = () => {
+  const { images, fetchGallery } = useGalleryStore();
+
+  useEffect(() => {
+    fetchGallery();
+  }, [fetchGallery]);
+
+  const imageUrls = useMemo(() => {
+    if (!Array.isArray(images)) return [];
+    return images
+      .map((img) => img.image || img.url || img.path)
+      .filter(Boolean);
+  }, [images]);
+
+  if (imageUrls.length === 0) return null;
+
   return (
     <section className="overflow-hidden bg-[#2D2B6F] py-12 sm:py-16">
       <div className="mb-10 px-4 text-center">
@@ -48,14 +51,14 @@ const Testimonial = () => {
         pauseOnHover={false}
         gradient={false}
       >
-        {images.map((image, index) => (
+        {imageUrls.map((url, index) => (
           <div
             key={index}
             className="w-[260px] px-2 sm:w-[320px] sm:px-3 lg:w-[380px]"
           >
             <div className="h-52 overflow-hidden rounded-2xl border border-white/10 shadow-xl sm:h-60 md:h-72">
               <img
-                src={image}
+                src={url}
                 alt={`Brain Inspire campus life ${index + 1}`}
                 className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 loading="lazy"

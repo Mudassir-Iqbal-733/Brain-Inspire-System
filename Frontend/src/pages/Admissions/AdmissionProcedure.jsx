@@ -1,55 +1,37 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaCheckCircle, FaFileAlt, FaUserGraduate, FaIdCard, FaCamera, FaMoneyBillWave, FaClipboardList } from 'react-icons/fa';
+import { FaArrowRight, FaCheckCircle, FaFileAlt, FaUserGraduate, FaMoneyBillWave, FaClipboardList, FaInfoCircle } from 'react-icons/fa';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
 import SEO from '../../components/SEO';
+import useAdmissionStore from '../../store/useAdmissionStore';
+
+const iconMap = {
+  FaClipboardList: <FaClipboardList />,
+  FaFileAlt: <FaFileAlt />,
+  FaMoneyBillWave: <FaMoneyBillWave />,
+  FaUserGraduate: <FaUserGraduate />,
+  FaInfoCircle: <FaInfoCircle />,
+};
 
 const AdmissionProcedure = () => {
-  const loading = useLoader();
+  const { data, fetchAdmissionsData, loading } = useAdmissionStore();
 
-  const steps = [
-    {
-      icon: <FaClipboardList />,
-      title: 'Fill Admission Form',
-      desc: 'Complete the online admission form with your personal and academic details.',
-    },
-    {
-      icon: <FaFileAlt />,
-      title: 'Submit Documents',
-      desc: 'Upload or submit all required documents at the admission office.',
-    },
-    {
-      icon: <FaMoneyBillWave />,
-      title: 'Pay Admission Fee',
-      desc: 'Pay the registration and course fee to confirm your admission.',
-    },
-    {
-      icon: <FaUserGraduate />,
-      title: 'Get Confirmation',
-      desc: 'Receive admission confirmation and start your classes.',
-    },
-  ];
+  useEffect(() => {
+    fetchAdmissionsData();
+  }, [fetchAdmissionsData]);
 
-  const documents = [
-    'Matric / O-Level Certificate (2 copies)',
-    'Intermediate / A-Level Certificate (2 copies)',
-    'CNIC / B-Form (Student)',
-    'CNIC (Father / Guardian)',
-    '2 Passport Size Photos',
-    'Domicile Certificate',
-    'Character Certificate (from last institute)',
-    'Fee Receipt (after payment)',
-  ];
+  if (loading || !data) return <Loader />;
 
-  if (loading) return <Loader />;
+  const steps = data.process_steps || [];
+  const documents = data.required_docs || [];
 
   return (
     <>
       <SEO
-        title="Admission Procedure"
-        description="Learn about the admission procedure, required documents, and steps to apply at Brain Inspire System of Education."
-        keywords="admission, procedure, documents, BISE, apply, Bahawalpur"
+        title={data.seo_title ? `Admission Procedure | ${data.seo_title}` : "Admission Procedure | Brain Inspire"}
+        description={data.seo_description || "Learn about the admission procedure, required documents, and steps to apply at Brain Inspire System of Education."}
+        keywords={data.seo_keywords || "admission, procedure, documents, BISE, apply, Bahawalpur"}
       />
 
       <PageHeader
@@ -76,8 +58,7 @@ const AdmissionProcedure = () => {
             </h2>
 
             <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-              Follow these simple steps to complete your admission at Brain
-              Inspire System of Education.
+              {data.process_desc || "Follow these simple steps to complete your admission at Brain Inspire System of Education."}
             </p>
           </div>
 
@@ -92,7 +73,7 @@ const AdmissionProcedure = () => {
                 </div>
 
                 <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg mb-5 mt-4 group-hover:scale-110 transition-transform duration-500">
-                  {step.icon}
+                  {iconMap[step.icon] || <FaInfoCircle />}
                 </div>
 
                 <h3 className="text-lg font-bold text-[#0F1E4A] mb-2">
@@ -106,42 +87,44 @@ const AdmissionProcedure = () => {
             ))}
           </div>
 
-          <div className="max-w-4xl mx-auto mb-16 md:mb-20">
-            <div className="bg-[#2D2B6F] rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
+          {documents.length > 0 && (
+            <div className="max-w-4xl mx-auto mb-16 md:mb-20">
+              <div className="bg-[#2D2B6F] rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
 
-              <div className="relative">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-50"></div>
-                    <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
-                      <FaFileAlt />
+                <div className="relative">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-50"></div>
+                      <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
+                        <FaFileAlt />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                        Required Documents
+                      </h2>
+                      <p className="text-[#38BDF8] text-xs md:text-sm font-medium mt-1">
+                        Bring these with your admission form
+                      </p>
                     </div>
                   </div>
 
-                  <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                      Required Documents
-                    </h2>
-                    <p className="text-[#38BDF8] text-xs md:text-sm font-medium mt-1">
-                      Bring these with your admission form
-                    </p>
-                  </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {documents.map((doc, i) => (
+                      <li key={i} className="flex gap-3 items-start">
+                        <FaCheckCircle className="text-[#38BDF8] text-sm mt-1 shrink-0" />
+                        <span className="text-gray-200 text-sm leading-relaxed">
+                          {doc}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {documents.map((doc, i) => (
-                    <li key={i} className="flex gap-3 items-start">
-                      <FaCheckCircle className="text-[#38BDF8] text-sm mt-1 shrink-0" />
-                      <span className="text-gray-200 text-sm leading-relaxed">
-                        {doc}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
-          </div>
+          )}
 
           <div className="text-center bg-linear-to-br from-[#38BDF8]/10 via-white to-[#2563EB]/10 border border-[#38BDF8]/30 rounded-3xl p-8 md:p-12">
             <h3 className="text-2xl md:text-3xl font-bold text-[#0F1E4A] mb-4">

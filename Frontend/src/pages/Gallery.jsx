@@ -1,62 +1,36 @@
-import { useState } from 'react';
-import { FaSearch, FaTimes, FaArrowRight, FaCamera } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaTimes, FaArrowRight, FaCamera } from 'react-icons/fa';
 import PageHeader from '../components/common/PageHeader';
 import Loader from '../components/Loader';
-import useLoader from '../hooks/useLoader';
 import SEO from '../components/SEO';
-
-import Classrooms1 from '../assets/Gallery/classroom-1.jpeg';
-import Classrooms2 from '../assets/Gallery/classroom-2.jpeg';
-import Classrooms3 from '../assets/Gallery/classroom-3.jpeg';
-import PrincipalOffice1 from '../assets/Gallery/principal-office.jpeg';
+import useGalleryStore from '../store/useGalleryStore';
 
 const Gallery = () => {
-  const loading = useLoader();
+  const { categories, images, pageSeo, fetchGallery, fetchPageSeo, loading } = useGalleryStore();
+  
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [lightboxImage, setLightboxImage] = useState(null);
 
-  const categories = ['All', 'Classrooms', 'Principal Office', 'Campus', 'Events', 'Students', 'Certificates'];
-
-  const galleryItems = [
-    {
-      id: 1,
-      category: 'Classrooms',
-      title: 'Computer Lab',
-      image: Classrooms1,
-    },
-    {
-      id: 2,
-      category: 'Classrooms',
-      title: 'Main Classroom',
-      image: Classrooms2,
-    },
-    {
-      id: 3,
-      category: 'Classrooms',
-      title: 'Main Classroom',
-      image: Classrooms3,
-    },
-    {
-      id: 4,
-      category: 'Principal Office',
-      title: 'Meeting Room',
-      image: PrincipalOffice1,
-    },
-  ];
-
-  const filteredItems =
-    selectedCategory === 'All'
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === selectedCategory);
+  useEffect(() => {
+    fetchGallery();
+    fetchPageSeo();
+  }, [fetchGallery, fetchPageSeo]);
 
   if (loading) return <Loader />;
+
+  const filteredItems = selectedCategory === 'All'
+    ? images
+    : images.filter((item) => 
+        item.category?.name === selectedCategory || item.category_id === selectedCategory
+      );
 
   return (
     <>
       <SEO
-        title="Gallery"
-        description="View photos and memorable moments from Brain Inspire System of Education — campus, events, students, and more."
-        keywords="gallery, BISE photos, campus life, events, Bahawalpur"
+        title={pageSeo?.seo_title || "Gallery | Brain Inspire"}
+        description={pageSeo?.seo_description || "View photos and memorable moments from Brain Inspire System of Education — campus, events, students, and more."}
+        keywords={pageSeo?.seo_keywords || "gallery, BISE photos, campus life, events, Bahawalpur"}
       />
 
       <PageHeader
@@ -86,17 +60,28 @@ const Gallery = () => {
           </div>
 
           <div className="flex flex-wrap justify-center gap-3 mb-10 md:mb-12">
-            {categories.map((category) => (
+            <button
+              onClick={() => setSelectedCategory('All')}
+              className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${
+                selectedCategory === 'All'
+                  ? 'bg-[#2563EB] text-white shadow-lg shadow-[#2563EB]/30 scale-105'
+                  : 'bg-gray-100 text-[#0F1E4A] hover:bg-[#38BDF8]/20 hover:text-[#2563EB]'
+              }`}
+            >
+              All
+            </button>
+            
+            {categories.map((cat) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.name)}
                 className={`px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${
-                  selectedCategory === category
+                  selectedCategory === cat.name
                     ? 'bg-[#2563EB] text-white shadow-lg shadow-[#2563EB]/30 scale-105'
                     : 'bg-gray-100 text-[#0F1E4A] hover:bg-[#38BDF8]/20 hover:text-[#2563EB]'
                 }`}
               >
-                {category}
+                {cat.name}
               </button>
             ))}
           </div>
@@ -124,7 +109,7 @@ const Gallery = () => {
                   <div className="relative h-64 overflow-hidden">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={item.title || 'Gallery Image'}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -132,16 +117,14 @@ const Gallery = () => {
                   </div>
 
                   <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                    <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1 rounded-full mb-2">
-                      {item.category}
-                    </span>
-                    <h3 className="text-lg font-bold leading-tight drop-shadow-lg">
+                    {item.category && (
+                      <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1 rounded-full mb-2">
+                        {item.category.name}
+                      </span>
+                    )}
+                    <h3 className="text-lg font-bold leading-tight drop-shadow-lg line-clamp-1">
                       {item.title}
                     </h3>
-                  </div>
-
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <FaSearch className="text-white text-sm" />
                   </div>
                 </div>
               ))}
@@ -162,19 +145,19 @@ const Gallery = () => {
               </p>
 
               <div className="flex flex-wrap justify-center gap-3">
-                <a
-                  href="/admissions/apply-online"
+                <Link
+                  to="/admissions/apply-online"
                   className="inline-flex items-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-6 py-3.5 rounded-full font-bold text-sm shadow-lg shadow-[#38BDF8]/30 hover:bg-white transition-all duration-300"
                 >
                   Apply Now
                   <FaArrowRight className="text-xs" />
-                </a>
-                <a
-                  href="/contact-us"
+                </Link>
+                <Link
+                  to="/contact-us"
                   className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 hover:border-[#38BDF8]/50 transition-all duration-300"
                 >
                   Contact Us
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -205,9 +188,11 @@ const Gallery = () => {
             />
 
             <div className="mt-4 text-center">
-              <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1 rounded-full mb-2">
-                {lightboxImage.category}
-              </span>
+              {lightboxImage.category && (
+                <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1 rounded-full mb-2">
+                  {lightboxImage.category.name}
+                </span>
+              )}
               <h3 className="text-xl md:text-2xl font-bold text-white">
                 {lightboxImage.title}
               </h3>

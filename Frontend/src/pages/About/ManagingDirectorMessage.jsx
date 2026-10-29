@@ -1,25 +1,31 @@
+import { useEffect } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
 import { FaQuoteLeft } from 'react-icons/fa';
-import messagesData from '../../data/messages.json';
-import managingDirector from '../../assets/6.JPG.jpeg';
 import SEO from '../../components/SEO';
+import useDirectorStore from '../../store/useDirectorStore';
 
 const ManagingDirector = () => {
-  const loading = useLoader();
+  const { directors, fetchDirector, loading } = useDirectorStore();
+  const data = directors['managing-director'];
 
-  const data = messagesData.managingDirector;
+  useEffect(() => {
+    fetchDirector('managing-director');
+  }, [fetchDirector]);
 
-  if (loading) return <Loader />;
+  if (loading && !data) return <Loader />;
+  if (!data) return <div className="text-center py-20 text-gray-500">No data found.</div>;
+
+  const paragraphs = data.message ? data.message.split('\n').filter(p => p.trim() !== '') : [];
 
   return (
     <>
-    <SEO
-  title="Managing Director Message"
-  description="Message from the Managing Director of Brain Inspire System of Education."
-  keywords="managing director, MD message, BISE"
-/>
+      <SEO
+        title="Managing Director Message"
+        description="Message from the Managing Director of Brain Inspire System of Education."
+        keywords="managing director, MD message, BISE"
+      />
+      
       <PageHeader
         title="Managing Director Message"
         breadcrumbs={[
@@ -41,15 +47,21 @@ const ManagingDirector = () => {
                     <div className="absolute -inset-3 bg-[#38BDF8]/20 rounded-3xl blur-2xl"></div>
 
                     <div className="relative w-56 sm:w-64 md:w-72 lg:w-full max-w-xs aspect-square rounded-3xl overflow-hidden border-4 border-[#38BDF8] shadow-2xl">
-                      <img
-                        src={managingDirector}
-                        alt={data.name}
-                        className="w-full h-full object-cover object-top"
-                      />
+                      {data.image ? (
+                        <img
+                          src={data.image}
+                          alt={data.name}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                          No Image
+                        </div>
+                      )}
                     </div>
 
                     <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#38BDF8] text-[#0F1E4A] px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg whitespace-nowrap">
-                      {data.badge}
+                      {data.title}
                     </div>
                   </div>
                 </div>
@@ -62,7 +74,7 @@ const ManagingDirector = () => {
                   </p>
 
                   <div className="space-y-4 text-gray-200 text-sm sm:text-base leading-relaxed">
-                    {data.paragraphs.map((paragraph, i) => (
+                    {paragraphs.map((paragraph, i) => (
                       <p key={i}>{paragraph}</p>
                     ))}
                   </div>

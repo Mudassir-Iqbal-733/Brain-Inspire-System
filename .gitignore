@@ -1,0 +1,21 @@
+# Backend (Laravel)
+/backend/vendor
+/backend/node_modules
+/backend/.env
+/backend/storage/*.key
+/backend/public/storage
+
+# Frontend & Admin (React)
+/Frontend/node_modules
+/Frontend/dist
+/Frontend/.env
+
+/admin/node_modules
+/admin/dist
+/admin/.env
+
+# General
+.DS_Store
+.idea
+.vscode
+*.log

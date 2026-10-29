@@ -7,29 +7,50 @@ import {
   FaWallet,
   FaCheckCircle,
   FaGraduationCap,
-  FaExternalLinkAlt,
 } from 'react-icons/fa';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
-import programsData from '../../data/programs.json';
 import SEO from '../../components/SEO';
+import useProgramsStore from '../../store/useProgramsStore';
 
 const ProgramDetails = () => {
-  const loading = useLoader();
-
-  const { slug } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const program = programsData.find((p) => p.course_code === slug);
+  const { 
+    programDetails, 
+    programs, 
+    pageSeo, 
+    fetchProgramById, 
+    fetchPrograms, 
+    fetchPageSeo, 
+    isFetching 
+  } = useProgramsStore();
+
+  // Local state taake data aane par foran update ho
+  const [program, setProgram] = useState(programDetails[id]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [slug]);
+    if (id) {
+      fetchProgramById(id);
+      fetchPrograms();
+      fetchPageSeo();
+    }
+  }, [id, fetchProgramById, fetchPrograms, fetchPageSeo]);
 
-  if (loading) return <Loader />;
+  // Jaise hi store mein data aayega, component update ho jayega
+  useEffect(() => {
+    if (programDetails[id]) {
+      setProgram(programDetails[id]);
+    }
+  }, [programDetails, id]);
 
-  if (!program) {
+  if (!program && isFetching) {
+    return <Loader />;
+  }
+
+  if (!program && !isFetching) {
     return (
       <>
         <SEO
@@ -69,32 +90,28 @@ const ProgramDetails = () => {
     );
   }
 
-  const courseContents = program.course_content || [];
+  if (!program) return null;
 
-  const relatedPrograms = programsData
-    .filter(
-      (p) =>
-        p.course_code !== program.course_code &&
-        p.course_name !== program.course_name
-    )
-    .slice(0, 3);
+  const globalLearn = pageSeo?.global_what_will_learn || [];
+  const courseContents = program.course_content || [];
+  const relatedPrograms = programs.filter((p) => String(p.id) !== String(id)).slice(0, 3);
 
   const handleApply = () => {
-    navigate(`/admissions/apply-online?program=${program.course_code || ''}`);
+    navigate(`/admissions/apply-online?program=${program.code || ''}`);
   };
 
   return (
     <>
       <SEO
-        title={program.course_name}
-        description={`Enroll in ${program.course_name} at Brain Inspire System of Education. ${program.course_duration || ''} course.`}
-        keywords={`${program.course_name}, ${program.course_code}, BISE courses`}
+        title={program.seo_title || program.title}
+        description={program.seo_description || `Enroll in ${program.title} at Brain Inspire System of Education.`}
+        keywords={program.seo_keywords || `${program.title}, ${program.code}, BISE courses`}
       />
       <PageHeader
-        title={program.course_name}
+        title={program.title}
         breadcrumbs={[
           { label: 'Programs', href: '/programs' },
-          { label: program.course_name },
+          { label: program.title },
         ]}
       />
 
@@ -113,15 +130,15 @@ const ProgramDetails = () => {
               <div className="relative rounded-3xl overflow-hidden h-64 sm:h-80 md:h-96 mb-8">
                 <img
                   src={program.image}
-                  alt={program.course_name}
+                  alt={program.title}
                   className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#0F1E4A] via-[#0F1E4A]/30 to-transparent"></div>
 
-                {program.course_code && (
+                {program.code && (
                   <div className="absolute top-5 left-5 flex flex-wrap gap-2">
                     <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full shadow-lg">
-                      {program.course_code}
+                      {program.code}
                     </span>
                   </div>
                 )}
@@ -129,21 +146,21 @@ const ProgramDetails = () => {
 
               <div className="mb-8">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F1E4A] leading-tight mb-4">
-                  {program.course_name}
+                  {program.title}
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  {program.course_duration && (
+                  {program.duration && (
                     <span className="flex items-center gap-2 bg-[#38BDF8]/10 text-[#2563EB] px-4 py-2 rounded-full text-sm font-semibold">
                       <FaClock className="text-xs" />
-                      {program.course_duration}
+                      {program.duration}
                     </span>
                   )}
 
-                  {program.course_code && (
+                  {program.code && (
                     <span className="flex items-center gap-2 bg-gray-100 text-[#0F1E4A] px-4 py-2 rounded-full text-sm font-semibold">
                       <FaGraduationCap className="text-xs" />
-                      {program.course_code}
+                      {program.code}
                     </span>
                   )}
                 </div>
@@ -160,40 +177,39 @@ const ProgramDetails = () => {
                     <li key={i} className="flex gap-3 items-start">
                       <FaCheckCircle className="text-[#38BDF8] text-sm mt-0.5 shrink-0" />
                       <span className="text-gray-700 text-sm leading-relaxed">
-                        {content}
+                        {content.title ? <strong className="font-semibold">{content.title}: </strong> : null}
+                        {content.desc}
                       </span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8">
-                <h2 className="text-xl md:text-2xl font-bold text-[#0F1E4A] mb-5 flex items-center gap-3">
-                  <span className="w-1 h-6 bg-[#38BDF8] rounded-full"></span>
-                  What You'll Learn
-                </h2>
+              {globalLearn.length > 0 && (
+                <div className="bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8">
+                  <h2 className="text-xl md:text-2xl font-bold text-[#0F1E4A] mb-5 flex items-center gap-3">
+                    <span className="w-1 h-6 bg-[#38BDF8] rounded-full"></span>
+                    What You'll Learn
+                  </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {[
-                    { label: 'Practical Skills', desc: 'Hands-on training with real projects' },
-                    { label: 'Expert Guidance', desc: 'Learn from industry professionals' },
-                    { label: 'Certification', desc: 'Get recognized certificate' },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="bg-white border border-gray-100 rounded-2xl p-4"
-                    >
-                      <FaCheckCircle className="text-[#38BDF8] text-lg mb-3" />
-                      <p className="text-[#0F1E4A] font-bold text-sm mb-1">
-                        {item.label}
-                      </p>
-                      <p className="text-gray-600 text-xs leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {globalLearn.map((item, i) => (
+                      <div
+                        key={i}
+                        className="bg-white border border-gray-100 rounded-2xl p-4"
+                      >
+                        <FaCheckCircle className="text-[#38BDF8] text-lg mb-3" />
+                        <p className="text-[#0F1E4A] font-bold text-sm mb-1">
+                          {item.title}
+                        </p>
+                        <p className="text-gray-600 text-xs leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="lg:col-span-1">
@@ -211,16 +227,16 @@ const ProgramDetails = () => {
                     </h3>
 
                     <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 mb-4">
-                      {program.fees_structure?.registration_fee != null && (
+                      {program.registration_fee != null && (
                         <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm">Registration Fee</span>
                           <span className="text-white font-bold text-sm">
-                            Rs. {program.fees_structure.registration_fee.toLocaleString()}
+                            Rs. {program.registration_fee.toLocaleString()}
                           </span>
                         </div>
                       )}
 
-                      {program.fees_structure?.misc_fee != null && (
+                      {program.misc_fee != null && (
                         <div className="flex items-start justify-between gap-3 mb-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm leading-tight">
                             Misc. Fee
@@ -229,25 +245,25 @@ const ProgramDetails = () => {
                             </span>
                           </span>
                           <span className="text-white font-bold text-sm whitespace-nowrap">
-                            Rs. {program.fees_structure.misc_fee.toLocaleString()}
+                            Rs. {program.misc_fee.toLocaleString()}
                           </span>
                         </div>
                       )}
 
-                      {program.fees_structure?.course_fee != null && (
+                      {program.course_fee != null && (
                         <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm">Course Fee</span>
                           <span className="text-white font-bold text-sm">
-                            Rs. {program.fees_structure.course_fee.toLocaleString()}
+                            Rs. {program.course_fee.toLocaleString()}
                           </span>
                         </div>
                       )}
 
-                      {program.fees_structure?.certificate_fee != null && (
+                      {program.certificate_fee != null && (
                         <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm">Certificate Fee</span>
                           <span className="text-white font-bold text-sm">
-                            Rs. {program.fees_structure.certificate_fee.toLocaleString()}
+                            Rs. {program.certificate_fee.toLocaleString()}
                           </span>
                         </div>
                       )}
@@ -255,7 +271,7 @@ const ProgramDetails = () => {
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-gray-300 text-sm font-bold">Total Fee</span>
                         <span className="text-[#38BDF8] font-bold text-base">
-                          Rs. {program.fees_structure?.total_fee?.toLocaleString() || '—'}
+                          Rs. {program.total_fee?.toLocaleString() || '—'}
                         </span>
                       </div>
                     </div>
@@ -269,7 +285,7 @@ const ProgramDetails = () => {
                     </button>
 
                     <Link
-                      to={`/admissions/fee-structure?program=${program.course_code || ''}`}
+                      to={`/admissions/fee-structure?program=${program.code || ''}`}
                       className="w-full inline-flex items-center justify-center gap-2 bg-white/10 border border-white/15 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 hover:border-[#38BDF8]/50 transition-all duration-300"
                     >
                       <FaWallet className="text-xs" />
@@ -291,12 +307,12 @@ const ProgramDetails = () => {
                       <div>
                         <p className="text-xs text-gray-500 font-medium">Code</p>
                         <p className="text-[#0F1E4A] font-bold text-sm">
-                          {program.course_code}
+                          {program.code}
                         </p>
                       </div>
                     </li>
 
-                    {program.course_duration && (
+                    {program.duration && (
                       <li className="flex items-start gap-3">
                         <div className="shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-[#38BDF8]/10 text-[#2563EB] text-sm">
                           <FaClock />
@@ -304,7 +320,7 @@ const ProgramDetails = () => {
                         <div>
                           <p className="text-xs text-gray-500 font-medium">Duration</p>
                           <p className="text-[#0F1E4A] font-bold text-sm">
-                            {program.course_duration}
+                            {program.duration}
                           </p>
                         </div>
                       </li>
@@ -344,39 +360,37 @@ const ProgramDetails = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
                 {relatedPrograms.map((related, index) => (
                   <Link
-                    key={index}
-                    to={`/programs/${related.course_code || ''}`}
+                    key={related.id || index}
+                    to={`/programs/${related.id}`}
                     className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#38BDF8]/10 flex flex-col"
                   >
                     <div className="relative h-44 overflow-hidden">
                       <img
                         src={related.image}
-                        alt={related.course_name}
+                        alt={related.title}
                         loading="lazy"
                         className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-linear-to-t from-[#0F1E4A] via-[#0F1E4A]/30 to-transparent opacity-90"></div>
 
-                      {related.course_code && (
+                      {related.code && (
                         <div className="absolute top-4 left-4">
                           <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full">
-                            {related.course_code}
+                            {related.code}
                           </span>
                         </div>
                       )}
 
                       <div className="absolute bottom-3 left-4 right-4">
                         <h3 className="text-base font-bold text-white leading-snug drop-shadow-lg line-clamp-2">
-                          {related.course_name}
+                          {related.title}
                         </h3>
                       </div>
                     </div>
 
                     <div className="p-4 flex items-center justify-between gap-2">
                       <span className="text-[#2563EB] text-xs font-bold">
-                        {related.course_duration
-                          ? related.course_duration
-                          : 'View Details'}
+                        {related.duration ? related.duration : 'View Details'}
                       </span>
                       <span className="w-8 h-8 flex items-center justify-center rounded-full bg-[#0F1E4A] text-white transition-all duration-300 group-hover:bg-[#38BDF8] group-hover:text-[#0F1E4A] group-hover:translate-x-1">
                         <FaArrowRight className="text-xs" />

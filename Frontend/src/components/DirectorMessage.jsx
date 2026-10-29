@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { FaQuoteLeft } from 'react-icons/fa';
-import messagesData from '../data/messages.json';
-import directorImage from '../assets/3.jpg.jpeg';
+import useDirectorStore from '../store/useDirectorStore';
+import Loader from '../components/Loader';
 
-const DirectorMessage = ({ contained = false }) => {
-  const data = messagesData.director;
+const DirectorMessage = ({ contained = false, type = 'director', title = 'Director' }) => {
+  const { directors, fetchDirector, loading } = useDirectorStore();
+  const data = directors[type];
+
+  useEffect(() => {
+    fetchDirector(type);
+  }, [type, fetchDirector]);
+
+  if (loading && !data) return <Loader />;
+  if (!data) return null;
+
+  const paragraphs = data.message ? data.message.split('\n').filter(p => p.trim() !== '') : [];
 
   const content = (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14 items-center">
@@ -12,15 +23,21 @@ const DirectorMessage = ({ contained = false }) => {
           <div className="absolute -inset-3 bg-[#38BDF8]/20 rounded-3xl blur-2xl"></div>
 
           <div className="relative w-56 sm:w-64 md:w-72 lg:w-full max-w-xs aspect-square rounded-3xl overflow-hidden border-4 border-[#38BDF8] shadow-2xl">
-            <img
-              src={directorImage}
-              alt={data.name}
-              className="w-full h-full object-cover object-top"
-            />
+            {data.image ? (
+              <img
+                src={data.image}
+                alt={data.name}
+                className="w-full h-full object-cover object-top"
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                No Image
+              </div>
+            )}
           </div>
 
           <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#38BDF8] text-[#0F1E4A] px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg whitespace-nowrap">
-            {data.badge}
+            {data.title}
           </div>
         </div>
       </div>
@@ -29,12 +46,11 @@ const DirectorMessage = ({ contained = false }) => {
         <FaQuoteLeft className="text-[#38BDF8]/30 text-4xl md:text-5xl mb-4 mx-auto lg:mx-0" />
 
         <p className="text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider mb-3 uppercase">
-          Director Message
+          {title} Message
         </p>
 
-
         <div className="space-y-4 text-gray-200 text-sm sm:text-base leading-relaxed">
-          {data.paragraphs.map((paragraph, i) => (
+          {paragraphs.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
           ))}
         </div>

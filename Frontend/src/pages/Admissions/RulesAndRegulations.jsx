@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
+import SEO from '../../components/SEO';
+import useAdmissionStore from '../../store/useAdmissionStore';
 import {
   FaUserCheck,
   FaClock,
@@ -16,37 +18,41 @@ import {
   FaChartLine,
   FaHandshake,
 } from 'react-icons/fa';
-import rulesData from '../../data/rules.json';
-import SEO from '../../components/SEO';
 
-const icons = [
-  <FaUserCheck />,
-  <FaClock />,
-  <FaMoneyBillWave />,
-  <FaBan />,
-  <FaShieldAlt />,
-  <FaBook />,
-  <FaMobileAlt />,
-  <FaUsers />,
-  <FaIdCard />,
-  <FaChartLine />,
-  <FaHandshake />,
-];
+const iconMap = {
+  FaUserCheck: <FaUserCheck />,
+  FaClock: <FaClock />,
+  FaMoneyBillWave: <FaMoneyBillWave />,
+  FaBan: <FaBan />,
+  FaShieldAlt: <FaShieldAlt />,
+  FaBook: <FaBook />,
+  FaCheckCircle: <FaCheckCircle />,
+  FaMobileAlt: <FaMobileAlt />,
+  FaUsers: <FaUsers />,
+  FaIdCard: <FaIdCard />,
+  FaChartLine: <FaChartLine />,
+  FaHandshake: <FaHandshake />,
+};
 
 const RulesAndRegulations = () => {
-  const loading = useLoader();
+  const { data, fetchAdmissionsData, loading } = useAdmissionStore();
 
-  const { notice, sections } = rulesData;
+  useEffect(() => {
+    fetchAdmissionsData();
+  }, [fetchAdmissionsData]);
 
-  if (loading) return <Loader />;
+  if (loading || !data) return <Loader />;
+
+  const sections = data.rules_categories || [];
 
   return (
     <>
-    <SEO
-  title="Rules & Regulations"
-  description="Rules and regulations for students at Brain Inspire System of Education."
-  keywords="rules, regulations, BISE policies"
-/>
+      <SEO
+        title={data.seo_title ? `Rules & Regulations | ${data.seo_title}` : "Rules & Regulations | Brain Inspire"}
+        description={data.seo_description || "Rules and regulations for students at Brain Inspire System of Education."}
+        keywords={data.seo_keywords || "rules, regulations, BISE policies"}
+      />
+
       <PageHeader
         title="Rules & Regulations"
         breadcrumbs={[
@@ -77,34 +83,36 @@ const RulesAndRegulations = () => {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto mb-10 md:mb-14">
-            <div className="bg-[#2D2B6F] rounded-3xl p-6 sm:p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
+          {data.rules_notice && (
+            <div className="max-w-4xl mx-auto mb-10 md:mb-14">
+              <div className="bg-[#2D2B6F] rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
 
-              <div className="relative flex flex-col sm:flex-row items-start gap-5">
-                <div className="relative shrink-0">
-                  <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-50"></div>
-                  <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
-                    <FaExclamationTriangle />
+                <div className="relative flex flex-col sm:flex-row items-start gap-5">
+                  <div className="relative shrink-0">
+                    <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-50"></div>
+                    <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
+                      <FaExclamationTriangle />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                    Important Notice
-                  </h3>
-                  <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-                    {notice}
-                  </p>
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                      Important Notice
+                    </h3>
+                    <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+                      {data.rules_notice}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             {sections.map((section, i) => (
               <div
-                key={section.id}
+                key={i}
                 className="group relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 transition-all duration-500 hover:border-[#38BDF8]/40 hover:shadow-2xl hover:shadow-[#38BDF8]/10 hover:-translate-y-1 overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-[#38BDF8]/10 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -114,7 +122,7 @@ const RulesAndRegulations = () => {
                     <div className="relative shrink-0">
                       <div className="absolute inset-0 bg-[#38BDF8] rounded-2xl blur-lg opacity-40"></div>
                       <div className="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#2563EB] text-white text-2xl shadow-lg">
-                        {icons[i] || <FaCheckCircle />}
+                        {iconMap[section.icon] || <FaCheckCircle />}
                       </div>
                     </div>
 
@@ -123,13 +131,13 @@ const RulesAndRegulations = () => {
                         {section.title}
                       </h3>
                       <p className="text-[#2563EB] text-xs md:text-sm font-medium mt-1">
-                        {section.rules.length} Rules
+                        {section.points?.length || 0} Rules
                       </p>
                     </div>
                   </div>
 
                   <ul className="space-y-3">
-                    {section.rules.map((rule, j) => (
+                    {section.points?.map((rule, j) => (
                       <li key={j} className="flex gap-3 items-start">
                         <FaCheckCircle className="text-[#38BDF8] text-sm mt-1 shrink-0" />
                         <span className="text-gray-700 text-sm leading-relaxed">

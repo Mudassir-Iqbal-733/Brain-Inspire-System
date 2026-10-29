@@ -1,21 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaFacebookF,
-  FaInstagram,
-  FaWhatsapp,
-  FaYoutube,
-  FaPaperPlane,
+  FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram,
+  FaWhatsapp, FaYoutube, FaTwitter, FaLinkedinIn, FaTiktok, FaPaperPlane,
 } from 'react-icons/fa';
 import PageHeader from '../components/common/PageHeader';
 import Loader from '../components/Loader';
-import useLoader from '../hooks/useLoader';
 import SEO from '../components/SEO';
+import useContactStore from '../store/useContactStore';
+
+const socialIconMap = {
+  facebook: FaFacebookF,
+  instagram: FaInstagram,
+  whatsapp: FaWhatsapp,
+  youtube: FaYoutube,
+  twitter: FaTwitter,
+  linkedin: FaLinkedinIn,
+  tiktok: FaTiktok,
+};
 
 const Contact = () => {
-  const loading = useLoader();
+  const {
+    contactData,
+    socialData,
+    loading,
+    fetchContactData,
+    submitFeedback,
+    submitting,
+    submitSuccess,
+    submitError,
+    resetFeedbackStatus,
+  } = useContactStore();
 
   const [form, setForm] = useState({
     name: '',
@@ -24,20 +38,26 @@ const Contact = () => {
     issue: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  useEffect(() => {
+    fetchContactData();
+  }, [fetchContactData]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    if (submitSuccess || submitError) resetFeedbackStatus();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setForm({ name: '', email: '', phone: '', issue: '' });
+
+    const result = await submitFeedback(form);
+
+    if (result.ok) {
+      setForm({ name: '', email: '', phone: '', issue: '' });
+    }
   };
 
-  if (loading) return <Loader />;
+  if (loading || !contactData) return <Loader />;
 
   return (
     <>
@@ -96,8 +116,7 @@ const Contact = () => {
                           Address
                         </p>
                         <p className="text-gray-200 text-sm leading-relaxed">
-                          NAIMAT PLAZA, Opposite Govt. Girls Higher Secondary School,
-                          Commercial Area Satellite Town, Bahawalpur
+                          {contactData.address}
                         </p>
                       </div>
                     </li>
@@ -111,10 +130,10 @@ const Contact = () => {
                           Phone
                         </p>
                         <a
-                          href="tel:03004506850"
+                          href={`tel:${contactData.phone}`}
                           className="block text-gray-200 text-sm hover:text-[#38BDF8] transition-colors duration-200"
                         >
-                          0300-4506850
+                          {contactData.phone}
                         </a>
                       </div>
                     </li>
@@ -128,10 +147,10 @@ const Contact = () => {
                           Email
                         </p>
                         <a
-                          href="mailto:bisebahawalpur786@gmail.com"
+                          href={`mailto:${contactData.email}`}
                           className="block text-gray-200 text-sm hover:text-[#38BDF8] transition-colors duration-200 break-all"
                         >
-                          bisebahawalpur786@gmail.com
+                          {contactData.email}
                         </a>
                       </div>
                     </li>
@@ -139,65 +158,48 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="bg-[#2D2B6F] rounded-3xl p-6 sm:p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
+              {socialData?.links && socialData.links.length > 0 && (
+                <div className="bg-[#2D2B6F] rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-[#38BDF8]/10 rounded-full blur-3xl"></div>
 
-                <div className="relative">
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-5">
-                    Follow Us
-                  </h3>
+                  <div className="relative">
+                    <h3 className="text-lg md:text-xl font-bold text-white mb-5">
+                      Follow Us
+                    </h3>
 
-                  <div className="flex items-center gap-3">
-                    <a
-                      href="https://www.facebook.com/braininspire786"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Facebook"
-                      className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-                    >
-                      <FaFacebookF />
-                    </a>
-                    <a
-                      href="https://www.instagram.com/braininspire786"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="Instagram"
-                      className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-                    >
-                      <FaInstagram />
-                    </a>
-                    <a
-                      href="https://wa.me/923004506850"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="WhatsApp"
-                      className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-                    >
-                      <FaWhatsapp />
-                    </a>
-                    <a
-                      href="https://youtube.com/@braininspire786"
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label="YouTube"
-                      className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-                    >
-                      <FaYoutube />
-                    </a>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {socialData.links.map((link, index) => {
+                        const Icon = socialIconMap[link.platform] || FaFacebookF;
+                        return (
+                          <a
+                            key={index}
+                            href={link.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={link.platform}
+                            className="w-11 h-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
+                          >
+                            <Icon />
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm h-72 sm:h-80">
-                <iframe
-                  title="Brain Inspire Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110502.6!2d71.6!3d29.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDI0JzAwLjAiTiA3McKwMzYnMDAuMCJF!5e0!3m2!1sen!2s!4v1700000000000"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                ></iframe>
-              </div>
+              {contactData.map_url && (
+                <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm h-72 sm:h-80">
+                  <iframe
+                    title="Location Map"
+                    src={contactData.map_url}
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              )}
             </div>
 
             <div className="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm relative overflow-hidden h-fit lg:sticky lg:top-24">
@@ -211,10 +213,17 @@ const Contact = () => {
                   Use this form to give your feedback or report any problem.
                 </p>
 
-                {submitted && (
+                {submitSuccess && (
                   <div className="mb-6 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm">
                     <span className="w-2 h-2 rounded-full bg-green-500"></span>
                     Thank you! Your feedback has been submitted.
+                  </div>
+                )}
+
+                {submitError && (
+                  <div className="mb-6 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+                    <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                    {submitError}
                   </div>
                 )}
 
@@ -280,10 +289,20 @@ const Contact = () => {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-7 py-4 rounded-full font-bold text-sm sm:text-base shadow-lg shadow-[#38BDF8]/30 hover:bg-[#2D2B6F] hover:text-white transition-all duration-300 hover:scale-[1.02]"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#38BDF8] text-[#0F1E4A] px-7 py-4 rounded-full font-bold text-sm sm:text-base shadow-lg shadow-[#38BDF8]/30 hover:bg-[#2D2B6F] hover:text-white transition-all duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <FaPaperPlane className="text-sm" />
-                    Send Your Feedback
+                    {submitting ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-[#0F1E4A] border-t-transparent rounded-full animate-spin"></span>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <FaPaperPlane className="text-sm" />
+                        Send Your Feedback
+                      </>
+                    )}
                   </button>
                 </form>
               </div>

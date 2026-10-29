@@ -16,12 +16,6 @@ const Login = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (token) {
-      navigate('/admin/dashboard', { replace: true });
-    }
-  }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

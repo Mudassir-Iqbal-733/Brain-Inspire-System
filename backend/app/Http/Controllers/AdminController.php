@@ -36,7 +36,9 @@ class AdminController extends Controller
         }
         
         $user->tokens()->delete();
-        $token = $user->createToken('admin-token')->plainTextToken;
+        
+
+        $token = $user->createToken('admin-token', ['*'], now()->addHours(2))->plainTextToken;
 
         return response()->json([
             'status' => 'Ok',
@@ -48,14 +50,43 @@ class AdminController extends Controller
         ], 200);
     }
 
+    public function updateProfile(Request $request)
+    {
+        $admin = $request->user(); 
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $admin->id,
+            'password' => 'nullable|min:6|confirmed', 
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'Fail', 'errors' => $validator->errors()], 422);
+        }
+        
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        
+        if ($request->filled('password')) {
+            $admin->password = bcrypt($request->password);
+        }
+        
+        $admin->save();
+
+        return response()->json([
+            'status' => 'Ok', 
+            'message' => 'Profile updated successfully!',
+            'data' => $admin
+        ], 200);
+    }
 
     public function logout(Request $req)
-{
-    $req->user()->currentAccessToken()->delete();
+    {
+        $req->user()->currentAccessToken()->delete();
 
-    return response()->json([
-        'status' => 'Ok',
-        'message' => 'Logged out successfully.'
-    ], 200);
-}
+        return response()->json([
+            'status' => 'Ok',
+            'message' => 'Logged out successfully.'
+        ], 200);
+    }
 }

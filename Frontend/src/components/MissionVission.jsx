@@ -1,8 +1,26 @@
+import { useEffect } from 'react';
 import { FaEye, FaBullseye, FaCheckCircle } from 'react-icons/fa';
-import about from '../data/about.json';
+import useAboutStore from '../store/useAboutStore';
+import useHomeLoaderStore from '../store/useHomeLoaderStore';
 
 const MissionVision = ({ rounded = false }) => {
-  const { visions, missions } = about.missionVision;
+  const { data, fetchAbout, loading } = useAboutStore();
+  const homeLoading = useHomeLoaderStore((s) => s.homeLoading);
+
+  useEffect(() => {
+    fetchAbout();
+  }, [fetchAbout]);
+
+  if (homeLoading) return null;
+  if (loading || !data) return null;
+
+  const missions = data.mission_para
+    ? data.mission_para.split('\n').filter((m) => m.trim() !== '')
+    : ['Mission details coming soon.'];
+
+  const visions = data.vision_para
+    ? data.vision_para.split('\n').filter((v) => v.trim() !== '')
+    : ['Vision details coming soon.'];
 
   return (
     <section className={`bg-[#2D2B6F] py-20 md:py-28 overflow-hidden ${rounded ? 'rounded-3xl' : ''}`}>

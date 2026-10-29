@@ -1,9 +1,34 @@
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import useFooterStore from '../store/useFooterStore';
+import useContactStore from '../store/useContactStore';
 import herobg from '../assets/herobg.png';
-import logo from '../assets/Logo-white.png';
+
+import { 
+  FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, 
+  FaFacebookF, FaInstagram, FaWhatsapp, FaYoutube, 
+  FaTwitter, FaLinkedinIn, FaTiktok 
+} from 'react-icons/fa';
+
+const socialIconMap = {
+  facebook: FaFacebookF,
+  instagram: FaInstagram,
+  whatsapp: FaWhatsapp,
+  youtube: FaYoutube,
+  twitter: FaTwitter,
+  linkedin: FaLinkedinIn,
+  tiktok: FaTiktok,
+};
 
 const Footer = () => {
+  const { footerData, socialLinks, fetchFooterData } = useFooterStore();
+  const { contactData, fetchContactData } = useContactStore();
+
+  useEffect(() => {
+    fetchFooterData();
+    fetchContactData();
+  }, [fetchFooterData, fetchContactData]);
+
   const programs = [
     'Web Development',
     'Graphic Design',
@@ -20,7 +45,9 @@ const Footer = () => {
     { name: 'Contact', href: '/contact-us' },
   ];
 
-  const mapLink = 'https://www.google.com/maps/search/?api=1&query=Brain+Inspire+System+of+Education+Bahawalpur';
+  const mapLink = contactData?.address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactData.address)}`
+    : '#';
 
   return (
     <footer
@@ -31,57 +58,50 @@ const Footer = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8">
+          
+          {/* Logo & Description */}
           <div className="text-center sm:text-left">
-            <div className="inline-flex items-center justify-center mb-5 shadow-xl">
-              <img src={logo} alt="Brain Inspire" className="h-12 sm:h-14 w-auto object-contain" />
-            </div>
+            {footerData?.logo_image && (
+              <div className="inline-flex items-center justify-center mb-5 shadow-xl">
+                <img 
+                  src={footerData.logo_image} 
+                  alt="Logo" 
+                  className="h-12 sm:h-14 w-auto object-contain" 
+                />
+              </div>
+            )}
 
-            <p className="text-gray-300 text-sm leading-relaxed mb-6 max-w-sm mx-auto sm:mx-0">
-              Brain Inspire System of Education — empowering students with
-              industry-focused skills, expert guidance, and a brighter future.
-            </p>
+            {footerData?.description && (
+              <p className="text-gray-300 text-sm leading-relaxed mb-6 max-w-sm mx-auto sm:mx-0">
+                {footerData.description}
+              </p>
+            )}
 
-            <div className="flex items-center justify-center sm:justify-start gap-2.5">
-              <a
-                href="https://www.facebook.com/braininspire786"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Facebook"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-              >
-                <FaFacebookF className="text-sm" />
-              </a>
-              <a
-                href="https://www.instagram.com/braininspire786?stkn=dmU4MGRhcTJpaWlz"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-              >
-                <FaInstagram className="text-sm" />
-              </a>
-              <a
-                href="https://wa.me/923004506850"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="WhatsApp"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-              >
-                <FaWhatsapp className="text-sm" />
-              </a>
-              <a
-                href="https://youtube.com/@braininspire786?si=KLqViSIniUTBaRv7"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="YouTube"
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
-              >
-                <FaYoutube className="text-sm" />
-              </a>
-            </div>
+            {/* Social Links */}
+            {socialLinks.length > 0 && (
+              <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
+                {socialLinks.map((link, index) => {
+                  const Icon = socialIconMap[link.platform] || FaFacebookF;
+                  return (
+                    <a
+                      key={index}
+                      href={link.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={link.platform}
+                      className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#38BDF8] hover:text-[#0F1E4A] transition-all duration-300 hover:scale-110"
+                    >
+                      <Icon className="text-sm" />
+                    </a>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-[1fr_1fr_1.6fr] gap-3 sm:contents">
+            
+            {/* Programs */}
             <div className="text-center sm:text-left">
               <h3 className="text-[11px] sm:text-base font-bold mb-3 sm:mb-5 relative pb-2 after:absolute after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:bottom-0 after:w-8 sm:after:w-12 after:h-0.5 after:bg-[#38BDF8] uppercase tracking-wider">
                 Programs
@@ -101,6 +121,7 @@ const Footer = () => {
               </ul>
             </div>
 
+            {/* Pages */}
             <div className="text-center sm:text-left">
               <h3 className="text-[11px] sm:text-base font-bold mb-3 sm:mb-5 relative pb-2 after:absolute after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:bottom-0 after:w-8 sm:after:w-12 after:h-0.5 after:bg-[#38BDF8] uppercase tracking-wider">
                 Pages
@@ -120,61 +141,63 @@ const Footer = () => {
               </ul>
             </div>
 
+            {/* Contact Details from API */}
             <div className="text-center sm:text-left">
               <h3 className="text-[11px] sm:text-base font-bold mb-3 sm:mb-5 relative pb-2 after:absolute after:left-1/2 sm:after:left-0 after:-translate-x-1/2 sm:after:translate-x-0 after:bottom-0 after:w-8 sm:after:w-12 after:h-0.5 after:bg-[#38BDF8] uppercase tracking-wider whitespace-nowrap">
                 Contact Us
               </h3>
 
               <ul className="space-y-1.5 sm:space-y-4">
-                <li className="flex items-center gap-1.5 sm:gap-3">
-                  <FaPhoneAlt className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
-                  <div className="flex flex-col gap-0.5 sm:gap-1 text-left">
+                {contactData?.phone && (
+                  <li className="flex items-center gap-1.5 sm:gap-3">
+                    <FaPhoneAlt className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
                     <a
-                      href="tel:+923004506850"
+                      href={`tel:${contactData.phone}`}
                       className="text-gray-300 text-[10px] sm:text-sm hover:text-[#38BDF8] transition-colors duration-300 whitespace-nowrap"
                     >
-                      0300-4506850
+                      {contactData.phone}
                     </a>
+                  </li>
+                )}
+
+                {contactData?.email && (
+                  <li className="flex items-center gap-1.5 sm:gap-3">
+                    <FaEnvelope className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
                     <a
-                      href="tel:+92622301240"
-                      className="text-gray-300 text-[10px] sm:text-sm hover:text-[#38BDF8] transition-colors duration-300 whitespace-nowrap"
+                      href={`mailto:${contactData.email}`}
+                      className="text-gray-300 text-[10px] sm:text-sm hover:text-[#38BDF8] transition-colors duration-300 break-all text-left"
                     >
-                      062-2301240
+                      {contactData.email}
                     </a>
-                  </div>
-                </li>
+                  </li>
+                )}
 
-                <li className="flex items-center gap-1.5 sm:gap-3">
-                  <FaEnvelope className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
-                  <a
-                    href="mailto:bisebahawalpur786@gmail.com"
-                    className="text-gray-300 text-[10px] sm:text-sm hover:text-[#38BDF8] transition-colors duration-300 break-all text-left"
-                  >
-                    bisebahawalpur786@gmail.com
-                  </a>
-                </li>
-
-                <li className="flex items-center gap-1.5 sm:gap-3">
-                  <FaMapMarkerAlt className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
-                  <a
-                    href={mapLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-gray-300 text-[10px] sm:text-sm leading-relaxed text-left hover:text-[#38BDF8] transition-colors duration-300"
-                  >
-                    Bahawalpur, Punjab, Pakistan
-                  </a>
-                </li>
+                {contactData?.address && (
+                  <li className="flex items-center gap-1.5 sm:gap-3">
+                    <FaMapMarkerAlt className="text-[#38BDF8] shrink-0 text-[10px] sm:text-sm" />
+                    <a
+                      href={mapLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-gray-300 text-[10px] sm:text-sm leading-relaxed text-left hover:text-[#38BDF8] transition-colors duration-300"
+                    >
+                      {contactData.address}
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-white/15 mt-10 sm:mt-12 pt-5 text-center">
-          <p className="text-gray-400 text-[10px] sm:text-xs md:text-sm">
-            © {new Date().getFullYear()} Brain Inspire System of Education. All rights reserved.
-          </p>
-        </div>
+        {/* Copyright */}
+        {footerData?.copyright_text && (
+          <div className="border-t border-white/15 mt-10 sm:mt-12 pt-5 text-center">
+            <p className="text-gray-400 text-[10px] sm:text-xs md:text-sm">
+              {footerData.copyright_text}
+            </p>
+          </div>
+        )}
       </div>
     </footer>
   );

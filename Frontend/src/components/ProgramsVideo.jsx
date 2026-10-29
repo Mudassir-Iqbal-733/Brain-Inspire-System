@@ -1,18 +1,28 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { Carousel } from 'antd';
 import { FaChevronLeft, FaChevronRight, FaPlay } from 'react-icons/fa';
-import GraphicDesigning from '../assets/Graphic Designing.mp4';
+import useVideosStore from '../store/useVideosStore';
 
 const ProgramsVideo = () => {
   const carouselRef = useRef(null);
   const videoRefs = useRef([]);
 
+  const { videos: apiVideos, loading, fetchVideos } = useVideosStore();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [playingIndex, setPlayingIndex] = useState(null);
 
-  const videos = [
-    { id: 1, title: 'Graphic Designing', src: GraphicDesigning },
-  ];
+  useEffect(() => {
+    fetchVideos();
+  }, [fetchVideos]);
+
+  const videos = useMemo(() => {
+    return (apiVideos || []).map((v) => ({
+      id: v.id,
+      title: v.title || v.name || 'Untitled',
+      src: v.video_url || v.url || v.src || '',
+    }));
+  }, [apiVideos]);
 
   const handlePlay = (index) => {
     const video = videoRefs.current[index];
@@ -58,6 +68,19 @@ const ProgramsVideo = () => {
     });
     setPlayingIndex(null);
   };
+
+  if (loading) {
+    return (
+      <section className="relative bg-gray-50 py-20 md:py-28 overflow-hidden">
+        <div className="text-center">
+          <div className="inline-block w-12 h-12 border-4 border-[#38BDF8] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-500 text-sm mt-4">Loading videos...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (videos.length === 0) return null;
 
   return (
     <section className="relative bg-gray-50 py-20 md:py-28 overflow-hidden">

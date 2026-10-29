@@ -1,17 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import PageHeader from '../../components/common/PageHeader';
 import Loader from '../../components/Loader';
-import useLoader from '../../hooks/useLoader';
-import { FaWallet, FaChevronDown, FaCheckCircle, FaClock, FaArrowLeft, FaSearch } from 'react-icons/fa';
+import {
+  FaWallet,
+  FaChevronDown,
+  FaCheckCircle,
+  FaClock,
+  FaArrowLeft,
+  FaSearch,
+} from 'react-icons/fa';
 import SEO from '../../components/SEO';
-import programsData from '../../data/programs.json';
+import useProgramsStore from '../../store/useProgramsStore';
+
+const formatFee = (value) => {
+  if (value == null || value === '') return '—';
+  const num = Number(value);
+  if (isNaN(num)) return '—';
+  return `Rs. ${num.toLocaleString()}`;
+};
 
 const FeeStructure = () => {
-  const loading = useLoader();
+  const { programs, loading, fetchPrograms } = useProgramsStore();
 
   const [searchParams] = useSearchParams();
   const [selectedProgramCode, setSelectedProgramCode] = useState('');
+
+  useEffect(() => {
+    fetchPrograms();
+  }, [fetchPrograms]);
 
   useEffect(() => {
     const programParam = searchParams.get('program');
@@ -20,9 +37,9 @@ const FeeStructure = () => {
     }
   }, [searchParams]);
 
-  const currentProgram = programsData.find(
-    (p) => p.course_code === selectedProgramCode
-  );
+  const currentProgram = useMemo(() => {
+    return programs.find((p) => p.code === selectedProgramCode);
+  }, [programs, selectedProgramCode]);
 
   if (loading) return <Loader />;
 
@@ -69,9 +86,9 @@ const FeeStructure = () => {
                 className="appearance-none w-full bg-white text-[#0F1E4A] font-bold text-sm sm:text-base pl-6 pr-14 py-3.5 sm:py-4 rounded-full cursor-pointer border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/50 shadow-lg hover:border-[#38BDF8] transition-colors duration-300"
               >
                 <option value="">-- Select a Program --</option>
-                {programsData.map((program, index) => (
-                  <option key={index} value={program.course_code}>
-                    {program.course_name}
+                {programs.map((program) => (
+                  <option key={program.id} value={program.code}>
+                    {program.title}
                   </option>
                 ))}
               </select>
@@ -113,34 +130,34 @@ const FeeStructure = () => {
                 <div className="relative">
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
                     <div>
-                      {currentProgram.course_code && (
+                      {currentProgram.code && (
                         <span className="inline-block text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-md mb-4">
-                          {currentProgram.course_code}
+                          {currentProgram.code}
                         </span>
                       )}
                       <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-2">
-                        {currentProgram.course_name}
+                        {currentProgram.title}
                       </h3>
                       <p className="text-gray-300 text-sm md:text-base">
                         Complete fee structure and duration details
                       </p>
                     </div>
 
-                    {currentProgram.fees_structure?.total_fee != null && (
+                    {currentProgram.total_fee != null && (
                       <div className="shrink-0">
                         <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-6 py-4 text-center">
                           <p className="text-[#38BDF8] text-xs font-bold tracking-wider uppercase mb-1">
                             Total Fee
                           </p>
                           <p className="text-white text-3xl sm:text-4xl font-black">
-                            Rs. {currentProgram.fees_structure.total_fee.toLocaleString()}
+                            {formatFee(currentProgram.total_fee)}
                           </p>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  {currentProgram.course_duration && (
+                  {currentProgram.duration && (
                     <div className="mb-8">
                       <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
                         <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#38BDF8]/15 text-[#38BDF8] text-lg">
@@ -151,7 +168,7 @@ const FeeStructure = () => {
                             Duration
                           </p>
                           <p className="text-white text-xl font-bold">
-                            {currentProgram.course_duration}
+                            {currentProgram.duration}
                           </p>
                         </div>
                       </div>
@@ -164,16 +181,16 @@ const FeeStructure = () => {
                     </h4>
 
                     <div className="space-y-3">
-                      {currentProgram.fees_structure?.registration_fee != null && (
+                      {currentProgram.registration_fee != null && (
                         <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm">Registration Fee</span>
                           <span className="text-white font-semibold text-sm">
-                            Rs. {currentProgram.fees_structure.registration_fee.toLocaleString()}
+                            {formatFee(currentProgram.registration_fee)}
                           </span>
                         </div>
                       )}
 
-                      {currentProgram.fees_structure?.misc_fee != null && (
+                      {currentProgram.misc_fee != null && (
                         <div className="flex items-start justify-between gap-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm leading-tight">
                             Misc. Fee
@@ -182,25 +199,25 @@ const FeeStructure = () => {
                             </span>
                           </span>
                           <span className="text-white font-semibold text-sm whitespace-nowrap">
-                            Rs. {currentProgram.fees_structure.misc_fee.toLocaleString()}
+                            {formatFee(currentProgram.misc_fee)}
                           </span>
                         </div>
                       )}
 
-                      {currentProgram.fees_structure?.course_fee != null && (
+                      {currentProgram.course_fee != null && (
                         <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm">Course Fee</span>
                           <span className="text-white font-semibold text-sm">
-                            Rs. {currentProgram.fees_structure.course_fee.toLocaleString()}
+                            {formatFee(currentProgram.course_fee)}
                           </span>
                         </div>
                       )}
 
-                      {currentProgram.fees_structure?.certificate_fee != null && (
+                      {currentProgram.certificate_fee != null && (
                         <div className="flex items-center justify-between gap-3 pb-3 border-b border-white/10">
                           <span className="text-gray-300 text-sm">Certificate Fee</span>
                           <span className="text-white font-semibold text-sm">
-                            Rs. {currentProgram.fees_structure.certificate_fee.toLocaleString()}
+                            {formatFee(currentProgram.certificate_fee)}
                           </span>
                         </div>
                       )}
@@ -208,7 +225,7 @@ const FeeStructure = () => {
                       <div className="flex items-center justify-between gap-3">
                         <span className="text-gray-300 text-sm font-bold">Total Fee</span>
                         <span className="text-[#38BDF8] font-bold text-base">
-                          Rs. {currentProgram.fees_structure?.total_fee?.toLocaleString() || '—'}
+                          {formatFee(currentProgram.total_fee)}
                         </span>
                       </div>
                     </div>
@@ -234,7 +251,7 @@ const FeeStructure = () => {
                       Apply Online
                     </Link>
                     <Link
-                      to={`/programs/${currentProgram.course_code}`}
+                      to={`/programs/${currentProgram.id}`}
                       className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/15 text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 hover:border-[#38BDF8]/50 transition-all duration-300"
                     >
                       <FaArrowLeft className="text-xs" />

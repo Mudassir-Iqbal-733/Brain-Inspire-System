@@ -1,50 +1,86 @@
-import { useState, useMemo } from 'react';
-import { FaSearch, FaArrowRight, FaCalendar, FaUser, FaTag, FaBookOpen } from 'react-icons/fa';
+import { useState, useEffect, useMemo } from 'react';
+import {
+  FaSearch,
+  FaArrowRight,
+  FaCalendar,
+  FaUser,
+  FaTag,
+  FaBookOpen,
+  FaEye,
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import PageHeader from '../../components/common/PageHeader';
 import SEO from '../../components/SEO';
-import useLoader from '../../hooks/useLoader';
-import Loader from '../../components/Loader';
-
+import useBlogsStore from '../../store/useBlogsStore';
 
 const Blogs = () => {
-  const loading = useLoader();
+  const { blogs, loading, error, fetchBlogs, pageSeo, fetchPageSeo } =
+    useBlogsStore();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ['All', 'News', 'Events', 'Tips', 'Announcements', 'Achievements'];
+  useEffect(() => {
+    fetchBlogs();
+    fetchPageSeo();
+  }, [fetchBlogs, fetchPageSeo]);
 
-  
-  const blogPosts = [];
+  const categories = useMemo(() => {
+    const cats = ['All'];
+    blogs.forEach((blog) => {
+      const name = blog.category?.name;
+      if (name && !cats.includes(name)) cats.push(name);
+    });
+    return cats;
+  }, [blogs]);
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    return blogs.filter((post) => {
+      const title = post.title || '';
+      const shortDesc = post.shortDesc || '';
+      const author = post.author || '';
+
       const matchesSearch =
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (post.author || '').toLowerCase().includes(searchQuery.toLowerCase());
+        title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        shortDesc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        author.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesCategory =
-        selectedCategory === 'All' || post.category === selectedCategory;
+        selectedCategory === 'All' ||
+        post.category?.name === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory, blogPosts]);
+  }, [blogs, searchQuery, selectedCategory]);
 
-  if (loading) return <Loader />;
+  const formatDate = (date) => {
+    if (!date) return 'N/A';
+    return new Date(date).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
+  const handleRetry = () => {
+    fetchBlogs(true);
+  };
 
   return (
     <>
       <SEO
-        title="Blog"
-        description="Read latest news, articles, and updates from Brain Inspire System of Education."
-        keywords="blog, news, articles, BISE Bahawalpur, education updates"
+        title={pageSeo?.seo_title || 'Blog'}
+        description={
+          pageSeo?.seo_description ||
+          'Read latest news, articles, and updates from Brain Inspire System of Education.'
+        }
+        keywords={
+          pageSeo?.seo_keywords ||
+          'blog, news, articles, BISE Bahawalpur, education updates'
+        }
       />
 
-      <PageHeader
-        title="Blogs"
-        breadcrumbs={[{ label: 'Blogs' }]}
-      />
+      <PageHeader title="Blogs" breadcrumbs={[{ label: 'Blogs' }]} />
 
       <section className="bg-white py-16 md:py-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,24 +115,47 @@ const Blogs = () => {
               />
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2 mt-6">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full font-bold text-xs sm:text-sm transition-all duration-300 ${
-                    selectedCategory === category
-                      ? 'bg-[#2563EB] text-white shadow-lg shadow-[#2563EB]/30'
-                      : 'bg-gray-100 text-[#0F1E4A] hover:bg-[#38BDF8]/20 hover:text-[#2563EB]'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+            {categories.length > 1 && (
+              <div className="flex flex-wrap justify-center gap-2 mt-6">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-full font-bold text-xs sm:text-sm transition-all duration-300 ${
+                      selectedCategory === category
+                        ? 'bg-[#2563EB] text-white shadow-lg shadow-[#2563EB]/30'
+                        : 'bg-gray-100 text-[#0F1E4A] hover:bg-[#38BDF8]/20 hover:text-[#2563EB]'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {filteredPosts.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="inline-block w-12 h-12 border-4 border-[#38BDF8] border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-gray-500 text-sm mt-4">Loading blogs...</p>
+            </div>
+          ) : error ? (
+            <div className="max-w-2xl mx-auto text-center py-16 px-6 bg-red-50 border-2 border-dashed border-red-200 rounded-3xl">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 text-red-500 text-3xl mb-4">
+                <FaBookOpen />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-red-700 mb-2">
+                Failed to Load Blogs
+              </h3>
+              <p className="text-red-600 text-sm md:text-base mb-6">{error}</p>
+              <button
+                onClick={handleRetry}
+                className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-red-600 transition-all duration-300"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : filteredPosts.length === 0 ? (
             <div className="max-w-2xl mx-auto text-center py-16 px-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#38BDF8]/10 text-[#38BDF8] text-3xl mb-4">
                 <FaBookOpen />
@@ -129,7 +188,7 @@ const Blogs = () => {
               {filteredPosts.map((post) => (
                 <Link
                   key={post.id}
-                  to={`/blog/${post.slug || post.id}`}
+                  to={`/blogs/${post.id}`}
                   className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#38BDF8]/10 flex flex-col"
                 >
                   <div className="relative h-52 overflow-hidden">
@@ -141,24 +200,39 @@ const Blogs = () => {
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-[#0F1E4A] via-[#0F1E4A]/20 to-transparent opacity-70"></div>
 
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full shadow-lg">
-                        <FaTag className="text-[8px]" />
-                        {post.category}
-                      </span>
-                    </div>
+                    {post.category?.name && (
+                      <div className="absolute top-4 left-4">
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase text-[#0F1E4A] bg-[#38BDF8] px-3 py-1.5 rounded-full shadow-lg">
+                          <FaTag className="text-[8px]" />
+                          {post.category.name}
+                        </span>
+                      </div>
+                    )}
+
+                    {post.views_count > 0 && (
+                      <div className="absolute top-4 right-4">
+                        <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-white bg-black/50 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full">
+                          <FaEye className="text-[10px]" />
+                          {post.views_count}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-5 flex flex-col flex-1">
-                    <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                    <div className="flex items-center gap-4 text-xs text-gray-500 mb-3 flex-wrap">
                       <div className="flex items-center gap-1.5">
                         <FaCalendar className="text-[#38BDF8]" />
-                        <span>{post.date}</span>
+                        <span>{formatDate(post.created_at)}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <FaUser className="text-[#38BDF8]" />
-                        <span>{post.author}</span>
-                      </div>
+                      {post.author && (
+                        <div className="flex items-center gap-1.5">
+                          <FaUser className="text-[#38BDF8]" />
+                          <span className="truncate max-w-[120px]">
+                            {post.author}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <h3 className="text-lg font-bold text-[#0F1E4A] leading-snug mb-3 group-hover:text-[#2563EB] transition-colors duration-300 line-clamp-2">
@@ -166,7 +240,7 @@ const Blogs = () => {
                     </h3>
 
                     <p className="text-gray-600 text-sm leading-relaxed mb-5 flex-1 line-clamp-3">
-                      {post.excerpt}
+                      {post.shortDesc || 'Read the full article to learn more.'}
                     </p>
 
                     <div className="inline-flex items-center justify-between gap-2 pt-4 border-t border-gray-100">

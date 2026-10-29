@@ -22,6 +22,7 @@ import Blog from "./pages/Blogs/Blogs"
 import AdmissionProcedure from "./pages/Admissions/AdmissionProcedure"
 import AdmissionForm from "./pages/Admissions/AdmissionForm"
 import TopBar from "./components/TopBar"
+import BlogDetails from "./pages/Blogs/BlogDetails"
 
 
 
@@ -42,7 +43,7 @@ const App = () => {
     
      
      <Route path="/programs" element={<Programs />} />
-<Route path="/programs/:slug" element={<ProgramDetails />} />
+<Route path="/programs/:id" element={<ProgramDetails />} />
 
      <Route path="/admissions/why-bise" element={<WhyBise />} />
      <Route path="/admissions/apply-online" element={<AdmissionProcedure />} />
@@ -52,6 +53,7 @@ const App = () => {
      
      <Route path="/gallery" element={<Gallery/>} />
      <Route path="/blogs" element={<Blog/>} />
+     <Route path="/blogs/:id" element={<BlogDetails />} />
      <Route path="/contact-us" element={<ContactUs />} />
 
      

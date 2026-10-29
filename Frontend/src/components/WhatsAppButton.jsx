@@ -1,12 +1,40 @@
+import { useEffect, useMemo } from 'react';
 import whatsappLogo from "../assets/WhatsAppButton.png";
+import useContactStore from '../store/useContactStore';
 
 const WhatsAppButton = () => {
-  const phoneNumber = "923004506850";
+  const { socialData, fetchContactData } = useContactStore();
+
+  useEffect(() => {
+    fetchContactData();
+  }, [fetchContactData]);
+
+  // API ke social links se whatsapp URL nikalo
+  const whatsappUrl = useMemo(() => {
+    const links = socialData?.links || [];
+    const wa = links.find(
+      (l) => String(l.platform).toLowerCase() === 'whatsapp'
+    );
+    if (!wa?.url) return null;
+
+    // Agar URL already wa.me/... ya api.whatsapp.com/... hai, to as-is use karo
+    if (/wa\.me|api\.whatsapp\.com/i.test(wa.url)) {
+      return wa.url;
+    }
+
+    // Warna URL se sirf digits nikal ke wa.me banao
+    const digits = wa.url.replace(/\D/g, '');
+    return digits ? `https://wa.me/${digits}` : null;
+  }, [socialData]);
+
+  if (!whatsappUrl) return null;
+
   const message = "Hello, I would like to know more about your programs.";
+  const finalUrl = `${whatsappUrl}${whatsappUrl.includes('?') ? '&' : '?'}text=${encodeURIComponent(message)}`;
 
   return (
     <a
-      href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
+      href={finalUrl}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"

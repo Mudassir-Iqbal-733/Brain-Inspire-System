@@ -1,15 +1,32 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaChevronRight, FaHome } from 'react-icons/fa';
-import headerBg from '../../assets/photo-collage.png.png';
+import useGeneralStore from '../../store/useGeneralStore';
 
 const PageHeader = ({ title, subtitle = 'BISE', breadcrumbs = [] }) => {
+  const { data, fetchGeneralSettings } = useGeneralStore();
+
+  useEffect(() => {
+    fetchGeneralSettings();
+  }, [fetchGeneralSettings]);
+
+  const headerBg =
+    data?.page_header_image ||
+    data?.header_image ||
+    data?.page_header ||
+    '';
+
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
-      <img
-        src={headerBg}
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      />
+      {headerBg ? (
+        <img
+          src={headerBg}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-[#2D2B6F]"></div>
+      )}
 
       <div className="absolute inset-0 bg-[#2D2B6F]/85"></div>
 
